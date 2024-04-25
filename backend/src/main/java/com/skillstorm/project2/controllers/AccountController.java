@@ -6,11 +6,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.skillstorm.project2.exceptions.ExistingAccountException;
 import com.skillstorm.project2.exceptions.ResourceNotFoundException;
 import com.skillstorm.project2.models.Account;
 import com.skillstorm.project2.repositories.AccountRepository;
@@ -39,4 +44,24 @@ public class AccountController {
         return new ResponseEntity<>(acct, HttpStatus.OK);
     }
 
+    @PostMapping("/register")
+    public ResponseEntity<Account> createAccount(@RequestBody Account acct) throws ExistingAccountException {
+
+        Account newAcct = acctService.saveAccount(acct);
+        return new ResponseEntity<>(newAcct, HttpStatus.CREATED);
+    }
+
+    @PutMapping
+    public ResponseEntity<Account> updateAccount(@RequestBody Account acct) throws ResourceNotFoundException {
+
+        Account updatedAcct = acctService.updateAccount(acct);
+        return new ResponseEntity<>(updatedAcct, HttpStatus.OK);
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteAccount(@PathVariable int id) throws ResourceNotFoundException {
+
+        acctService.deleteAccount(id);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
 }
