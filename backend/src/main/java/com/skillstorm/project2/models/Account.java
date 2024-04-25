@@ -1,6 +1,14 @@
 package com.skillstorm.project2.models;
 
 import java.time.LocalDate;
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.Objects;
+import java.util.Set;
+
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -8,11 +16,10 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
-import java.util.Objects;
 
 @Entity
 @Table(name="Account")
-public class Account {
+public class Account implements UserDetails {
 
     // public static enum FilingStatus {
     //     HEAD_OF_HOUSEHOLD, MARRIED_FILING_JOINTLY, MARRIED_FILING_SEPARATE, SINGLE
@@ -392,6 +399,42 @@ public class Account {
             ", witheld1099='" + getWitheld1099() + "'" +
             ", address1099='" + getAddress1099() + "'" +
             "}";
+    }
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        
+        Set<SimpleGrantedAuthority> authorities = new HashSet<>();
+        SimpleGrantedAuthority userRole = new SimpleGrantedAuthority(getRole().name());
+        authorities.add(userRole);
+
+        return authorities;
+    }
+
+    @Override
+    public String getUsername() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'getUsername'");
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return true;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return true;
     }
 
 
