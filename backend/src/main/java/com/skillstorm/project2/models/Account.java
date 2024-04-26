@@ -3,27 +3,32 @@ package com.skillstorm.project2.models;
 import java.time.LocalDate;
 import java.util.Collection;
 import java.util.HashSet;
-import java.util.Objects;
 import java.util.Set;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
+import java.util.Objects;
 
 @Entity
 @Table(name="Account")
 public class Account implements UserDetails {
 
-    // public static enum FilingStatus {
-    //     HEAD_OF_HOUSEHOLD, MARRIED_FILING_JOINTLY, MARRIED_FILING_SEPARATE, SINGLE
-    // }
+    public static enum FilingStatus {
+        SINGLE, MARRIED
+    }
 
     public static enum Role {
         ROLE_USER, ROLE_ADMIN
@@ -34,7 +39,14 @@ public class Account implements UserDetails {
     Integer id;
 
     @Column
+    @Enumerated(EnumType.STRING)
     Role role;
+
+    @Column
+    String email;
+
+    @Column
+    String password;
 
     @Column
     String firstName;
@@ -43,10 +55,11 @@ public class Account implements UserDetails {
     String lastName;
 
     @Column
-    String email;
+    @Enumerated(EnumType.STRING)
+    String filingStatus;
 
     @Column
-    String password;
+    Integer socialSecurity;
 
     @Column
     String streetAddress;
@@ -62,55 +75,35 @@ public class Account implements UserDetails {
     
     @Column
     LocalDate dateOfBirth;
+    
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "formW2Id", referencedColumnName = "id")
+    private FormW2 formW2;
 
-    @Column
-    Integer socialSecurity;
-
-    @Column
-    String filingStatus;
-
-    @Column
-    Double incomeW2;
-
-    @Column
-    Double witheldW2;
-
-    @Column
-    String addressW2;
-
-    @Column
-    Double income1099;
-
-    @Column
-    Double witheld1099;
-
-    @Column
-    String address1099;
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "form1099Id", referencedColumnName = "id")
+    private Form1099 form1099;
 
 
     public Account() {
     }
 
-    public Account(Integer id, Role role, String firstName, String lastName, String email, String password, String streetAddress, String city, String state, Integer zipCode, LocalDate dateOfBirth, Integer socialSecurity, String filingStatus, Double incomeW2, Double witheldW2, String addressW2, Double income1099, Double witheld1099, String address1099) {
+    public Account(Integer id, Role role, String email, String password, String firstName, String lastName, String filingStatus, Integer socialSecurity, String streetAddress, String city, String state, Integer zipCode, LocalDate dateOfBirth, FormW2 formW2, Form1099 form1099) {
         this.id = id;
         this.role = role;
-        this.firstName = firstName;
-        this.lastName = lastName;
         this.email = email;
         this.password = password;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.filingStatus = filingStatus;
+        this.socialSecurity = socialSecurity;
         this.streetAddress = streetAddress;
         this.city = city;
         this.state = state;
         this.zipCode = zipCode;
         this.dateOfBirth = dateOfBirth;
-        this.socialSecurity = socialSecurity;
-        this.filingStatus = filingStatus;
-        this.incomeW2 = incomeW2;
-        this.witheldW2 = witheldW2;
-        this.addressW2 = addressW2;
-        this.income1099 = income1099;
-        this.witheld1099 = witheld1099;
-        this.address1099 = address1099;
+        this.formW2 = formW2;
+        this.form1099 = form1099;
     }
 
     public Integer getId() {
@@ -129,6 +122,22 @@ public class Account implements UserDetails {
         this.role = role;
     }
 
+    public String getEmail() {
+        return this.email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getPassword() {
+        return this.password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
     public String getFirstName() {
         return this.firstName;
     }
@@ -145,20 +154,20 @@ public class Account implements UserDetails {
         this.lastName = lastName;
     }
 
-    public String getEmail() {
-        return this.email;
+    public String getFilingStatus() {
+        return this.filingStatus;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
+    public void setFilingStatus(String filingStatus) {
+        this.filingStatus = filingStatus;
     }
 
-    public String getPassword() {
-        return this.password;
+    public Integer getSocialSecurity() {
+        return this.socialSecurity;
     }
 
-    public void setPassword(String password) {
-        this.password = password;
+    public void setSocialSecurity(Integer socialSecurity) {
+        this.socialSecurity = socialSecurity;
     }
 
     public String getStreetAddress() {
@@ -201,68 +210,20 @@ public class Account implements UserDetails {
         this.dateOfBirth = dateOfBirth;
     }
 
-    public Integer getSocialSecurity() {
-        return this.socialSecurity;
+    public FormW2 getFormW2() {
+        return this.formW2;
     }
 
-    public void setSocialSecurity(Integer socialSecurity) {
-        this.socialSecurity = socialSecurity;
+    public void setFormW2(FormW2 formW2) {
+        this.formW2 = formW2;
     }
 
-    public String getFilingStatus() {
-        return this.filingStatus;
+    public Form1099 getForm1099() {
+        return this.form1099;
     }
 
-    public void setFilingStatus(String filingStatus) {
-        this.filingStatus = filingStatus;
-    }
-
-    public Double getIncomeW2() {
-        return this.incomeW2;
-    }
-
-    public void setIncomeW2(Double incomeW2) {
-        this.incomeW2 = incomeW2;
-    }
-
-    public Double getWitheldW2() {
-        return this.witheldW2;
-    }
-
-    public void setWitheldW2(Double witheldW2) {
-        this.witheldW2 = witheldW2;
-    }
-
-    public String getAddressW2() {
-        return this.addressW2;
-    }
-
-    public void setAddressW2(String addressW2) {
-        this.addressW2 = addressW2;
-    }
-
-    public Double getIncome1099() {
-        return this.income1099;
-    }
-
-    public void setIncome1099(Double income1099) {
-        this.income1099 = income1099;
-    }
-
-    public Double getWitheld1099() {
-        return this.witheld1099;
-    }
-
-    public void setWitheld1099(Double witheld1099) {
-        this.witheld1099 = witheld1099;
-    }
-
-    public String getAddress1099() {
-        return this.address1099;
-    }
-
-    public void setAddress1099(String address1099) {
-        this.address1099 = address1099;
+    public void setForm1099(Form1099 form1099) {
+        this.form1099 = form1099;
     }
 
     public Account id(Integer id) {
@@ -272,6 +233,16 @@ public class Account implements UserDetails {
 
     public Account role(Role role) {
         setRole(role);
+        return this;
+    }
+
+    public Account email(String email) {
+        setEmail(email);
+        return this;
+    }
+
+    public Account password(String password) {
+        setPassword(password);
         return this;
     }
 
@@ -285,13 +256,13 @@ public class Account implements UserDetails {
         return this;
     }
 
-    public Account email(String email) {
-        setEmail(email);
+    public Account filingStatus(String filingStatus) {
+        setFilingStatus(filingStatus);
         return this;
     }
 
-    public Account password(String password) {
-        setPassword(password);
+    public Account socialSecurity(Integer socialSecurity) {
+        setSocialSecurity(socialSecurity);
         return this;
     }
 
@@ -320,43 +291,13 @@ public class Account implements UserDetails {
         return this;
     }
 
-    public Account socialSecurity(Integer socialSecurity) {
-        setSocialSecurity(socialSecurity);
+    public Account formW2(FormW2 formW2) {
+        setFormW2(formW2);
         return this;
     }
 
-    public Account filingStatus(String filingStatus) {
-        setFilingStatus(filingStatus);
-        return this;
-    }
-
-    public Account incomeW2(Double incomeW2) {
-        setIncomeW2(incomeW2);
-        return this;
-    }
-
-    public Account witheldW2(Double witheldW2) {
-        setWitheldW2(witheldW2);
-        return this;
-    }
-
-    public Account addressW2(String addressW2) {
-        setAddressW2(addressW2);
-        return this;
-    }
-
-    public Account income1099(Double income1099) {
-        setIncome1099(income1099);
-        return this;
-    }
-
-    public Account witheld1099(Double witheld1099) {
-        setWitheld1099(witheld1099);
-        return this;
-    }
-
-    public Account address1099(String address1099) {
-        setAddress1099(address1099);
+    public Account form1099(Form1099 form1099) {
+        setForm1099(form1099);
         return this;
     }
 
@@ -368,12 +309,12 @@ public class Account implements UserDetails {
             return false;
         }
         Account account = (Account) o;
-        return Objects.equals(id, account.id) && Objects.equals(role, account.role) && Objects.equals(firstName, account.firstName) && Objects.equals(lastName, account.lastName) && Objects.equals(email, account.email) && Objects.equals(password, account.password) && Objects.equals(streetAddress, account.streetAddress) && Objects.equals(city, account.city) && Objects.equals(state, account.state) && Objects.equals(zipCode, account.zipCode) && Objects.equals(dateOfBirth, account.dateOfBirth) && Objects.equals(socialSecurity, account.socialSecurity) && Objects.equals(filingStatus, account.filingStatus) && Objects.equals(incomeW2, account.incomeW2) && Objects.equals(witheldW2, account.witheldW2) && Objects.equals(addressW2, account.addressW2) && Objects.equals(income1099, account.income1099) && Objects.equals(witheld1099, account.witheld1099) && Objects.equals(address1099, account.address1099);
+        return Objects.equals(id, account.id) && Objects.equals(role, account.role) && Objects.equals(email, account.email) && Objects.equals(password, account.password) && Objects.equals(firstName, account.firstName) && Objects.equals(lastName, account.lastName) && Objects.equals(filingStatus, account.filingStatus) && Objects.equals(socialSecurity, account.socialSecurity) && Objects.equals(streetAddress, account.streetAddress) && Objects.equals(city, account.city) && Objects.equals(state, account.state) && Objects.equals(zipCode, account.zipCode) && Objects.equals(dateOfBirth, account.dateOfBirth) && Objects.equals(formW2, account.formW2) && Objects.equals(form1099, account.form1099);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, role, firstName, lastName, email, password, streetAddress, city, state, zipCode, dateOfBirth, socialSecurity, filingStatus, incomeW2, witheldW2, addressW2, income1099, witheld1099, address1099);
+        return Objects.hash(id, role, email, password, firstName, lastName, filingStatus, socialSecurity, streetAddress, city, state, zipCode, dateOfBirth, formW2, form1099);
     }
 
     @Override
@@ -381,31 +322,29 @@ public class Account implements UserDetails {
         return "{" +
             " id='" + getId() + "'" +
             ", role='" + getRole() + "'" +
-            ", firstName='" + getFirstName() + "'" +
-            ", lastName='" + getLastName() + "'" +
             ", email='" + getEmail() + "'" +
             ", password='" + getPassword() + "'" +
+            ", firstName='" + getFirstName() + "'" +
+            ", lastName='" + getLastName() + "'" +
+            ", filingStatus='" + getFilingStatus() + "'" +
+            ", socialSecurity='" + getSocialSecurity() + "'" +
             ", streetAddress='" + getStreetAddress() + "'" +
             ", city='" + getCity() + "'" +
             ", state='" + getState() + "'" +
             ", zipCode='" + getZipCode() + "'" +
             ", dateOfBirth='" + getDateOfBirth() + "'" +
-            ", socialSecurity='" + getSocialSecurity() + "'" +
-            ", filingStatus='" + getFilingStatus() + "'" +
-            ", incomeW2='" + getIncomeW2() + "'" +
-            ", witheldW2='" + getWitheldW2() + "'" +
-            ", addressW2='" + getAddressW2() + "'" +
-            ", income1099='" + getIncome1099() + "'" +
-            ", witheld1099='" + getWitheld1099() + "'" +
-            ", address1099='" + getAddress1099() + "'" +
+            ", formW2='" + getFormW2() + "'" +
+            ", form1099='" + getForm1099() + "'" +
             "}";
     }
+
+    
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         
         Set<SimpleGrantedAuthority> authorities = new HashSet<>();
-        SimpleGrantedAuthority userRole = new SimpleGrantedAuthority(getRole().name());
+        SimpleGrantedAuthority userRole = new SimpleGrantedAuthority(role.name());
         authorities.add(userRole);
 
         return authorities;
