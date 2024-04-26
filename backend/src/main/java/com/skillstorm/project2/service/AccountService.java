@@ -3,6 +3,7 @@ package com.skillstorm.project2.service;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import com.skillstorm.project2.exceptions.ExistingAccountException;
 import com.skillstorm.project2.exceptions.ResourceNotFoundException;
@@ -10,6 +11,7 @@ import com.skillstorm.project2.models.Account;
 import com.skillstorm.project2.models.Account.Role;
 import com.skillstorm.project2.repositories.AccountRepository;
 
+@Service
 public class AccountService {
     
     @Autowired

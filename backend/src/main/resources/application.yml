@@ -8,3 +8,7 @@ spring:
     output:
         ansi:
             enabled: ALWAYS
+
+    jpa:
+        hibernate:
+            ddl-auto: update
