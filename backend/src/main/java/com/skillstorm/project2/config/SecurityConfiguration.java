@@ -13,15 +13,16 @@ import static org.springframework.security.config.Customizer.withDefaults;
 public class SecurityConfiguration {
 
     @Bean
-    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+    protected SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         
         http
+            .csrf(csrf -> csrf.disable())
             .authorizeHttpRequests((authorizeHttpRequests) -> {
                     
                 authorizeHttpRequests
-                    .requestMatchers(HttpMethod.GET, "/users").permitAll()
-                    .requestMatchers(HttpMethod.POST, "/users/register").permitAll()
-                    .anyRequest().authenticated();
+                    // .requestMatchers(HttpMethod.GET, "/users").permitAll()
+                    // .requestMatchers(HttpMethod.POST, "/users/register").permitAll()
+                    .anyRequest().permitAll();
             });
 
         

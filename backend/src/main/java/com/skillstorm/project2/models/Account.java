@@ -56,7 +56,7 @@ public class Account implements UserDetails {
 
     @Column
     @Enumerated(EnumType.STRING)
-    String filingStatus;
+    FilingStatus filingStatus;
 
     @Column
     Integer socialSecurity;
@@ -88,7 +88,7 @@ public class Account implements UserDetails {
     public Account() {
     }
 
-    public Account(Integer id, Role role, String email, String password, String firstName, String lastName, String filingStatus, Integer socialSecurity, String streetAddress, String city, String state, Integer zipCode, LocalDate dateOfBirth, FormW2 formW2, Form1099 form1099) {
+    public Account(Integer id, Role role, String email, String password, String firstName, String lastName, FilingStatus filingStatus, Integer socialSecurity, String streetAddress, String city, String state, Integer zipCode, LocalDate dateOfBirth, FormW2 formW2, Form1099 form1099) {
         this.id = id;
         this.role = role;
         this.email = email;
@@ -154,11 +154,11 @@ public class Account implements UserDetails {
         this.lastName = lastName;
     }
 
-    public String getFilingStatus() {
+    public FilingStatus getFilingStatus() {
         return this.filingStatus;
     }
 
-    public void setFilingStatus(String filingStatus) {
+    public void setFilingStatus(FilingStatus filingStatus) {
         this.filingStatus = filingStatus;
     }
 
@@ -256,7 +256,7 @@ public class Account implements UserDetails {
         return this;
     }
 
-    public Account filingStatus(String filingStatus) {
+    public Account filingStatus(FilingStatus filingStatus) {
         setFilingStatus(filingStatus);
         return this;
     }

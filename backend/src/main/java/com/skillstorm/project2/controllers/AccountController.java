@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.skillstorm.project2.exceptions.ExistingAccountException;
 import com.skillstorm.project2.exceptions.ResourceNotFoundException;
 import com.skillstorm.project2.models.Account;
 import com.skillstorm.project2.repositories.AccountRepository;
@@ -38,14 +37,14 @@ public class AccountController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Account> findAccountById(@PathVariable int id) throws ResourceNotFoundException {
+    public ResponseEntity<Account> findAccountById(@PathVariable int id) {
 
         Account acct = acctService.findAccountById(id);
         return new ResponseEntity<>(acct, HttpStatus.OK);
     }
 
     @PostMapping("/register")
-    public ResponseEntity<Account> createAccount(@RequestBody Account acct) throws ExistingAccountException {
+    public ResponseEntity<Account> createAccount(@RequestBody Account acct) {
 
         Account newAcct = acctService.saveAccount(acct);
         return new ResponseEntity<>(newAcct, HttpStatus.CREATED);
@@ -59,7 +58,7 @@ public class AccountController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteAccount(@PathVariable int id) throws ResourceNotFoundException {
+    public ResponseEntity<Void> deleteAccount(@PathVariable int id) {
 
         acctService.deleteAccount(id);
         return new ResponseEntity<>(HttpStatus.OK);

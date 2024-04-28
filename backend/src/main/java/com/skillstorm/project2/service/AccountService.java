@@ -28,7 +28,7 @@ public class AccountService {
     Form1099Repository form1099Repo;
 
 
-    public Account findAccountById(int id) throws ResourceNotFoundException {
+    public Account findAccountById(int id) {
 
         Optional<Account> acct = acctRepo.findById(id);
 
@@ -39,12 +39,12 @@ public class AccountService {
         }
     }
 
-    public Account saveAccount(Account acct) throws ExistingAccountException {
+    public Account saveAccount(Account acct) {
 
         // If account already exists then throw exception
         Optional<Account> foundAcct = acctRepo.findByEmail(acct.getEmail());
 
-        if (foundAcct.isEmpty()) {
+        if (foundAcct.isPresent()) {
             throw new ExistingAccountException();
         }
 
@@ -60,7 +60,7 @@ public class AccountService {
         return acctRepo.save(acct);
     }
 
-    public Account updateAccount(Account acct) throws ResourceNotFoundException {
+    public Account updateAccount(Account acct) {
 
         Optional<Account> foundAcct = acctRepo.findByEmail(acct.getEmail());
 
@@ -71,7 +71,7 @@ public class AccountService {
         return acctRepo.save(acct);
     }
 
-    public void deleteAccount(int id) throws ResourceNotFoundException {
+    public void deleteAccount(int id) {
 
         Optional<Account> foundAcct = acctRepo.findById(id);
 
