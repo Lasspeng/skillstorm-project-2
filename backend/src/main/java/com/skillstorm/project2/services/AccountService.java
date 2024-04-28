@@ -1,4 +1,4 @@
-package com.skillstorm.project2.service;
+package com.skillstorm.project2.services;
 
 import java.util.Optional;
 
@@ -56,6 +56,20 @@ public class AccountService {
 
         acct.setId(null);
         acct.setRole(Role.ROLE_USER);
+
+        return acctRepo.save(acct);
+    }
+
+    public Account saveAdminAccount(Account acct) {
+
+        Optional<Account> foundAcct = acctRepo.findById(acct.getId());
+
+        if (foundAcct.isPresent()) {
+            throw new ExistingAccountException();
+        }
+
+        acct.setId(null);
+        acct.setRole(Role.ROLE_ADMIN);
 
         return acctRepo.save(acct);
     }

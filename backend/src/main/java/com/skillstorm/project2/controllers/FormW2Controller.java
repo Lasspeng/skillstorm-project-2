@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.skillstorm.project2.models.FormW2;
 import com.skillstorm.project2.repositories.FormW2Repository;
-import com.skillstorm.project2.service.FormW2Service;
+import com.skillstorm.project2.services.FormW2Service;
 
 @RestController
 @RequestMapping("/w2")

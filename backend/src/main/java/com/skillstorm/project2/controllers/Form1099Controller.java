@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.skillstorm.project2.models.Form1099;
 import com.skillstorm.project2.repositories.Form1099Repository;
-import com.skillstorm.project2.service.Form1099Service;
+import com.skillstorm.project2.services.Form1099Service;
 
 @RestController
 @RequestMapping("/1099")

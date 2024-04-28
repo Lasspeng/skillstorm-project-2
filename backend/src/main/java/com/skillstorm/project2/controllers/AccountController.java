@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.skillstorm.project2.exceptions.ResourceNotFoundException;
 import com.skillstorm.project2.models.Account;
 import com.skillstorm.project2.repositories.AccountRepository;
-import com.skillstorm.project2.service.AccountService;
+import com.skillstorm.project2.services.AccountService;
 
 @RestController
 @RequestMapping("/users")
@@ -47,6 +47,14 @@ public class AccountController {
     public ResponseEntity<Account> createAccount(@RequestBody Account acct) {
 
         Account newAcct = acctService.saveAccount(acct);
+        return new ResponseEntity<>(newAcct, HttpStatus.CREATED);
+    }
+
+    // Have to add an endpoint to create a new admin account because of BCrypt. This endpoint will not be accessible by the front end
+    @PostMapping("/register/admin")
+    public ResponseEntity<Account> createAdminAccount(@RequestBody Account acct) {
+
+        Account newAcct = acctService.saveAdminAccount(acct);
         return new ResponseEntity<>(newAcct, HttpStatus.CREATED);
     }
 
