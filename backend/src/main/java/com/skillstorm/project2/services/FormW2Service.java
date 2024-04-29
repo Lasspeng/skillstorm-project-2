@@ -1,4 +1,4 @@
-package com.skillstorm.project2.service;
+package com.skillstorm.project2.services;
 
 import java.util.Optional;
 

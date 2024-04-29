@@ -3,13 +3,14 @@ package com.skillstorm.project2.services;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.skillstorm.project2.exceptions.ExistingAccountException;
 import com.skillstorm.project2.exceptions.ResourceNotFoundException;
 import com.skillstorm.project2.models.Account;
-import com.skillstorm.project2.models.Form1099;
 import com.skillstorm.project2.models.Account.Role;
+import com.skillstorm.project2.models.Form1099;
 import com.skillstorm.project2.models.FormW2;
 import com.skillstorm.project2.repositories.AccountRepository;
 import com.skillstorm.project2.repositories.Form1099Repository;
@@ -20,6 +21,9 @@ public class AccountService {
     
     @Autowired
     AccountRepository acctRepo;
+
+    @Autowired
+    private PasswordEncoder encoder;
 
     @Autowired
     FormW2Repository formW2Repo;
@@ -41,6 +45,8 @@ public class AccountService {
 
     public Account saveAccount(Account acct) {
 
+        acct.setPassword(encoder.encode(acct.getPassword()));
+
         // If account already exists then throw exception
         Optional<Account> foundAcct = acctRepo.findByEmail(acct.getEmail());
 
@@ -61,6 +67,8 @@ public class AccountService {
     }
 
     public Account saveAdminAccount(Account acct) {
+
+        acct.setPassword(encoder.encode(acct.getPassword()));
 
         Optional<Account> foundAcct = acctRepo.findById(acct.getId());
 
