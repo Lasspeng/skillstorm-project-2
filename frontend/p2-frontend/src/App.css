@@ -1,0 +1,28 @@
+.navbar {
+  background-color: #162e51;
+  padding: 10px;
+  display: flex; /* Use flexbox */
+  justify-content: right; /* Distribute items along the main axis */
+  align-items: center; /* Center items vertically */
+}
+
+.navbar-nav {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+  display: flex; /* Use flexbox */
+}
+
+.nav-item {
+  margin-left: 10px; /* Adjust margin between items */
+}
+
+.nav-link {
+  color: white;
+  text-decoration: none;
+  padding: 5px 10px;
+}
+
+.nav-link:hover {
+  background-color: rgb(72, 72, 73);
+}
