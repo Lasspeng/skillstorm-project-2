@@ -17,6 +17,7 @@ import com.skillstorm.project2.services.JwtService;
 
 @RestController
 public class AuthenticationController {
+    // This class is solely used to create the api endpoint that generates a JWT on request and sends it back as a response
 
     @Autowired
     AuthenticationManager authManager;
