@@ -1,19 +1,35 @@
 import { Form, Fieldset, Grid, GridContainer, Label, TextInput, Button, Link} from '@trussworks/react-uswds';
 import React from 'react';
+import { useState } from 'react';
+import { toast } from "react-toastify";
 import '@trussworks/react-uswds/lib/uswds.css'
 import '@trussworks/react-uswds/lib/index.css'
 import './SignIn.css';
 
 
 export default function SignIn(): React.ReactElement {
-  const [showPassword, setShowPassword] = React.useState(false);
-  const mockSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-    // Mock submit function
+  const [showPassword, setShowPassword] = useState(false);
+  const [jwtToken, setJwtToken] = useState('');
+  
+  const handleSubmit = (event: any) => {
     event.preventDefault();
-    console.log('Form submitted!');
+    const data = new FormData(event.target);
+    const authInfo = {
+      email : data.get("email"),
+      password : data.get("password")
+    };
+    fetch('http://localhost:8080/authenticate' , {
+      method: 'POST',
+      headers: {'Content-Type' : 'application/json'} ,
+      body: JSON.stringify(authInfo)  
+    })
+    .then(data => data.json())
+    .then(sign => setJwtToken(sign.jwt))
+    .catch(error => {
+      toast("Incorrect username or password")
+    })
   };
   return <>
-
     <main id="main-content">
       <div className="bg-base-lightest">
         <GridContainer className="usa-section">
@@ -25,7 +41,7 @@ export default function SignIn(): React.ReactElement {
             }} className="centered-grid">
               <div className="bg-white padding-y-3 padding-x-5 border border-base-lighter">
                 <h1 className="margin-bottom-0">Sign in</h1>
-                <Form onSubmit={mockSubmit}>
+                <Form onSubmit={handleSubmit}>
                   <Fieldset>
                     <Label htmlFor="email">Email address</Label>
                     <TextInput id="email" name="email" type="email" autoCorrect="off" autoCapitalize="off" required={true} />
