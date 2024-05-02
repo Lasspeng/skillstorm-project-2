@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -19,6 +20,7 @@ import com.skillstorm.project2.services.Form1099Service;
 
 @RestController
 @RequestMapping("/1099")
+@CrossOrigin("*")
 public class Form1099Controller {
 
     // This class will not need a post method because a new Form1099 entry will be created whenever a new Account is created

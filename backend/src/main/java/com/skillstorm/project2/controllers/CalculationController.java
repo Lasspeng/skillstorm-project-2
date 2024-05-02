@@ -3,6 +3,7 @@ package com.skillstorm.project2.controllers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -15,6 +16,7 @@ import com.skillstorm.project2.models.Account.Role;
 import com.skillstorm.project2.services.AccountService;
 
 @RestController
+@CrossOrigin("*")
 public class CalculationController {
     // This controller class is solely for creating the api endpoint that calculates how much the user owes in tax
 

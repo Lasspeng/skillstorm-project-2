@@ -34,11 +34,31 @@ public class SecurityConfiguration {
             .authorizeHttpRequests((authorizeHttpRequests) ->
                     
                 authorizeHttpRequests
+
+                // Auth and Calc Controller filters
                 .requestMatchers(HttpMethod.POST, "/authenticate").permitAll()
-                .requestMatchers(HttpMethod.GET, "calculate/**").permitAll()
-                .requestMatchers(HttpMethod.GET, "/users").permitAll()
+                .requestMatchers(HttpMethod.GET, "calculate/**").hasAnyAuthority("ROLE_ADMIN", "ROLE_USER")
+                
+                //Account Controller filters
+                .requestMatchers(HttpMethod.GET, "/users").hasAuthority("ROLE_ADMIN")
                 .requestMatchers(HttpMethod.POST, "/users/register").permitAll()
+                .requestMatchers(HttpMethod.POST, "/users/register/admin").permitAll()
+                .requestMatchers(HttpMethod.PUT, "/users").hasAnyAuthority("ROLE_ADMIN", "ROLE_USER")
+                .requestMatchers(HttpMethod.DELETE, "users/**").hasAuthority("ROLE_ADMIN")
                 .requestMatchers(HttpMethod.GET, "/users/**").hasAnyAuthority("ROLE_ADMIN", "ROLE_USER")
+
+                // Form 1099 Controller filters
+                .requestMatchers(HttpMethod.GET, "/1099").hasAuthority("ROLE_ADMIN")
+                .requestMatchers(HttpMethod.GET, "/1099/**").hasAnyAuthority("ROLE_USER", "ROLE_ADMIN")
+                .requestMatchers(HttpMethod.PUT, "/1099").hasAnyAuthority("ROLE_USER", "ROLE_ADMIN")
+                .requestMatchers(HttpMethod.DELETE, "/1099/**").hasAuthority("ROLE_ADMIN")
+
+                // Form W2 Controller filters
+                .requestMatchers(HttpMethod.GET, "/w2").hasAuthority("ROLE_ADMIN")
+                .requestMatchers(HttpMethod.GET, "/w2/**").hasAnyAuthority("ROLE_USER", "ROLE_ADMIN")
+                .requestMatchers(HttpMethod.PUT, "/w2").hasAnyAuthority("ROLE_USER", "ROLE_ADMIN")
+                .requestMatchers(HttpMethod.DELETE, "/w2").hasAuthority("ROLE_ADMIN")
+
                 .anyRequest().authenticated()
             )
 
