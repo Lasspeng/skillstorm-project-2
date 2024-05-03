@@ -27,20 +27,20 @@ export default function TaxReturn() {
                             
                             <div className="tax-input-box">
                                 <div className="tax-input">
-                                    <Label htmlFor="total-income" className="bold-label">Total Income</Label>
-                                    <TextInput id="total-income" name="total-income" type="text" value={`$${totalIncome}`} readOnly />
-                                </div>
-                                <div className="tax-input">
-                                    <Label htmlFor="amount-owed" className="bold-label">Amount Owed</Label>
-                                    <TextInput id="amount-owed" name="amount-owed" type="text" value={`$${amountOwed}`} readOnly />
-                                </div>
-                                <div className="tax-input">
-                                    <Label htmlFor="income-after-taxes" className="bold-label">Income After Taxes</Label>
-                                    <TextInput id="income-after-taxes" name="income-after-taxes" type="text" value={`$${incomeAfterTaxes}`} readOnly />
+                                    <Label htmlFor="total-income" className="bold-label">Taxable Income</Label>
+                                    <TextInput id="total-income" name="taxable-income" type="text" value={`$${totalIncome}`} readOnly />
                                 </div>
                                 <div className="tax-input">
                                     <Label htmlFor="tax-rate" className="bold-label">Tax Rate</Label>
                                     <TextInput id="tax-rate" name="tax-rate" type="text" value={`${taxRate}%`} readOnly />
+                                </div>
+                                {/* <div className="tax-input">
+                                    <Label htmlFor="income-after-taxes" className="bold-label">Income After Taxes</Label>
+                                    <TextInput id="income-after-taxes" name="income-after-taxes" type="text" value={`$${incomeAfterTaxes}`} readOnly />
+                                </div> */}
+                                <div className="tax-input">
+                                    <Label htmlFor="amount-owed" className="bold-label">Tax Refund</Label>
+                                    <TextInput id="amount-owed" name="tax-refund" type="text" value={`$${amountOwed}`} readOnly />
                                 </div>
                             </div>
                         </Fieldset>

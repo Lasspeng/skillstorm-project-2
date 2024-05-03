@@ -36,7 +36,7 @@ export default function SignUp({ setUser }: Props): React.ReactElement {
         setUser(userData);
         navigate("/signin");
       })
-      .catch(() => toast("A user with these credentials already exists"))
+      .catch(() => alert("A user with these credentials already exists"))
     };
   return (
     <>
