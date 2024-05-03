@@ -10,33 +10,33 @@ export default function Form1099() {
 
     return (
         <>
-        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-            <StepIndicator
-                counters="default"
-                headingLevel="h4"
-                ofText="of"
-                stepText="Step"
-            >
-                <StepIndicatorStep
-                    label="Personal information"
-                    status="complete"
-                />
-                <StepIndicatorStep
-                    label="Filing status"
-                    status="complete"
-                />
-                <StepIndicatorStep 
-                    label="W2 Form" 
-                    status="complete"
-                />
-                <StepIndicatorStep 
-                    label="1099 Form" 
-                    status="current"
-                />
-                <StepIndicatorStep label="Review and submit" />
-            </StepIndicator>
+            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+                <StepIndicator
+                    counters="default"
+                    headingLevel="h4"
+                    ofText="of"
+                    stepText="Step"
+                >
+                    <StepIndicatorStep
+                        label="Personal information"
+                        status="complete"
+                    />
+                    <StepIndicatorStep
+                        label="Filing status"
+                        status="complete"
+                    />
+                    <StepIndicatorStep
+                        label="W2 Form"
+                        status="complete"
+                    />
+                    <StepIndicatorStep
+                        label="1099 Form"
+                        status="current"
+                    />
+                    <StepIndicatorStep label="Review and submit" />
+                </StepIndicator>
 
-            <Fieldset>
+                <Fieldset>
 
                     <Grid row={true} className="flex-justify-center">
                         <Grid col={12} tablet={{ col: 8 }} desktop={{ col: 10 }} className="centered-grid">
@@ -58,15 +58,16 @@ export default function Form1099() {
                         </Grid>
                     </Grid>
                 </Fieldset>
-                <div style={{ marginTop: '20px' }}></div>
-            <ul className="usa-button-group">
-                <li className="usa-button-group__item">
-                    <a href="/w2form" className="usa-button usa-button--outline">Back</a>
-                </li>
-                <li className="usa-button-group__item">
-                    <a href="/review" className="usa-button">Continue</a>
-                </li>
-            </ul>
+                <div style={{ marginTop: '20px' }}>
+                    <ul className="usa-button-group">
+                        <li className="usa-button-group__item">
+                            <a href="/w2form" className="usa-button usa-button--outline">Back</a>
+                        </li>
+                        <li className="usa-button-group__item">
+                            <a href="/review" className="usa-button">Continue</a>
+                        </li>
+                    </ul>
+                </div>
             </div>
         </>
     )

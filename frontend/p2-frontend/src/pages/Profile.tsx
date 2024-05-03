@@ -11,8 +11,8 @@ export default function Profile() {
 
     return (
         <>
-            <main id="main-content" className="bg-base-lightest">
-                <div className="bg-base-lightest">
+            <main id="main-content" >
+                
                     <GridContainer className="usa-section">
                         <Grid row={true} className="flex-justify-center">
                             <Grid col={12} tablet={{ col: 8 }} desktop={{ col: 10 }} className="centered-grid">
@@ -139,7 +139,7 @@ export default function Profile() {
                             </Grid>
                         </Grid>
                     </GridContainer>
-                </div>
+                
             </main>
         </>
     )
