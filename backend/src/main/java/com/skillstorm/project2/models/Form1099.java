@@ -20,16 +20,16 @@ public class Form1099 {
     private double wages;
 
     @Column(columnDefinition = "real default 0.0")
-    private double taxWithheld;
+    private double taxWriteOffs;
 
 
     public Form1099() {
     }
 
-    public Form1099(int id, double wages, double taxWithheld) {
+    public Form1099(int id, double wages, double taxWriteOffs) {
         this.id = id;
         this.wages = wages;
-        this.taxWithheld = taxWithheld;
+        this.taxWriteOffs = taxWriteOffs;
     }
 
     public int getId() {
@@ -48,12 +48,12 @@ public class Form1099 {
         this.wages = wages;
     }
 
-    public double getTaxWithheld() {
-        return this.taxWithheld;
+    public double getTaxWriteOffs() {
+        return this.taxWriteOffs;
     }
 
-    public void setTaxWithheld(double taxWithheld) {
-        this.taxWithheld = taxWithheld;
+    public void setTaxWriteOffs(double taxWriteOffs) {
+        this.taxWriteOffs = taxWriteOffs;
     }
 
     public Form1099 id(int id) {
@@ -66,8 +66,8 @@ public class Form1099 {
         return this;
     }
 
-    public Form1099 taxWithheld(double taxWithheld) {
-        setTaxWithheld(taxWithheld);
+    public Form1099 taxWriteOffs(double taxWriteOffs) {
+        setTaxWriteOffs(taxWriteOffs);
         return this;
     }
 
@@ -79,12 +79,12 @@ public class Form1099 {
             return false;
         }
         Form1099 form1099 = (Form1099) o;
-        return id == form1099.id && wages == form1099.wages && taxWithheld == form1099.taxWithheld;
+        return id == form1099.id && wages == form1099.wages && taxWriteOffs == form1099.taxWriteOffs;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, wages, taxWithheld);
+        return Objects.hash(id, wages, taxWriteOffs);
     }
 
     @Override
@@ -92,7 +92,7 @@ public class Form1099 {
         return "{" +
             " id='" + getId() + "'" +
             ", wages='" + getWages() + "'" +
-            ", taxWithheld='" + getTaxWithheld() + "'" +
+            ", taxWriteOffs='" + getTaxWriteOffs() + "'" +
             "}";
     }
 

@@ -84,12 +84,16 @@ public class AccountService {
 
     public Account updateAccount(Account acct) {
 
-        Optional<Account> foundAcct = acctRepo.findByEmail(acct.getEmail());
+        Optional<Account> foundAcct = acctRepo.findById(acct.getId());
 
         if (foundAcct.isEmpty()) {
             throw new ResourceNotFoundException("Account", acct.getId());
         } 
 
+        // if (acct.getPassword() != null) {
+        //     acct.setPassword(encoder.encode(acct.getPassword()));
+        // }
+        acct.setPassword(null);
         return acctRepo.save(acct);
     }
 

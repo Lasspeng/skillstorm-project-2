@@ -13,8 +13,13 @@ import SignUp from './pages/SignUp';
 import './App.css';
 
 import { BrowserRouter, Link, Route, Routes } from 'react-router-dom';
+import { useState } from 'react';
+import { User } from './Types';
 
 export default function App() {
+  
+  const [jwt, setJwt] = useState<string>('');
+  const [user, setUser] = useState<User | undefined>();
 
   return (
     <>
@@ -42,15 +47,15 @@ export default function App() {
           <div className='content'>
           <Routes>
               <Route path='/' element={<Landing />} />
-              <Route path='/profile' element={<Profile />} />
+              <Route path='/profile' element={<Profile user={user} setUser={setUser} jwt={jwt} />} />
               <Route path='/tax-return' element={<TaxReturn />} />
-              <Route path='/signin' element={<SignIn />} />
+              <Route path='/signin' element={<SignIn setJwt={setJwt} />} />
               <Route path='/taxprofile' element={<TaxProfile />} />
               <Route path='/w2form' element={<W2Form />} />
               <Route path='/form1099' element={<Form1099 />} />
               <Route path='/filingstatus' element={<FilingStatus />} />
               <Route path='/review' element={<Review />} />
-              <Route path='/signup' element={<SignUp />} />
+              <Route path='/signup' element={<SignUp setUser={setUser} />} />
           </Routes>
           </div>
       </BrowserRouter>

@@ -1,11 +1,55 @@
 import { Grid, Form, Fieldset, Label, TextInput, Select, GridContainer, TextInputMask, FormGroup, DateInput, DateInputGroup, Button } from '@trussworks/react-uswds';
 import '@trussworks/react-uswds/lib/uswds.css'
 import '@trussworks/react-uswds/lib/index.css'
+import { FormEvent } from 'react';
+import { User } from '../Types';
+import { toast } from 'react-toastify';
 
-export default function Profile() {
-    const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-        event.preventDefault(); // Prevents the default form submission behavior
-        console.log('Form submitted'); // Replace with your form submission logic
+interface Props {
+    user: User | undefined,
+    setUser: React.Dispatch<React.SetStateAction<User | undefined>>,
+    jwt: string
+}
+
+export default function Profile({ user, setUser, jwt }: Props) {
+
+    const handleSubmit = (event: any) => {
+
+        event.preventDefault();
+        const data = new FormData(event.target);
+
+        // Convert dob data into a Java and Postgresql compatible format
+        const dateOfBirth = `${data.get("dobYear")}-${data.get("dobMonth")}-${data.get("dobDay")}` 
+
+        const updatedAccountInfo = {
+            firstName: data.get("first-name"),
+            lastName: data.get("last-name"),
+            dateOfBirth: dateOfBirth,
+            socialSecurity: data.get("ssn"),
+            streetAddress: data.get("mailing-address-1"),
+            city: data.get("city"),
+            state: data.get("state"),
+            zipCode: data.get("zip")
+        }
+
+        setUser((prevState) => { 
+            return {updatedAccountInfo, ...prevState} as User;
+        });
+
+        fetch('http://localhost:8080/users', {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${jwt}`
+            },
+            body: JSON.stringify(updatedAccountInfo)
+        })
+        .then(data => data.json())
+        .then(userData => {
+            setUser(userData);
+            toast("Your account has been successfully updated");
+        })
+        .catch(() => toast("An error has occured. Try again"));
     };
 
 
@@ -33,7 +77,7 @@ export default function Profile() {
                                             <DateInputGroup>
                                                 <FormGroup className="usa-form-group--month usa-form-group--select">
                                                     <Label htmlFor="input-select">Month</Label>
-                                                    <Select id="testDateInput" name="testDateInput">
+                                                    <Select id="testDateInput" name="dobMonth">
                                                         <option>- Select -</option>
                                                         <option value="1">01 - January</option>
                                                         <option value="2">02 - February</option>
@@ -49,8 +93,8 @@ export default function Profile() {
                                                         <option value="12">12 - December</option>
                                                     </Select>
                                                 </FormGroup>
-                                                <DateInput id="testDateInput" name="testName" label="Day" unit="day" maxLength={2} minLength={2} />
-                                                <DateInput id="testDateInput" name="testName" label="Year" unit="year" maxLength={4} minLength={4} />
+                                                <DateInput id="testDateInput" name="dobDay" label="Day" unit="day" maxLength={2} minLength={2} />
+                                                <DateInput id="testDateInput" name="dobYear" label="Year" unit="year" maxLength={4} minLength={4} />
                                             </DateInputGroup>
 
                                             <Label htmlFor="ssn" className="margin-top-2">Social Security Number</Label>

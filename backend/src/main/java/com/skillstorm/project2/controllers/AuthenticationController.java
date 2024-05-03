@@ -7,16 +7,20 @@ import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.skillstorm.project2.exceptions.InvalidCredentialsException;
 import com.skillstorm.project2.models.Account;
 import com.skillstorm.project2.models.AuthenticationResponse;
 import com.skillstorm.project2.services.JwtService;
 
 @RestController
+@CrossOrigin("*")
 public class AuthenticationController {
+    // This class is solely used to create the api endpoint that generates a JWT on request and sends it back as a response
 
     @Autowired
     AuthenticationManager authManager;
@@ -36,7 +40,7 @@ public class AuthenticationController {
 
             authManager.authenticate(new UsernamePasswordAuthenticationToken(acct.getEmail(), acct.getPassword()));
         } catch (BadCredentialsException e) {
-            throw new Exception("Incorrent username or password");
+            throw new InvalidCredentialsException();
         }
 
         final UserDetails userDetails = userDetailsService.loadUserByUsername(acct.getUsername());

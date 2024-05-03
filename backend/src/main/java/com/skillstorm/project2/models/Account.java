@@ -344,8 +344,10 @@ public class Account implements UserDetails {
     public Collection<? extends GrantedAuthority> getAuthorities() {
         
         Set<SimpleGrantedAuthority> authorities = new HashSet<>();
-        SimpleGrantedAuthority userRole = new SimpleGrantedAuthority(role.name());
-        authorities.add(userRole);
+        if (getRole() != null) {
+            SimpleGrantedAuthority userRole = new SimpleGrantedAuthority(role.name());
+            authorities.add(userRole);
+        }
 
         return authorities;
     }

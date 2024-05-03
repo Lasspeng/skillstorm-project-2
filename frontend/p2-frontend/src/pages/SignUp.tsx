@@ -3,14 +3,41 @@ import React from 'react';
 import '@trussworks/react-uswds/lib/uswds.css'
 import '@trussworks/react-uswds/lib/index.css'
 import './SignIn.css';
+import { useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
+import { User } from '../Types';
 
-export default function SignUp(): React.ReactElement {
+
+interface Props {
+  setUser: React.Dispatch<React.SetStateAction<User | undefined>>;
+}
+
+export default function SignUp({ setUser }: Props): React.ReactElement {
   const [showPassword, setShowPassword] = React.useState(false);
-  const mockSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-    // Mock submit function
-    event.preventDefault();
-    console.log('Form submitted!');
-  };
+  const navigate = useNavigate();
+
+
+  const handleSubmit = (event: any) => {
+    
+      event.preventDefault();
+      const data = new FormData(event.target);
+      const account = {
+        email: data.get("email"),
+        password: data.get("password")
+      };
+
+      fetch('http://localhost:8080/users/register', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify(account)
+      })
+      .then(data => data.json())
+      .then((userData) => {
+        setUser(userData);
+        navigate("/signin");
+      })
+      .catch(() => toast("A user with these credentials already exists"))
+    };
   return (
     <>
       <div className='centered-grid'>
@@ -28,7 +55,7 @@ export default function SignUp(): React.ReactElement {
 
                   <div className="bg-white padding-y-3 padding-x-5 border border-base-lighter">
                     <h1 className="margin-bottom-0">Create account</h1>
-                    <Form onSubmit={mockSubmit}>
+                    <Form onSubmit={handleSubmit}>
                       <Fieldset legend="Get started with an account.">
                         <p>
                           <abbr title="required" className="usa-hint usa-hint--required">
