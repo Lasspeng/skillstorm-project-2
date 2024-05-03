@@ -40,7 +40,7 @@ public class SecurityConfiguration {
                 .requestMatchers(HttpMethod.GET, "calculate/**").hasAnyAuthority("ROLE_ADMIN", "ROLE_USER")
                 
                 //Account Controller filters
-                .requestMatchers(HttpMethod.GET, "/users").hasAuthority("ROLE_ADMIN")
+                .requestMatchers(HttpMethod.GET, "/users").permitAll()
                 .requestMatchers(HttpMethod.POST, "/users/register").permitAll()
                 .requestMatchers(HttpMethod.POST, "/users/register/admin").permitAll()
                 .requestMatchers(HttpMethod.PUT, "/users").hasAnyAuthority("ROLE_ADMIN", "ROLE_USER")
