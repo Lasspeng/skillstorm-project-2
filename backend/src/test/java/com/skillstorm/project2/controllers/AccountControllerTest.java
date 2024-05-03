@@ -51,8 +51,8 @@
 //     public void testGetAllUsers() throws Exception {
 
 //         List<User> userList = new ArrayList<>();
-//         userList.add(new User(1, "Hello", "World", Role.ROLE_USER, true));
-//         userList.add(new User(2, "Goodbye", "World", Role.ROLE_USER, true));
+//         userList.add(new Account(1, "Hello", "World", Role.ROLE_USER, true));
+//         userList.add(new Account(2, "Goodbye", "World", Role.ROLE_USER, true));
 
 //         when(userRepo.findAll()).thenReturn(userList);
 

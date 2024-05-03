@@ -5,30 +5,42 @@ import { toast } from "react-toastify";
 import '@trussworks/react-uswds/lib/uswds.css'
 import '@trussworks/react-uswds/lib/index.css'
 import './SignIn.css';
+import { useNavigate } from 'react-router-dom';
 
+interface Props {
+  setJwt: React.Dispatch<React.SetStateAction<string>>;
+}
 
-export default function SignIn(): React.ReactElement {
+export default function SignIn({ setJwt }: Props): React.ReactElement {
+
   const [showPassword, setShowPassword] = useState(false);
-  const [jwtToken, setJwtToken] = useState('');
+  const navigate = useNavigate();
   
   const handleSubmit = (event: any) => {
     event.preventDefault();
+
     const data = new FormData(event.target);
     const authInfo = {
       email : data.get("email"),
       password : data.get("password")
     };
+
     fetch('http://localhost:8080/authenticate' , {
       method: 'POST',
       headers: {'Content-Type' : 'application/json'} ,
       body: JSON.stringify(authInfo)  
     })
-    .then(data => data.json())
-    .then(sign => setJwtToken(sign.jwt))
-    .catch(error => {
-      toast("Incorrect username or password")
+    .then(response => response.json())
+    .then(jwtData => {
+      setJwt(jwtData.jwt);
+      navigate("/");
+    })
+    .catch(() => {
+      alert("Incorrect username or password");
     })
   };
+
+
   return <>
     <main id="main-content">
       <div className="bg-base-lightest">
