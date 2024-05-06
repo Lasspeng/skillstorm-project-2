@@ -1,5 +1,5 @@
-import { Form, Fieldset, Grid, GridContainer, Label, TextInput, Button, Link } from '@trussworks/react-uswds';
-import React from 'react';
+import { Form, Fieldset, Grid, GridContainer, Label, TextInput, Button, Link, Alert } from '@trussworks/react-uswds';
+import React, { useState } from 'react';
 import '@trussworks/react-uswds/lib/uswds.css'
 import '@trussworks/react-uswds/lib/index.css'
 import './SignIn.css';
@@ -13,7 +13,8 @@ interface Props {
 }
 
 export default function SignUp({ setUser }: Props): React.ReactElement {
-  const [showPassword, setShowPassword] = React.useState(false);
+  const [showPassword, setShowPassword] = useState(false);
+  const [passwordsMatch, setPasswordsMatch] = useState(true);
   const navigate = useNavigate();
 
 
@@ -21,9 +22,17 @@ export default function SignUp({ setUser }: Props): React.ReactElement {
     
       event.preventDefault();
       const data = new FormData(event.target);
+      const email = data.get("email");
+      const password = data.get("password");
+      const confirmPassword = data.get("password-confirm");
+
+      if (password !== confirmPassword) {
+        setPasswordsMatch(false); // Update state to indicate passwords don't match
+        return;
+      }
       const account = {
-        email: data.get("email"),
-        password: data.get("password")
+        email: email,
+        password: password
       };
 
       fetch('http://localhost:8080/users/register', {
@@ -92,6 +101,12 @@ export default function SignUp({ setUser }: Props): React.ReactElement {
                         </Label>
                         <TextInput id="password-create-account-confirm" name="password-confirm" type={showPassword ? 'text' : 'password'} autoCapitalize="off" autoCorrect="off" required={true} />
 
+                        {!passwordsMatch && (
+                          <Alert type="error" heading="Error status" headingLevel="h4" slim role="alert">
+                            Passwords do not match.
+                          </Alert>
+                        )}
+
                         <Button type="submit">Create account</Button>
                       </Fieldset>
                     </Form>
@@ -99,7 +114,7 @@ export default function SignUp({ setUser }: Props): React.ReactElement {
 
                   <p className="text-center">
                     Already have an account?{' '}
-                    <Link href="javascript:void(0);">Sign in</Link>.
+                    <Link href="/signin">Sign in</Link>.
                   </p>
                 </Grid>
 
