@@ -5,9 +5,12 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 
+import org.hibernate.annotations.DynamicUpdate;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -36,45 +39,46 @@ public class Account implements UserDetails {
     
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    Integer id;
+    private Integer id;
 
     @Column
     @Enumerated(EnumType.STRING)
-    Role role;
+    private Role role;
 
     @Column
-    String email;
+    private String email;
 
     @Column
-    String password;
+    private String password;
 
     @Column
-    String firstName;
+    private String firstName;
 
     @Column
-    String lastName;
+    private String lastName;
 
     @Column
     @Enumerated(EnumType.STRING)
-    FilingStatus filingStatus;
+    private FilingStatus filingStatus;
 
     @Column
-    Integer socialSecurity;
+    private Integer socialSecurity;
 
     @Column
-    String streetAddress;
+    private String streetAddress;
 
     @Column
-    String city;
+    private String city;
 
     @Column
-    String state;
+    private String state;
 
     @Column
-    Integer zipCode;
+    private Integer zipCode;
     
     @Column
-    LocalDate dateOfBirth;
+    @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd")
+    private LocalDate dateOfBirth;
     
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "formW2Id", referencedColumnName = "id")

@@ -43,6 +43,13 @@ public class AccountController {
         return new ResponseEntity<>(acct, HttpStatus.OK);
     }
 
+    @GetMapping("/email")
+    public ResponseEntity<Account> findAccountByEmail(@RequestBody Account acct) {
+
+        Account foundAcct = acctService.findByCredentials(acct);
+        return new ResponseEntity<>(foundAcct, HttpStatus.OK);
+    }
+
     @PostMapping("/register")
     public ResponseEntity<Account> createAccount(@RequestBody Account acct) {
 

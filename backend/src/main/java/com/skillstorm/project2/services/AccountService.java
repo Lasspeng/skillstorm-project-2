@@ -1,5 +1,6 @@
 package com.skillstorm.project2.services;
 
+import java.time.LocalDate;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,6 +44,17 @@ public class AccountService {
         }
     }
 
+    public Account findByCredentials(Account acct) {
+
+        Optional<Account> foundAcct = acctRepo.findByEmail(acct.getEmail());
+
+        if (foundAcct.isEmpty()) {
+            throw new ResourceNotFoundException("Account", 0);
+        }
+
+        return foundAcct.get();
+    }
+
     public Account saveAccount(Account acct) {
 
         acct.setPassword(encoder.encode(acct.getPassword()));
@@ -62,6 +74,7 @@ public class AccountService {
 
         acct.setId(null);
         acct.setRole(Role.ROLE_USER);
+        acct.setDateOfBirth(LocalDate.parse("0001-01-01"));
 
         return acctRepo.save(acct);
     }
@@ -78,6 +91,7 @@ public class AccountService {
 
         acct.setId(null);
         acct.setRole(Role.ROLE_ADMIN);
+        acct.setDateOfBirth(LocalDate.parse("0001-01-01"));
 
         return acctRepo.save(acct);
     }
@@ -90,10 +104,6 @@ public class AccountService {
             throw new ResourceNotFoundException("Account", acct.getId());
         } 
 
-        // if (acct.getPassword() != null) {
-        //     acct.setPassword(encoder.encode(acct.getPassword()));
-        // }
-        acct.setPassword(null);
         return acctRepo.save(acct);
     }
 

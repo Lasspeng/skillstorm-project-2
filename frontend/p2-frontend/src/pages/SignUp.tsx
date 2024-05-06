@@ -9,10 +9,11 @@ import { User } from '../Types';
 
 
 interface Props {
-  setUser: React.Dispatch<React.SetStateAction<User | undefined>>;
+  user: User | undefined,
+  setUser: React.Dispatch<React.SetStateAction<User | undefined>>
 }
 
-export default function SignUp({ setUser }: Props): React.ReactElement {
+export default function SignUp({ user ,setUser }: Props): React.ReactElement {
   const [showPassword, setShowPassword] = React.useState(false);
   const navigate = useNavigate();
 
