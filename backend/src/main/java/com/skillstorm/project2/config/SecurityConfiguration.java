@@ -41,6 +41,7 @@ public class SecurityConfiguration {
                 
                 //Account Controller filters
                 .requestMatchers(HttpMethod.GET, "/users").permitAll()
+                .requestMatchers(HttpMethod.POST, "/users/email").hasAnyAuthority("ROLE_ADMIN", "ROLE_USER")
                 .requestMatchers(HttpMethod.POST, "/users/register").permitAll()
                 .requestMatchers(HttpMethod.POST, "/users/register/admin").permitAll()
                 .requestMatchers(HttpMethod.PUT, "/users").hasAnyAuthority("ROLE_ADMIN", "ROLE_USER")

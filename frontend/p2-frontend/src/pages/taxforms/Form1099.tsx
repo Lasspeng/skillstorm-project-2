@@ -1,12 +1,57 @@
 import { Fieldset, StepIndicator, StepIndicatorStep, Grid, Form, Label, TextInput } from '@trussworks/react-uswds';
 import '@trussworks/react-uswds/lib/uswds.css'
 import '@trussworks/react-uswds/lib/index.css'
+import { User } from '../../Types';
+import { useNavigate } from 'react-router-dom';
 
-export default function Form1099() {
-    const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-        event.preventDefault(); // Prevents the default form submission behavior
-        console.log('Form submitted'); // Replace with your form submission logic
-    };
+interface Props {
+    user: User | undefined,
+    setUser: React.Dispatch<React.SetStateAction<User | undefined>>,
+    jwt: string
+}
+
+export default function Form1099({ user, setUser, jwt }: Props) {
+
+    const navigate = useNavigate();
+
+    const handleSubmit = (event: any) => {
+
+        event.preventDefault(); 
+        const data = new FormData(event.target);
+
+        // Create new object with updated data
+        const updatedFormInfo = {
+            form1099: {
+                id: user?.form1099.id,   
+                wages: data.get("income"),
+                taxWriteOffs: data.get("deductions")
+            }
+        }
+
+        // setUser((prevState) => {
+        //     return {updatedAccountInfo, ...prevState } as User;
+        // });
+
+        const updatedUser = Object.assign({}, user, updatedFormInfo);
+
+        fetch('http://localhost:8080/users', {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${jwt}`
+            },
+            body: JSON.stringify(updatedUser)
+        })
+        .then(response => response.json())
+        .then(userData => {
+            setUser(userData);
+            navigate('/review');
+        })
+        .catch((error) => console.error(error));
+    }
+
+        
+    ;
 
     return (
         <>

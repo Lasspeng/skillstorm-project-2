@@ -1,13 +1,18 @@
 package com.skillstorm.project2.services;
 
+import java.time.LocalDate;
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import com.skillstorm.project2.dtos.AccountDto;
 import com.skillstorm.project2.exceptions.ExistingAccountException;
 import com.skillstorm.project2.exceptions.ResourceNotFoundException;
+import com.skillstorm.project2.mappers.AccountMapper;
 import com.skillstorm.project2.models.Account;
 import com.skillstorm.project2.models.Account.Role;
 import com.skillstorm.project2.models.Form1099;
@@ -31,19 +36,40 @@ public class AccountService {
     @Autowired
     Form1099Repository form1099Repo;
 
+    @Autowired
+    AccountMapper mapper;
 
-    public Account findAccountById(int id) {
+
+    public List<AccountDto> findAllAccounts() {
+        List<Account> li = acctRepo.findAll();
+        List<AccountDto> dtos = li.stream().map(mapper::toDto).collect(Collectors.toList());
+
+        return dtos;
+    }
+
+    public AccountDto findAccountById(int id) {
 
         Optional<Account> acct = acctRepo.findById(id);
 
         if (acct.isPresent()) {
-            return acct.get();
+            return mapper.toDto(acct.get());
         } else {
             throw new ResourceNotFoundException("Account", id);
         }
     }
 
-    public Account saveAccount(Account acct) {
+    public AccountDto findByCredentials(Account acct) {
+
+        Optional<Account> foundAcct = acctRepo.findByEmail(acct.getEmail());
+
+        if (foundAcct.isEmpty()) {
+            throw new ResourceNotFoundException("Account", 0);
+        }
+
+        return mapper.toDto(foundAcct.get());
+    }
+
+    public AccountDto saveAccount(Account acct) {
 
         acct.setPassword(encoder.encode(acct.getPassword()));
 
@@ -62,11 +88,12 @@ public class AccountService {
 
         acct.setId(null);
         acct.setRole(Role.ROLE_USER);
+        acct.setDateOfBirth(LocalDate.parse("0001-01-01"));
 
-        return acctRepo.save(acct);
+        return mapper.toDto(acctRepo.save(acct));
     }
 
-    public Account saveAdminAccount(Account acct) {
+    public AccountDto saveAdminAccount(Account acct) {
 
         acct.setPassword(encoder.encode(acct.getPassword()));
 
@@ -78,11 +105,12 @@ public class AccountService {
 
         acct.setId(null);
         acct.setRole(Role.ROLE_ADMIN);
+        acct.setDateOfBirth(LocalDate.parse("0001-01-01"));
 
-        return acctRepo.save(acct);
+        return mapper.toDto(acctRepo.save(acct));
     }
 
-    public Account updateAccount(Account acct) {
+    public AccountDto updateAccount(Account acct) {
 
         Optional<Account> foundAcct = acctRepo.findById(acct.getId());
 
@@ -90,11 +118,12 @@ public class AccountService {
             throw new ResourceNotFoundException("Account", acct.getId());
         } 
 
-        // if (acct.getPassword() != null) {
+
+        // if (acct.getPassword() != foundAcct.get().getPassword()) {
         //     acct.setPassword(encoder.encode(acct.getPassword()));
         // }
-        acct.setPassword(null);
-        return acctRepo.save(acct);
+        acct.setPassword(foundAcct.get().getPassword());
+        return mapper.toDto(acctRepo.save(acct));
     }
 
     public void deleteAccount(int id) {

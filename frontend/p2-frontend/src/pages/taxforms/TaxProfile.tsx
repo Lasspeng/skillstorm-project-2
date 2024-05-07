@@ -1,12 +1,68 @@
 import { Fieldset, StepIndicator, StepIndicatorStep, Grid, Form, Label, TextInput, Select, GridContainer, TextInputMask, FormGroup, DateInput, DateInputGroup } from '@trussworks/react-uswds';
 import '@trussworks/react-uswds/lib/uswds.css'
 import '@trussworks/react-uswds/lib/index.css'
+import { User } from '../../Types';
+import { useEffect } from 'react';
 
-export default function TaxProfile() {
-    const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-        event.preventDefault(); // Prevents the default form submission behavior
-        console.log('Form submitted'); // Replace with your form submission logic
+interface Props {
+    user: User | undefined,
+    setUser: React.Dispatch<React.SetStateAction<User | undefined>>,
+    jwt: string
+}
+
+export default function TaxProfile({ user, setUser, jwt }: Props) {
+    const handleSubmit = (event: any) => {
+
+        event.preventDefault();
+        const data = new FormData(event.target);
+
+        // Add a 0 to the month and day of DOB if they're below 10
+        let month = data.get("dobMonth") as string;
+        if (month !== null && month.length === 1) {
+            month = `0${month}`;
+        }
+        let day = data.get("dobDay") as string;
+        if (day !== null && month.length === 1) {
+            day = `0${day}`;
+        }
+
+        // Convert dob data into a Java and Postgresql compatible format
+        const dateOfBirth = `${data.get("dobYear")}-${month}-${day}`
+
+        const updatedAccountInfo = {
+            firstName: data.get("first-name"),
+            lastName: data.get("last-name"),
+            dateOfBirth: dateOfBirth,
+            socialSecurity: data.get("ssn"),
+            streetAddress: data.get("mailing-address-1"),
+            city: data.get("city"),
+            state: data.get("state"),
+            zipCode: data.get("zip")
+        }
+
+        const updatedUser = Object.assign({}, user, updatedAccountInfo);
+        console.log(updatedUser);
+
+        fetch('http://localhost:8080/users', {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${jwt}`
+            },
+            body: JSON.stringify(updatedUser)
+        })
+            .then(data => data.json())
+            .then(userData => {
+                setUser(userData);
+                alert("Your account has been successfully updated");
+            })
+            .catch((error) => console.error(error));
     };
+
+    useEffect(() => {
+        console.log(user);
+    }, [user]);
+
     return (
         <>
             <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
@@ -37,15 +93,15 @@ export default function TaxProfile() {
                                             <Grid row gap={2}>
                                                 <Grid tablet={{ col: 6 }}>
                                                     <Label htmlFor="first-name">First Name</Label>
-                                                    <TextInput id="first-name" name="first-name" type="text" required />
+                                                    <TextInput id="first-name" name="first-name" type="text" value={user?.firstName} required />
                                                 </Grid>
                                                 <Grid tablet={{ col: 6 }}>
                                                     <Label htmlFor="last-name">Last Name</Label>
-                                                    <TextInput id="last-name" name="last-name" type="text" required />
+                                                    <TextInput id="last-name" name="last-name" type="text" value={user?.lastName} required />
                                                 </Grid>
                                                 <Grid tablet={{ col: 8 }}>
                                                     <Label htmlFor="ssn" className="margin-top-2">Social Security Number</Label>
-                                                    <TextInputMask id="ssn" name="ssn" type="text" mask="___ __ ____" pattern="^(?!(000|666|9))\d{3} (?!00)\d{2} (?!0000)\d{4}$" required />
+                                                    <TextInputMask id="ssn" name="ssn" type="text" mask="___ __ ____" pattern="^(?!(000|666|9))\d{3} (?!00)\d{2} (?!0000)\d{4}$" value={`${user?.socialSecurity.substring(0, 3)} ${user?.socialSecurity.substring(4, 6)} ${user?.socialSecurity.substring(7)}`} required />
                                                 </Grid>
                                             </Grid>
 
@@ -55,7 +111,7 @@ export default function TaxProfile() {
                                                     <DateInputGroup>
                                                         <FormGroup className="usa-form-group--month usa-form-group--select">
                                                             <Label htmlFor="input-select">Month</Label>
-                                                            <Select id="testDateInput" name="testDateInput">
+                                                            <Select id="testDateInput" name="dobMonth" value={user?.dateOfBirth.substring(5, 7)} >
                                                                 <option>- Select -</option>
                                                                 <option value="1">01 - January</option>
                                                                 <option value="2">02 - February</option>
@@ -71,8 +127,8 @@ export default function TaxProfile() {
                                                                 <option value="12">12 - December</option>
                                                             </Select>
                                                         </FormGroup>
-                                                        <DateInput id="testDateInput" name="testName" label="Day" unit="day" maxLength={2} minLength={2} />
-                                                        <DateInput id="testDateInput" name="testName" label="Year" unit="year" maxLength={4} minLength={4} />
+                                                        <DateInput id="testDateInput" name="dobDay" label="Day" unit="day" maxLength={2} minLength={2} value={user?.dateOfBirth.substring(8)} />
+                                                        <DateInput id="testDateInput" name="dobYear" label="Year" unit="year" maxLength={4} minLength={4} value={user?.dateOfBirth.substring(0, 4)} />
                                                     </DateInputGroup>
                                                 </Grid>
                                             </Grid>
@@ -80,15 +136,15 @@ export default function TaxProfile() {
                                             <Grid row gap={2}>
                                                 <Grid tablet={{ col: 8 }}>
                                                     <Label htmlFor="mailing-address-1">Street address</Label>
-                                                    <TextInput id="mailing-address-1" name="mailing-address-1" type="text" required />
+                                                    <TextInput id="mailing-address-1" name="mailing-address-1" type="text" value={user?.streetAddress} required />
                                                 </Grid>
                                                 <Grid tablet={{ col: 4 }}>
                                                     <Label htmlFor="city">City</Label>
-                                                    <TextInput id="city" name="city" type="text" required />
+                                                    <TextInput id="city" name="city" type="text" value={user?.city} required />
                                                 </Grid>
                                                 <Grid tablet={{ col: 6 }}>
                                                     <Label htmlFor="state">State</Label>
-                                                    <Select id="state" name="state" required>
+                                                    <Select id="state" name="state" value={user?.state} required>
                                                         <option>- Select -</option>
                                                         <option value="AL">Alabama</option>
                                                         <option value="AK">Alaska</option>
@@ -145,7 +201,7 @@ export default function TaxProfile() {
 
                                                 <Grid tablet={{ col: 6 }}>
                                                     <Label htmlFor="zip">ZIP Code</Label>
-                                                    <TextInput id="zip" name="zip" type="text" inputSize="medium" pattern="[\d]{5}(-[\d]{4})?" required />
+                                                    <TextInput id="zip" name="zip" type="text" inputSize="medium" pattern="[\d]{5}(-[\d]{4})?" value={user?.zipCode} required />
                                                 </Grid>
                                             </Grid>
                                         </Fieldset>
@@ -166,7 +222,7 @@ export default function TaxProfile() {
                     </GridContainer>
                 </Fieldset>
 
-            </div>
+            </div >
         </>
     )
 }

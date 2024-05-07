@@ -6,13 +6,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.skillstorm.project2.models.Account;
+import com.skillstorm.project2.dtos.AccountDto;
 import com.skillstorm.project2.models.TaxResults;
-import com.skillstorm.project2.models.Account.FilingStatus;
-import com.skillstorm.project2.models.Account.Role;
 import com.skillstorm.project2.services.AccountService;
 
 @RestController
@@ -30,7 +27,7 @@ public class CalculationController {
         TaxResults taxResults = new TaxResults();
 
         // Get the user's account information 
-        Account acct = acctService.findAccountById(id);
+        AccountDto acct = acctService.findAccountById(id);
         double w2Income = acct.getFormW2().getWages();
         double w2Withheld = acct.getFormW2().getTaxWithheld();
         double f1099Income = acct.getForm1099().getWages();

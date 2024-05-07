@@ -1,18 +1,18 @@
 
 export interface User {
     id: number,
-    role: Role,
+    role: RoleEnum,
     email: string,
     password: string,
     firstName: string,
     lastName: string,
-    filingStatus: FilingStatus,
-    socialSecurity: number,
+    filingStatus: FilingStatusEnum,
+    socialSecurity: string,
     streetAddress: string,
     city: string,
     state: string,
-    zipCode: number,
-    dateOfBirth: Date,
+    zipCode: string,
+    dateOfBirth: string,
     formW2: {
         id: number,
         wages: number,
@@ -26,12 +26,12 @@ export interface User {
     }
 }
 
-export enum Role {
+export enum RoleEnum {
     USER = "ROLE_USER",
     ADMIN = "ROLE_ADMIN"
 }
 
-export enum FilingStatus {
+export enum FilingStatusEnum {
     SINGLE = "SINGLE", 
     MARRIED = "MARRIED"
 }

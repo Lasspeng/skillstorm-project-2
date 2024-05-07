@@ -1,14 +1,59 @@
 import { StepIndicator, StepIndicatorStep, Radio, Fieldset } from '@trussworks/react-uswds';
 import '@trussworks/react-uswds/lib/uswds.css'
 import '@trussworks/react-uswds/lib/index.css'
+import { useNavigate } from 'react-router-dom';
+import { User } from '../../Types';
 import { SetStateAction, useState } from 'react';
+import { FilingStatusEnum } from '../../Types';
 
-export default function FilingStatus() {
+interface Props {
+    user: User | undefined,
+    setUser: React.Dispatch<React.SetStateAction<User | undefined>>,
+    jwt: string
+}
+
+export default function FilingStatus({ user, setUser, jwt }: Props) {
+
     const [filingStatus, setFilingStatus] = useState('Single');
+    const navigate = useNavigate();
+
 
     const handleFilingStatusChange = (event: { target: { value: SetStateAction<string>; }; }) => {
         setFilingStatus(event.target.value);
     };
+
+    const handleSubmit = (event: any) => {
+        event.preventDefault();
+
+        let fStatus = {
+            filingStatus: ''
+        };
+
+        if (filingStatus === 'Single') {
+            fStatus.filingStatus = FilingStatusEnum.SINGLE;
+        } else {
+            fStatus.filingStatus = FilingStatusEnum.MARRIED;
+        }
+
+        const updatedUser = Object.assign({}, user, fStatus);
+
+        fetch('http://localhost:8080/users', {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${jwt}`
+            },
+            body: JSON.stringify(updatedUser)
+        })
+        .then(response => response.json())
+        .then(userData => {
+            setUser(userData);
+            navigate('/w2form');
+        })
+        .catch((error) => console.error(error));
+    }
+
+
     return (
         <>
             <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', marginBottom: '200px' }}>
@@ -41,13 +86,12 @@ export default function FilingStatus() {
                                     <a href="/taxprofile" className="usa-button usa-button--outline">Back</a>
                                 </li>
                                 <li className="usa-button-group__item">
-                                    <a href="/w2form" className="usa-button">Continue</a>
+                                    <a href="/w2form" className="usa-button" onClick={handleSubmit} >Continue</a>
                                 </li>
                             </ul>
                         </div>
                     </Fieldset>
                 </div>
-
 
             </div>
         </>
