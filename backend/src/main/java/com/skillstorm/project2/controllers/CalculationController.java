@@ -6,14 +6,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.skillstorm.project2.dtos.AccountDto;
-import com.skillstorm.project2.models.Account;
 import com.skillstorm.project2.models.TaxResults;
-import com.skillstorm.project2.models.Account.FilingStatus;
-import com.skillstorm.project2.models.Account.Role;
 import com.skillstorm.project2.services.AccountService;
 
 @RestController

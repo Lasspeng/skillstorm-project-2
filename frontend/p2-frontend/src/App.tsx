@@ -46,16 +46,16 @@ export default function App() {
         </nav>
           <div className='content'>
           <Routes>
-              <Route path='/' element={<Landing />} />
+              <Route path='/' element={<Landing user={user} setUser={setUser} jwt={jwt} />} />
               <Route path='/profile' element={<Profile user={user} setUser={setUser} jwt={jwt} />} />
               <Route path='/tax-return' element={<TaxReturn />} />
-              <Route path='/signin' element={<SignIn setJwt={setJwt} />} />
+              <Route path='/signin' element={<SignIn setUser={setUser} setJwt={setJwt} />} />
               <Route path='/taxprofile' element={<TaxProfile />} />
               <Route path='/w2form' element={<W2Form />} />
               <Route path='/form1099' element={<Form1099 user={user} setUser={setUser} jwt={jwt} />} />
               <Route path='/filingstatus' element={<FilingStatus />} />
               <Route path='/review' element={<Review />} />
-              <Route path='/signup' element={<SignUp user={user} setUser={setUser} />} />
+              <Route path='/signup' element={<SignUp />} />
           </Routes>
           </div>
       </BrowserRouter>

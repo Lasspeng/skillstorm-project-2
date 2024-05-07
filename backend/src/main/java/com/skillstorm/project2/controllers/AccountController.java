@@ -45,7 +45,7 @@ public class AccountController {
         return new ResponseEntity<>(acct, HttpStatus.OK);
     }
 
-    @GetMapping("/email")
+    @PostMapping("/email")
     public ResponseEntity<AccountDto> findAccountByEmail(@RequestBody Account acct) {
 
         AccountDto foundAcct = acctService.findByCredentials(acct);

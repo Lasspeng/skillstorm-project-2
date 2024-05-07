@@ -62,7 +62,7 @@ public class Account implements UserDetails {
     private FilingStatus filingStatus;
 
     @Column
-    private Integer socialSecurity;
+    private String socialSecurity;
 
     @Column
     private String streetAddress;
@@ -74,7 +74,7 @@ public class Account implements UserDetails {
     private String state;
 
     @Column
-    private Integer zipCode;
+    private String zipCode;
     
     @Column
     @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd")
@@ -92,7 +92,7 @@ public class Account implements UserDetails {
     public Account() {
     }
 
-    public Account(Integer id, Role role, String email, String password, String firstName, String lastName, FilingStatus filingStatus, Integer socialSecurity, String streetAddress, String city, String state, Integer zipCode, LocalDate dateOfBirth, FormW2 formW2, Form1099 form1099) {
+    public Account(Integer id, Role role, String email, String password, String firstName, String lastName, FilingStatus filingStatus, String socialSecurity, String streetAddress, String city, String state, String zipCode, LocalDate dateOfBirth, FormW2 formW2, Form1099 form1099) {
         this.id = id;
         this.role = role;
         this.email = email;
@@ -166,11 +166,11 @@ public class Account implements UserDetails {
         this.filingStatus = filingStatus;
     }
 
-    public Integer getSocialSecurity() {
+    public String getSocialSecurity() {
         return this.socialSecurity;
     }
 
-    public void setSocialSecurity(Integer socialSecurity) {
+    public void setSocialSecurity(String socialSecurity) {
         this.socialSecurity = socialSecurity;
     }
 
@@ -198,11 +198,11 @@ public class Account implements UserDetails {
         this.state = state;
     }
 
-    public Integer getZipCode() {
+    public String getZipCode() {
         return this.zipCode;
     }
 
-    public void setZipCode(Integer zipCode) {
+    public void setZipCode(String zipCode) {
         this.zipCode = zipCode;
     }
 
@@ -265,7 +265,7 @@ public class Account implements UserDetails {
         return this;
     }
 
-    public Account socialSecurity(Integer socialSecurity) {
+    public Account socialSecurity(String socialSecurity) {
         setSocialSecurity(socialSecurity);
         return this;
     }
@@ -285,7 +285,7 @@ public class Account implements UserDetails {
         return this;
     }
 
-    public Account zipCode(Integer zipCode) {
+    public Account zipCode(String zipCode) {
         setZipCode(zipCode);
         return this;
     }
@@ -341,8 +341,6 @@ public class Account implements UserDetails {
             ", form1099='" + getForm1099() + "'" +
             "}";
     }
-
-    
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

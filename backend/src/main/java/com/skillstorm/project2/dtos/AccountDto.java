@@ -17,11 +17,11 @@ public class AccountDto {
     private String firstName;
     private String lastName;
     private FilingStatus filingStatus;
-    private Integer socialSecurity;
+    private String socialSecurity;
     private String streetAddress;
     private String city;
     private String state;
-    private Integer zipCode;
+    private String zipCode;
     private LocalDate dateOfBirth;
     private FormW2 formW2;
     private Form1099 form1099;
@@ -30,7 +30,7 @@ public class AccountDto {
     public AccountDto() {
     }
 
-    public AccountDto(Integer id, Role role, String email, String password, String firstName, String lastName, FilingStatus filingStatus, Integer socialSecurity, String streetAddress, String city, String state, Integer zipCode, LocalDate dateOfBirth, FormW2 formW2, Form1099 form1099) {
+    public AccountDto(Integer id, Role role, String email, String password, String firstName, String lastName, FilingStatus filingStatus, String socialSecurity, String streetAddress, String city, String state, String zipCode, LocalDate dateOfBirth, FormW2 formW2, Form1099 form1099) {
         this.id = id;
         this.role = role;
         this.email = email;
@@ -104,11 +104,11 @@ public class AccountDto {
         this.filingStatus = filingStatus;
     }
 
-    public Integer getSocialSecurity() {
+    public String getSocialSecurity() {
         return this.socialSecurity;
     }
 
-    public void setSocialSecurity(Integer socialSecurity) {
+    public void setSocialSecurity(String socialSecurity) {
         this.socialSecurity = socialSecurity;
     }
 
@@ -136,11 +136,11 @@ public class AccountDto {
         this.state = state;
     }
 
-    public Integer getZipCode() {
+    public String getZipCode() {
         return this.zipCode;
     }
 
-    public void setZipCode(Integer zipCode) {
+    public void setZipCode(String zipCode) {
         this.zipCode = zipCode;
     }
 
@@ -203,7 +203,7 @@ public class AccountDto {
         return this;
     }
 
-    public AccountDto socialSecurity(Integer socialSecurity) {
+    public AccountDto socialSecurity(String socialSecurity) {
         setSocialSecurity(socialSecurity);
         return this;
     }
@@ -223,7 +223,7 @@ public class AccountDto {
         return this;
     }
 
-    public AccountDto zipCode(Integer zipCode) {
+    public AccountDto zipCode(String zipCode) {
         setZipCode(zipCode);
         return this;
     }
@@ -279,6 +279,5 @@ public class AccountDto {
             ", form1099='" + getForm1099() + "'" +
             "}";
     }
-
 
 }

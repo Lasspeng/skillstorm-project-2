@@ -5,12 +5,14 @@ import '@trussworks/react-uswds/lib/uswds.css'
 import '@trussworks/react-uswds/lib/index.css'
 import './SignIn.css';
 import { useNavigate } from 'react-router-dom';
+import { User } from '../Types';
 
 interface Props {
+  setUser: React.Dispatch<React.SetStateAction<User | undefined>>
   setJwt: React.Dispatch<React.SetStateAction<string>>;
 }
 
-export default function SignIn({ setJwt }: Props): React.ReactElement {
+export default function SignIn({ setUser, setJwt }: Props): React.ReactElement {
 
   const [showPassword, setShowPassword] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
@@ -33,6 +35,13 @@ export default function SignIn({ setJwt }: Props): React.ReactElement {
     .then(response => response.json())
     .then(jwtData => {
       setJwt(jwtData.jwt);
+      setUser(() => {
+        return {
+          email: authInfo.email,
+          password: authInfo.password
+        } as User
+      }
+      );
       navigate("/");
     })
     .catch(() => {

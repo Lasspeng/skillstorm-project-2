@@ -2,8 +2,33 @@ import { Grid, GridContainer } from '@trussworks/react-uswds';
 import '@trussworks/react-uswds/lib/uswds.css'
 import '@trussworks/react-uswds/lib/index.css'
 import './Landing.css';
+import { User } from '../Types';
+import { useEffect } from 'react';
 
-export default function Landing() {
+interface Props {
+    user: User | undefined,
+    setUser: React.Dispatch<React.SetStateAction<User | undefined>>
+    jwt: string
+}
+
+export default function Landing({ user, setUser, jwt }: Props) {
+
+    useEffect(() => {
+
+        fetch('http://localhost:8080/users/email', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${jwt}`
+            },
+            body: JSON.stringify(user)
+        })
+        .then(response => response.json())
+        .then(userData => setUser(userData))
+        .catch((error) => console.error(error));
+    }, []);
+
+    
     return (
         <>
             <main id="main-content">

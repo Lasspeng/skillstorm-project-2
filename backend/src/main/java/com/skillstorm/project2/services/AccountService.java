@@ -119,9 +119,10 @@ public class AccountService {
         } 
 
 
-        if (acct.getPassword() != foundAcct.get().getPassword()) {
-            acct.setPassword(encoder.encode(acct.getPassword()));
-        }
+        // if (acct.getPassword() != foundAcct.get().getPassword()) {
+        //     acct.setPassword(encoder.encode(acct.getPassword()));
+        // }
+        acct.setPassword(foundAcct.get().getPassword());
         return mapper.toDto(acctRepo.save(acct));
     }
 

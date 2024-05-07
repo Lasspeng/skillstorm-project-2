@@ -1,7 +1,7 @@
 import { Grid, Form, Fieldset, Label, TextInput, Select, GridContainer, TextInputMask, FormGroup, DateInput, DateInputGroup, Button } from '@trussworks/react-uswds';
 import '@trussworks/react-uswds/lib/uswds.css'
 import '@trussworks/react-uswds/lib/index.css'
-import { FormEvent } from 'react';
+import { FormEvent, useEffect } from 'react';
 import { User } from '../Types';
 import { toast } from 'react-toastify';
 
@@ -18,8 +18,23 @@ export default function Profile({ user, setUser, jwt }: Props) {
         event.preventDefault();
         const data = new FormData(event.target);
 
+        // Add a 0 to the month and day of DOB if they're below 10
+        let month = data.get("dobMonth") as string;
+        if (month !== null && month.length === 1) {
+            month = `0${month}`;
+        }
+        let day = data.get("dobDay") as string;
+        if (day !== null && month.length === 1) {
+            day = `0${day}`;
+        }
+
+        // Convert the Social Security Number data type
+        // let ssn: string | number = data.get("ssn") as string;
+        // ssn.replace(/\s/g, '');
+        // ssn = Number(ssn);
+
         // Convert dob data into a Java and Postgresql compatible format
-        const dateOfBirth = `${data.get("dobYear")}-${data.get("dobMonth")}-${data.get("dobDay")}` 
+        const dateOfBirth = `${data.get("dobYear")}-${month}-${day}` 
 
         const updatedAccountInfo = {
             firstName: data.get("first-name"),
@@ -29,12 +44,18 @@ export default function Profile({ user, setUser, jwt }: Props) {
             streetAddress: data.get("mailing-address-1"),
             city: data.get("city"),
             state: data.get("state"),
-            zipCode: data.get("zip")
+            zipCode: data.get("zip") as unknown as number
         }
 
-        setUser((prevState) => { 
-            return {updatedAccountInfo, ...prevState} as User;
-        });
+        // setUser((prevState) => { 
+        //     return {updatedAccountInfo, ...prevState} as User;
+        // });
+
+        // const updatedUser = {...user, ...updatedAccountInfo} as User;
+        // console.log(updatedUser);
+
+        const updatedUser = Object.assign({}, user, updatedAccountInfo);
+        console.log(updatedUser);
 
         fetch('http://localhost:8080/users', {
             method: 'PUT',
@@ -42,7 +63,7 @@ export default function Profile({ user, setUser, jwt }: Props) {
                 'Content-Type': 'application/json',
                 'Authorization': `Bearer ${jwt}`
             },
-            body: JSON.stringify(updatedAccountInfo)
+            body: JSON.stringify(updatedUser)
         })
         .then(data => data.json())
         .then(userData => {
@@ -52,6 +73,9 @@ export default function Profile({ user, setUser, jwt }: Props) {
         .catch(() => toast("An error has occured. Try again"));
     };
 
+    useEffect (() => {
+        console.log(user);
+    }, [user]);
 
     return (
         <>
