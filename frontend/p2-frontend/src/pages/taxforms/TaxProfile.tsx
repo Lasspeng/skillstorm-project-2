@@ -29,64 +29,65 @@ export default function TaxProfile() {
                 <Fieldset>
                     <GridContainer className="usa-section">
                         <Grid row={true} className="flex-justify-center">
-                            <Grid col={12} tablet={{ col: 8 }} desktop={{ col: 10 }} className="centered-grid">
+                            <Grid col={12} tablet={{ col: 12 }} desktop={{ col: 10 }} className="centered-grid">
                                 <div className="bg-white padding-y-3 padding-x-5 border border-base-lighter rounded">
                                     <h1 className="margin-bottom-2 text-center">Update User Profile</h1>
                                     <Form onSubmit={handleSubmit}>
                                         <Fieldset>
-                                            <div className="grid-row grid-gap">
+                                            <Grid row gap={2}>
+                                                <Grid tablet={{ col: 6 }}>
+                                                    <Label htmlFor="first-name">First Name</Label>
+                                                    <TextInput id="first-name" name="first-name" type="text" />
+                                                </Grid>
+                                                <Grid tablet={{ col: 6 }}>
+                                                    <Label htmlFor="last-name">Last Name</Label>
+                                                    <TextInput id="last-name" name="last-name" type="text" />
+                                                </Grid>
+                                                <Grid tablet={{ col: 8 }}>
+                                                    <Label htmlFor="ssn" className="margin-top-2">Social Security Number</Label>
+                                                    <TextInputMask id="ssn" name="ssn" type="text" mask="___ __ ____" pattern="^(?!(000|666|9))\d{3} (?!00)\d{2} (?!0000)\d{4}$" />
+                                                </Grid>
+                                            </Grid>
 
-                                                <Label htmlFor="first-name">First Name</Label>
-                                                <TextInput id="first-name" name="first-name" type="text" />
-                                                <Label htmlFor="last-name">Last Name</Label>
-                                                <TextInput id="last-name" name="last-name" type="text" />
+                                            <Grid row >
+                                                <Grid tablet={{ col: 6 }}>
+                                                    <Label htmlFor="dob" className="margin-top-1 bold-label">Date of Birth</Label>
+                                                    <DateInputGroup>
+                                                        <FormGroup className="usa-form-group--month usa-form-group--select">
+                                                            <Label htmlFor="input-select">Month</Label>
+                                                            <Select id="testDateInput" name="testDateInput">
+                                                                <option>- Select -</option>
+                                                                <option value="1">01 - January</option>
+                                                                <option value="2">02 - February</option>
+                                                                <option value="3">03 - March</option>
+                                                                <option value="4">04 - April</option>
+                                                                <option value="5">05 - May</option>
+                                                                <option value="6">06 - June</option>
+                                                                <option value="7">07 - July</option>
+                                                                <option value="8">08 - August</option>
+                                                                <option value="9">09 - September</option>
+                                                                <option value="10">10 - October</option>
+                                                                <option value="11">11 - November</option>
+                                                                <option value="12">12 - December</option>
+                                                            </Select>
+                                                        </FormGroup>
+                                                        <DateInput id="testDateInput" name="testName" label="Day" unit="day" maxLength={2} minLength={2} />
+                                                        <DateInput id="testDateInput" name="testName" label="Year" unit="year" maxLength={4} minLength={4} />
+                                                    </DateInputGroup>
+                                                </Grid>
+                                            </Grid>
 
-                                            </div>
-
-                                            <Label htmlFor="dob" className="margin-top-2">Date of Birth</Label>
-                                            <DateInputGroup>
-                                                <FormGroup className="usa-form-group--month usa-form-group--select">
-                                                    <Label htmlFor="input-select">Month</Label>
-                                                    <Select id="testDateInput" name="testDateInput">
-                                                        <option>- Select -</option>
-                                                        <option value="1">01 - January</option>
-                                                        <option value="2">02 - February</option>
-                                                        <option value="3">03 - March</option>
-                                                        <option value="4">04 - April</option>
-                                                        <option value="5">05 - May</option>
-                                                        <option value="6">06 - June</option>
-                                                        <option value="7">07 - July</option>
-                                                        <option value="8">08 - August</option>
-                                                        <option value="9">09 - September</option>
-                                                        <option value="10">10 - October</option>
-                                                        <option value="11">11 - November</option>
-                                                        <option value="12">12 - December</option>
-                                                    </Select>
-                                                </FormGroup>
-                                                <DateInput id="testDateInput" name="testName" label="Day" unit="day" maxLength={2} minLength={2} />
-                                                <DateInput id="testDateInput" name="testName" label="Year" unit="year" maxLength={4} minLength={4} />
-                                            </DateInputGroup>
-
-                                            <Label htmlFor="ssn" className="margin-top-2">Social Security Number</Label>
-                                            <TextInputMask id="ssn" name="ssn" type="text" mask="___ __ ____" pattern="^(?!(000|666|9))\d{3} (?!00)\d{2} (?!0000)\d{4}$" />
-
-                                            <Label htmlFor="mailing-address-1">Street address</Label>
-                                            <TextInput id="mailing-address-1" name="mailing-address-1" type="text" />
-
-                                            <Label htmlFor="mailing-address-2">Street address line 2</Label>
-                                            <TextInput id="mailing-address-2" name="mailing-address-2" type="text" />
-
-                                            <div className="grid-row grid-gap">
-                                                <div className="tablet:grid-col-6">
-                                                    <Label htmlFor="city">
-                                                        City
-                                                    </Label>
+                                            <Grid row gap={2}>
+                                                <Grid tablet={{ col: 8 }}>
+                                                    <Label htmlFor="mailing-address-1">Street address</Label>
+                                                    <TextInput id="mailing-address-1" name="mailing-address-1" type="text" />
+                                                </Grid>
+                                                <Grid tablet={{ col: 4 }}>
+                                                    <Label htmlFor="city">City</Label>
                                                     <TextInput id="city" name="city" type="text" required />
-                                                </div>
-                                                <div className="tablet:grid-col-6">
-                                                    <Label htmlFor="state">
-                                                        State
-                                                    </Label>
+                                                </Grid>
+                                                <Grid tablet={{ col: 6 }}>
+                                                    <Label htmlFor="state">State</Label>
                                                     <Select id="state" name="state" required>
                                                         <option>- Select -</option>
                                                         <option value="AL">Alabama</option>
@@ -140,10 +141,13 @@ export default function TaxProfile() {
                                                         <option value="WI">Wisconsin</option>
                                                         <option value="WY">Wyoming</option>
                                                     </Select>
-                                                </div>
-                                            </div>
-                                            <Label htmlFor="zip">ZIP Code</Label>
-                                            <TextInput id="zip" name="zip" type="text" inputSize="medium" pattern="[\d]{5}(-[\d]{4})?" />
+                                                </Grid>
+                                                
+                                                <Grid tablet={{ col: 6 }}>
+                                                    <Label htmlFor="zip">ZIP Code</Label>
+                                                    <TextInput id="zip" name="zip" type="text" inputSize="medium" pattern="[\d]{5}(-[\d]{4})?" />
+                                                </Grid>
+                                            </Grid>
                                         </Fieldset>
                                     </Form>
                                 </div>
@@ -151,15 +155,15 @@ export default function TaxProfile() {
                         </Grid>
                     </GridContainer>
                 </Fieldset>
-                <div style={{ marginBottom: '20px'}}>
-                <ul className="usa-button-group">
-                    <li className="usa-button-group__item">
-                        <a href="/" className="usa-button usa-button--outline">Back</a>
-                    </li>
-                    <li className="usa-button-group__item">
-                        <a href="/filingstatus" className="usa-button">Continue</a>
-                    </li>
-                </ul>
+                <div style={{ marginBottom: '20px' }}>
+                    <ul className="usa-button-group">
+                        <li className="usa-button-group__item">
+                            <a href="/" className="usa-button usa-button--outline">Back</a>
+                        </li>
+                        <li className="usa-button-group__item">
+                            <a href="/filingstatus" className="usa-button">Continue</a>
+                        </li>
+                    </ul>
                 </div>
             </div>
         </>

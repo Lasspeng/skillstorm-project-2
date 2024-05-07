@@ -27,8 +27,16 @@
   background-color: rgb(72, 72, 73);
 }
 
-.project-title {
-  color: white;
-  font-size: 20px; 
+.footer {
+  background-color: #adadad;
+  padding: 20px;
+  text-align: center;
+  border-top: 1px solid #dee2e6;
+  margin-top: 20px;
 }
 
+.footer p {
+  margin: 0;
+  font-size: 14px;
+  color: #333333;
+}
