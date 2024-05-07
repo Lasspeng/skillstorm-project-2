@@ -72,7 +72,9 @@ export default function App() {
           </Routes>
           </div>
       </BrowserRouter>
-      
+      <footer className="footer">
+        <p>© 2024 Tax Pro. All rights reserved.</p>
+      </footer>
     </>
   )
 }

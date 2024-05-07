@@ -1,7 +1,6 @@
 import { Grid, GridContainer } from '@trussworks/react-uswds';
 import '@trussworks/react-uswds/lib/uswds.css'
 import '@trussworks/react-uswds/lib/index.css'
-import './Landing.css';
 import { User } from '../Types';
 import { useEffect } from 'react';
 import './styling/Landing.css';

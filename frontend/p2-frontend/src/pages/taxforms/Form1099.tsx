@@ -84,7 +84,7 @@ export default function Form1099({ user, setUser, jwt }: Props) {
                 <Fieldset>
 
                     <Grid row={true} className="flex-justify-center">
-                        <Grid col={12} tablet={{ col: 8 }} desktop={{ col: 10 }} className="centered-grid">
+                        <Grid col={12} tablet={{ col: 10 }} desktop={{ col: 10 }} className="centered-grid">
                             <div className="bg-white padding-y-3 padding-x-5 border border-base-lighter rounded">
                                 <h1 className="margin-bottom-2 text-center">1099 Form Info</h1>
                                 <Form onSubmit={handleSubmit}>
@@ -98,21 +98,22 @@ export default function Form1099({ user, setUser, jwt }: Props) {
 
                                         </div>
                                     </Fieldset>
+                                    <div style={{ marginTop: '20px', display: 'flex', justifyContent: 'center' }}>
+                                        <ul className="usa-button-group">
+                                            <li className="usa-button-group__item">
+                                                <a href="/w2form" className="usa-button usa-button--outline">Back</a>
+                                            </li>
+                                            <li className="usa-button-group__item">
+                                            <button type="submit" className="usa-button">Continue</button>
+                                            </li>
+                                        </ul>
+                                    </div>
                                 </Form>
                             </div>
                         </Grid>
                     </Grid>
                 </Fieldset>
-                <div style={{ marginTop: '20px' }}>
-                    <ul className="usa-button-group">
-                        <li className="usa-button-group__item">
-                            <a href="/w2form" className="usa-button usa-button--outline">Back</a>
-                        </li>
-                        <li className="usa-button-group__item">
-                            <a href="/review" className="usa-button">Continue</a>
-                        </li>
-                    </ul>
-                </div>
+
             </div>
         </>
     )

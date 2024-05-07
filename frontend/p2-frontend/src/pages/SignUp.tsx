@@ -19,36 +19,36 @@ export default function SignUp(): React.ReactElement {
 
 
   const handleSubmit = (event: any) => {
-    
-      event.preventDefault();
-      const data = new FormData(event.target);
-      const email = data.get("email");
-      const password = data.get("password");
-      const confirmPassword = data.get("password-confirm");
 
-      if (password !== confirmPassword) {
-        setPasswordsMatch(false); // Update state to indicate passwords don't match
-        return;
-      }
-      const account = {
-        email: email,
-        password: password
-      };
+    event.preventDefault();
+    const data = new FormData(event.target);
+    const email = data.get("email");
+    const password = data.get("password");
+    const confirmPassword = data.get("password-confirm");
 
-      fetch('http://localhost:8080/users/register', {
-        method: 'POST',
-        headers: {'Content-Type': 'application/json'},
-        body: JSON.stringify(account)
-      })
+    if (password !== confirmPassword) {
+      setPasswordsMatch(false); // Update state to indicate passwords don't match
+      return;
+    }
+    const account = {
+      email: email,
+      password: password
+    };
+
+    fetch('http://localhost:8080/users/register', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(account)
+    })
       .then(data => data.json())
       .then((userData) => navigate("/signin"))
       .catch(() => alert("A user with these credentials already exists"))
-    };
+  };
   return (
     <>
       <div className='centered-grid'>
         <main id="main-content">
-          <div className="bg-base-lightest">
+          <div>
             <GridContainer className="usa-section">
               <Grid row className="margin-x-neg-205 flex-justify-center">
                 <Grid col={12} mobileLg={{
@@ -60,7 +60,7 @@ export default function SignUp(): React.ReactElement {
                 }} className="padding-x-205 margin-bottom-4">
 
                   <div className="bg-white padding-y-3 padding-x-5 border border-base-lighter">
-                    <h1 className="margin-bottom-0">Create account</h1>
+                    <h1 className="margin-bottom-0">Create an account for Tax Pro!</h1>
                     <Form onSubmit={handleSubmit}>
                       <Fieldset legend="Get started with an account.">
                         <p>
@@ -124,7 +124,7 @@ export default function SignUp(): React.ReactElement {
                 }} className="padding-x-205">
                   <div className="border-top border-base-lighter padding-top-4 desktop:border-0 desktop:padding-top-0">
                     <h2 className="display-none desktop:display-block">
-                      A tagline that explains the benefit of creating an account.
+                      Simplify Tax Estimation with an Account
                     </h2>
 
                     <div className="usa-prose">

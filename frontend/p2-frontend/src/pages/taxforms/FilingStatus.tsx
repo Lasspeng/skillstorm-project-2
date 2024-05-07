@@ -3,6 +3,8 @@ import '@trussworks/react-uswds/lib/uswds.css'
 import '@trussworks/react-uswds/lib/index.css'
 import { useNavigate } from 'react-router-dom';
 import { User } from '../../Types';
+import { SetStateAction, useState } from 'react';
+import { FilingStatusEnum } from '../../Types';
 
 interface Props {
     user: User | undefined,
@@ -12,13 +14,28 @@ interface Props {
 
 export default function FilingStatus({ user, setUser, jwt }: Props) {
 
+    const [filingStatus, setFilingStatus] = useState('Single');
     const navigate = useNavigate();
+
+
+    const handleFilingStatusChange = (event: { target: { value: SetStateAction<string>; }; }) => {
+        setFilingStatus(event.target.value);
+    };
 
     const handleSubmit = (event: any) => {
         event.preventDefault();
 
-        // TODO: Grab radio button and update User
-        const updatedUser = null;
+        let fStatus = {
+            filingStatus: ''
+        };
+
+        if (filingStatus === 'Single') {
+            fStatus.filingStatus = FilingStatusEnum.SINGLE;
+        } else {
+            fStatus.filingStatus = FilingStatusEnum.MARRIED;
+        }
+
+        const updatedUser = Object.assign({}, user, fStatus);
 
         fetch('http://localhost:8080/users', {
             method: 'PUT',
@@ -39,7 +56,7 @@ export default function FilingStatus({ user, setUser, jwt }: Props) {
 
     return (
         <>
-            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', marginBottom: '200px' }}>
                 <StepIndicator
                     counters="default"
                     headingLevel="h4"
@@ -59,22 +76,23 @@ export default function FilingStatus({ user, setUser, jwt }: Props) {
                     <StepIndicatorStep label="Review and submit" />
                 </StepIndicator>
                 <div className="bg-white padding-y-3 padding-x-5 border border-base-lighter rounded">
-                <Fieldset legend="Filing Status" legendStyle="large" >
-                    <Radio id="single" name="filing-status" defaultChecked label="Single" value="single" />
-                    <Radio id="jointly" name="filing-status" label="Jointly" value="jointly" />
-                </Fieldset>
+                    <Fieldset legend="Filing Status" legendStyle="large" >
+                        <Radio id="single" name="filing-status" defaultChecked label="Single" value="Single" onChange={handleFilingStatusChange} />
+                        <Radio id="jointly" name="filing-status" label="Jointly" value="Jointly" onChange={handleFilingStatusChange} />
+
+                        <div style={{ marginTop: '20px' }}>
+                            <ul className="usa-button-group">
+                                <li className="usa-button-group__item">
+                                    <a href="/taxprofile" className="usa-button usa-button--outline">Back</a>
+                                </li>
+                                <li className="usa-button-group__item">
+                                    <a href="/w2form" className="usa-button" onClick={handleSubmit} >Continue</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </Fieldset>
                 </div>
 
-            <div style={{ marginTop: '20px'}}>
-                <ul className="usa-button-group">
-                    <li className="usa-button-group__item">
-                        <a href="/taxprofile" className="usa-button usa-button--outline">Back</a>
-                    </li>
-                    <li className="usa-button-group__item">
-                        <a href="/w2form" className="usa-button" onClick={handleSubmit}>Continue</a>
-                    </li>
-                </ul>
-            </div>
             </div>
         </>
     )

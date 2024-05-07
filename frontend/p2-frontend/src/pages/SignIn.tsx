@@ -52,7 +52,7 @@ export default function SignIn({ setUser, setJwt }: Props): React.ReactElement {
 
   return <>
     <main id="main-content">
-      <div className="bg-base-lightest">
+      <div>
         <GridContainer className="usa-section">
           <Grid row={true} className="flex-justify-center">
             <Grid col={12} tablet={{
@@ -61,7 +61,7 @@ export default function SignIn({ setUser, setJwt }: Props): React.ReactElement {
               col: 6
             }} className="centered-grid">
               <div className="bg-white padding-y-3 padding-x-5 border border-base-lighter">
-                <h1 className="margin-bottom-0">Sign in</h1>
+                <h1 className="margin-bottom-0">Sign in to Tax Pro!</h1>
                 <Form onSubmit={handleSubmit}>
                   <Fieldset>
                     <Label htmlFor="email">Email address</Label>
