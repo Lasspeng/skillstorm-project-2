@@ -4,7 +4,7 @@ import '@trussworks/react-uswds/lib/index.css'
 import { SetStateAction, useState } from 'react';
 
 export default function FilingStatus() {
-    const [filingStatus, setFilingStatus] = useState('');
+    const [filingStatus, setFilingStatus] = useState('Single');
 
     const handleFilingStatusChange = (event: { target: { value: SetStateAction<string>; }; }) => {
         setFilingStatus(event.target.value);
@@ -32,7 +32,7 @@ export default function FilingStatus() {
                 </StepIndicator>
                 <div className="bg-white padding-y-3 padding-x-5 border border-base-lighter rounded">
                     <Fieldset legend="Filing Status" legendStyle="large" >
-                        <Radio id="single" name="filing-status" defaultChecked label="Single" value="single" onChange={handleFilingStatusChange} />
+                        <Radio id="single" name="filing-status" defaultChecked label="Single" value="Single" onChange={handleFilingStatusChange} />
                         <Radio id="jointly" name="filing-status" label="Jointly" value="Jointly" onChange={handleFilingStatusChange} />
 
                         <div style={{ marginTop: '20px' }}>
