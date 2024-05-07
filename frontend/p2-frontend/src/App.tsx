@@ -25,21 +25,6 @@ export default function App() {
   const handleLogout = () => {
     setJwt('');
   };
-  
-const styles = {
-  footer: {
-      backgroundColor: "#f8f9fa",
-      padding: "20px",
-      textAlign: "center",
-      borderTop: "1px solid #dee2e6",
-      marginTop: "20px",
-  },
-  text: {
-      margin: 0,
-      fontSize: "14px",
-      color: "#6c757d",
-  },
-};
 
   return (
     <>

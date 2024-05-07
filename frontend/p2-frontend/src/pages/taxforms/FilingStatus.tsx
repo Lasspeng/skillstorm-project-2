@@ -31,7 +31,7 @@ export default function FilingStatus() {
                 </Fieldset>
                 </div>
 
-            <div style={{ marginTop: '20px'}}>
+            <div style={{ marginTop: '20px', marginBottom: '200px'}}>
                 <ul className="usa-button-group">
                     <li className="usa-button-group__item">
                         <a href="/taxprofile" className="usa-button usa-button--outline">Back</a>

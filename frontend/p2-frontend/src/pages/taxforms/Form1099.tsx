@@ -58,7 +58,7 @@ export default function Form1099() {
                         </Grid>
                     </Grid>
                 </Fieldset>
-                <div style={{ marginTop: '20px' }}>
+                <div style={{ marginTop: '20px', marginBottom: '100px' }}>
                     <ul className="usa-button-group">
                         <li className="usa-button-group__item">
                             <a href="/w2form" className="usa-button usa-button--outline">Back</a>
