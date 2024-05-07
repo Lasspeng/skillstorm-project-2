@@ -3,6 +3,7 @@ import '@trussworks/react-uswds/lib/uswds.css'
 import '@trussworks/react-uswds/lib/index.css'
 import { useEffect, useState } from 'react';
 import { User } from '../../Types';
+import { useNavigate } from 'react-router-dom';
 
 interface Props {
     user: User | undefined,
@@ -11,6 +12,9 @@ interface Props {
 }
 
 export default function Review({ user, setUser, jwt }: Props) {
+
+    const navigate = useNavigate();
+
     const [userData, setUserData] = useState({
         name: '',
         email: '',
@@ -23,33 +27,6 @@ export default function Review({ user, setUser, jwt }: Props) {
         income1099: '',
         deductions1099: ''
     });
-    
-    // useEffect(() => {
-    //     //fetch will default to a GET request
-    //     fetch('http://localhost:8080/users', {
-    //         method: 'GET',
-    //         headers: {
-    //             'Content-Type': 'application/json',
-    //             'Authorization': `Bearer ${jwt}`
-    //         }
-    //     })
-    //         .then(data => data.json())
-    //         .then(returnedData => {
-    //             setUserData({
-    //                 name: returnedData.name,
-    //                 email: returnedData.email,
-    //                 dateOfBirth: returnedData.dateOfBirth,
-    //                 ssn: returnedData.ssn,
-    //                 address: returnedData.address,
-    //                 filingStatus: returnedData.filingStatus,
-    //                 w2Income: returnedData.w2Income,
-    //                 w2Withheld: returnedData.w2Withheld,
-    //                 income1099: returnedData.income1099,
-    //                 deductions1099: returnedData.deductions1099
-    //             });
-    //         })
-    //         .catch(error => console.error(error));
-    // }, []);
 
     console.log(user);
 
@@ -136,10 +113,10 @@ export default function Review({ user, setUser, jwt }: Props) {
                 <div style={{ marginTop: '20px' }}>
                     <ul className="usa-button-group">
                         <li className="usa-button-group__item">
-                            <a href="/form1099" className="usa-button usa-button--outline">Back</a>
+                            <button onClick={() => navigate('/form1099')} className="usa-button usa-button--outline">Back</button>
                         </li>
                         <li className="usa-button-group__item">
-                            <a href="/tax-return" className="usa-button">Submit</a>
+                            <button onClick={() => navigate('/tax-return')} className="usa-button">Submit</button>
                         </li>
                     </ul>
                 </div>
