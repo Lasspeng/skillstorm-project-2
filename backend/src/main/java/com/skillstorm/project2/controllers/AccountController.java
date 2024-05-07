@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.skillstorm.project2.dtos.AccountDto;
 import com.skillstorm.project2.exceptions.ResourceNotFoundException;
 import com.skillstorm.project2.models.Account;
 import com.skillstorm.project2.repositories.AccountRepository;
@@ -32,36 +33,44 @@ public class AccountController {
     AccountRepository acctRepo;
 
     @GetMapping
-    public ResponseEntity<List<Account>> findAllAccounts() {
-        return new ResponseEntity<>(acctRepo.findAll(), HttpStatus.OK);
+    public ResponseEntity<List<AccountDto>> findAllAccounts() {
+        List<AccountDto> dtos = acctService.findAllAccounts();
+        return new ResponseEntity<>(dtos, HttpStatus.OK);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Account> findAccountById(@PathVariable int id) {
+    public ResponseEntity<AccountDto> findAccountById(@PathVariable int id) {
 
-        Account acct = acctService.findAccountById(id);
+        AccountDto acct = acctService.findAccountById(id);
         return new ResponseEntity<>(acct, HttpStatus.OK);
     }
 
-    @PostMapping("/register")
-    public ResponseEntity<Account> createAccount(@RequestBody Account acct) {
+    @PostMapping("/email")
+    public ResponseEntity<AccountDto> findAccountByEmail(@RequestBody Account acct) {
 
-        Account newAcct = acctService.saveAccount(acct);
+        AccountDto foundAcct = acctService.findByCredentials(acct);
+        return new ResponseEntity<>(foundAcct, HttpStatus.OK);
+    }
+
+    @PostMapping("/register")
+    public ResponseEntity<AccountDto> createAccount(@RequestBody Account acct) {
+
+        AccountDto newAcct = acctService.saveAccount(acct);
         return new ResponseEntity<>(newAcct, HttpStatus.CREATED);
     }
 
     // Have to add an endpoint to create a new admin account because of BCrypt. This endpoint will not be accessible by the front end
     @PostMapping("/register/admin")
-    public ResponseEntity<Account> createAdminAccount(@RequestBody Account acct) {
+    public ResponseEntity<AccountDto> createAdminAccount(@RequestBody Account acct) {
 
-        Account newAcct = acctService.saveAdminAccount(acct);
+        AccountDto newAcct = acctService.saveAdminAccount(acct);
         return new ResponseEntity<>(newAcct, HttpStatus.CREATED);
     }
 
     @PutMapping
-    public ResponseEntity<Account> updateAccount(@RequestBody Account acct) throws ResourceNotFoundException {
+    public ResponseEntity<AccountDto> updateAccount(@RequestBody Account acct) throws ResourceNotFoundException {
 
-        Account updatedAcct = acctService.updateAccount(acct);
+        AccountDto updatedAcct = acctService.updateAccount(acct);
         return new ResponseEntity<>(updatedAcct, HttpStatus.OK);
     }
 

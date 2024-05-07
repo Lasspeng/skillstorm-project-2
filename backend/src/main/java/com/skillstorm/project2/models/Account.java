@@ -5,9 +5,12 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 
+import org.hibernate.annotations.DynamicUpdate;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -36,45 +39,46 @@ public class Account implements UserDetails {
     
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    Integer id;
+    private Integer id;
 
     @Column
     @Enumerated(EnumType.STRING)
-    Role role;
+    private Role role;
 
     @Column
-    String email;
+    private String email;
 
     @Column
-    String password;
+    private String password;
 
     @Column
-    String firstName;
+    private String firstName;
 
     @Column
-    String lastName;
+    private String lastName;
 
     @Column
     @Enumerated(EnumType.STRING)
-    FilingStatus filingStatus;
+    private FilingStatus filingStatus;
 
     @Column
-    Integer socialSecurity;
+    private String socialSecurity;
 
     @Column
-    String streetAddress;
+    private String streetAddress;
 
     @Column
-    String city;
+    private String city;
 
     @Column
-    String state;
+    private String state;
 
     @Column
-    Integer zipCode;
+    private String zipCode;
     
     @Column
-    LocalDate dateOfBirth;
+    @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd")
+    private LocalDate dateOfBirth;
     
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "formW2Id", referencedColumnName = "id")
@@ -88,7 +92,7 @@ public class Account implements UserDetails {
     public Account() {
     }
 
-    public Account(Integer id, Role role, String email, String password, String firstName, String lastName, FilingStatus filingStatus, Integer socialSecurity, String streetAddress, String city, String state, Integer zipCode, LocalDate dateOfBirth, FormW2 formW2, Form1099 form1099) {
+    public Account(Integer id, Role role, String email, String password, String firstName, String lastName, FilingStatus filingStatus, String socialSecurity, String streetAddress, String city, String state, String zipCode, LocalDate dateOfBirth, FormW2 formW2, Form1099 form1099) {
         this.id = id;
         this.role = role;
         this.email = email;
@@ -162,11 +166,11 @@ public class Account implements UserDetails {
         this.filingStatus = filingStatus;
     }
 
-    public Integer getSocialSecurity() {
+    public String getSocialSecurity() {
         return this.socialSecurity;
     }
 
-    public void setSocialSecurity(Integer socialSecurity) {
+    public void setSocialSecurity(String socialSecurity) {
         this.socialSecurity = socialSecurity;
     }
 
@@ -194,11 +198,11 @@ public class Account implements UserDetails {
         this.state = state;
     }
 
-    public Integer getZipCode() {
+    public String getZipCode() {
         return this.zipCode;
     }
 
-    public void setZipCode(Integer zipCode) {
+    public void setZipCode(String zipCode) {
         this.zipCode = zipCode;
     }
 
@@ -261,7 +265,7 @@ public class Account implements UserDetails {
         return this;
     }
 
-    public Account socialSecurity(Integer socialSecurity) {
+    public Account socialSecurity(String socialSecurity) {
         setSocialSecurity(socialSecurity);
         return this;
     }
@@ -281,7 +285,7 @@ public class Account implements UserDetails {
         return this;
     }
 
-    public Account zipCode(Integer zipCode) {
+    public Account zipCode(String zipCode) {
         setZipCode(zipCode);
         return this;
     }
@@ -337,8 +341,6 @@ public class Account implements UserDetails {
             ", form1099='" + getForm1099() + "'" +
             "}";
     }
-
-    
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

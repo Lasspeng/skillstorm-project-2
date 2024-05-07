@@ -1,11 +1,48 @@
-import { Fieldset, StepIndicator, StepIndicatorStep, Grid, Form, Label, TextInput } from '@trussworks/react-uswds';
-import '@trussworks/react-uswds/lib/uswds.css'
-import '@trussworks/react-uswds/lib/index.css'
+import { Fieldset, Form, Grid, Label, StepIndicator, StepIndicatorStep, TextInput } from '@trussworks/react-uswds';
+import '@trussworks/react-uswds/lib/index.css';
+import '@trussworks/react-uswds/lib/uswds.css';
+import { User } from '../../Types';
+import { useNavigate } from 'react-router-dom';
 
-export default function W2Form() {
-    const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-        event.preventDefault(); // Prevents the default form submission behavior
-        console.log('Form submitted'); // Replace with your form submission logic
+interface Props {
+    user: User | undefined,
+    setUser: React.Dispatch<React.SetStateAction<User | undefined>>,
+    jwt: string
+}
+
+export default function W2Form({ user, setUser, jwt }: Props) {
+
+    const navigate = useNavigate();
+
+    const handleSubmit = (event: any) => {
+        
+        event.preventDefault(); 
+        const data = new FormData(event.target);
+
+        const updatedFormInfo = {
+            formW2: {
+                id: user?.formW2.id,
+                wages: data.get("income"),
+                taxWithheld: data.get("withheld")
+            }
+        }
+
+        const updatedUser = Object.assign({}, user, updatedFormInfo);
+
+        fetch('http://localhost:8080/users', {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${jwt}`
+            },
+            body: JSON.stringify(updatedUser)
+        })
+        .then(response => response.json())
+        .then(userData => {
+            setUser(userData);
+            navigate('/review');
+        })
+        .catch((error) => console.error(error));
     };
 
     return (

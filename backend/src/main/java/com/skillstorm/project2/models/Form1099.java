@@ -8,6 +8,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import java.util.Objects;
 
+
 @Entity
 @Table(name = "Form1099")
 public class Form1099 {

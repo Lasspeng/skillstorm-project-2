@@ -3,9 +3,9 @@ import java.util.Objects;
 
 public class TaxResults {
     
-    double taxableIncome;
-    double taxRate;
-    double taxRefund;
+    private double taxableIncome;
+    private double taxRate;
+    private double taxRefund;
 
 
     public TaxResults() {

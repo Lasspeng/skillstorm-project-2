@@ -8,6 +8,8 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import java.util.Objects;
 
+import org.hibernate.annotations.DynamicUpdate;
+
 @Entity
 @Table(name = "FormW2")
 public class FormW2 {

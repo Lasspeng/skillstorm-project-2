@@ -8,11 +8,12 @@ import { User } from '../Types';
 
 
 interface Props {
-  setUser: React.Dispatch<React.SetStateAction<User | undefined>>;
+  user: User | undefined,
+  setUser: React.Dispatch<React.SetStateAction<User | undefined>>
 }
 
-export default function SignUp({ setUser }: Props): React.ReactElement {
-  const [showPassword, setShowPassword] = useState(false);
+export default function SignUp(): React.ReactElement {
+  const [showPassword, setShowPassword] = React.useState(false);
   const [passwordsMatch, setPasswordsMatch] = useState(true);
   const navigate = useNavigate();
 
@@ -40,10 +41,7 @@ export default function SignUp({ setUser }: Props): React.ReactElement {
       body: JSON.stringify(account)
     })
       .then(data => data.json())
-      .then((userData) => {
-        setUser(userData);
-        navigate("/signin");
-      })
+      .then((userData) => navigate("/signin"))
       .catch(() => alert("A user with these credentials already exists"))
   };
   return (
