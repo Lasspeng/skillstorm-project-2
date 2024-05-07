@@ -1,7 +1,6 @@
-import { Form, Fieldset, Grid, GridContainer, Label, TextInput, Button, Link} from '@trussworks/react-uswds';
+import { Alert, Form, Fieldset, Grid, GridContainer, Label, TextInput, Button, Link} from '@trussworks/react-uswds';
 import React from 'react';
 import { useState } from 'react';
-import { toast } from "react-toastify";
 import '@trussworks/react-uswds/lib/uswds.css'
 import '@trussworks/react-uswds/lib/index.css'
 import './SignIn.css';
@@ -14,6 +13,7 @@ interface Props {
 export default function SignIn({ setJwt }: Props): React.ReactElement {
 
   const [showPassword, setShowPassword] = useState(false);
+  const [errorMessage, setErrorMessage] = useState('');
   const navigate = useNavigate();
   
   const handleSubmit = (event: any) => {
@@ -36,7 +36,7 @@ export default function SignIn({ setJwt }: Props): React.ReactElement {
       navigate("/");
     })
     .catch(() => {
-      alert("Incorrect username or password");
+      setErrorMessage('Incorrect email or password. Try again.');
     })
   };
 
@@ -65,10 +65,12 @@ export default function SignIn({ setJwt }: Props): React.ReactElement {
                       {showPassword ? 'Hide password' : 'Show password'}
                     </button>
 
+                    {errorMessage && <Alert type="error" heading="Error status" headingLevel="h4">{errorMessage}</Alert>}
+
                     <Button type="submit">Sign in</Button>
                     <p className="text-center">
                       {"Don't have an account? "}
-                      <Link href="javascript:void();">Create your account now</Link>
+                      <Link href="/signup">Create your account now</Link>
                       .
                     </p>
 
