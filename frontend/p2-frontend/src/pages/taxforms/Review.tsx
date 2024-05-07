@@ -15,17 +15,9 @@ export default function Review({ user, setUser, jwt }: Props) {
 
     const navigate = useNavigate();
 
-    const [userData, setUserData] = useState({
-        name: '',
-        email: '',
-        dateOfBirth: '',
-        ssn: '',
-        address: '',
-        filingStatus: '',
-        w2Income: '',
-        w2Withheld: '',
-        income1099: '',
-        deductions1099: ''
+    let USDollar = new Intl.NumberFormat('en-US', {
+        style: 'currency',
+        currency: 'USD',
     });
 
     console.log(user);
@@ -91,19 +83,19 @@ export default function Review({ user, setUser, jwt }: Props) {
                             </tr>
                             <tr>
                                 <th scope="row" style={{ fontWeight: 'bold', width: '30%' }}>W2 Income</th>
-                                <td style={{ width: '70%' }}>{user?.formW2.wages}</td>
+                                <td style={{ width: '70%' }}>{USDollar.format(user?.formW2.wages as number)}</td>
                             </tr>
                             <tr>
                                 <th scope="row" style={{ fontWeight: 'bold', width: '30%' }}>W2 Withheld</th>
-                                <td style={{ width: '70%' }}>{user?.formW2.taxWithheld}</td>
+                                <td style={{ width: '70%' }}>{USDollar.format(user?.formW2.taxWithheld as number)}</td>
                             </tr>
                             <tr>
                                 <th scope="row" style={{ fontWeight: 'bold', width: '30%' }}>1099 Income</th>
-                                <td style={{ width: '70%' }}>{user?.form1099.wages}</td>
+                                <td style={{ width: '70%' }}>{USDollar.format(user?.form1099.wages as number)}</td>
                             </tr>
                             <tr>
                                 <th scope="row" style={{ fontWeight: 'bold', width: '30%' }}>1099 Deductions</th>
-                                <td style={{ width: '70%' }}>{user?.form1099.taxWriteOffs}</td>
+                                <td style={{ width: '70%' }}>{USDollar.format(user?.form1099.taxWriteOffs as number)}</td>
                             </tr>
                         </tbody>
                     </Table>
