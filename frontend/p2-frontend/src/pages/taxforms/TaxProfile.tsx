@@ -1,12 +1,67 @@
 import { Fieldset, StepIndicator, StepIndicatorStep, Grid, Form, Label, TextInput, Select, GridContainer, TextInputMask, FormGroup, DateInput, DateInputGroup } from '@trussworks/react-uswds';
 import '@trussworks/react-uswds/lib/uswds.css'
 import '@trussworks/react-uswds/lib/index.css'
+import { User } from '../../Types';
+import { useEffect } from 'react';
 
-export default function TaxProfile() {
-    const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-        event.preventDefault(); // Prevents the default form submission behavior
-        console.log('Form submitted'); // Replace with your form submission logic
+interface Props {
+    user: User | undefined,
+    setUser: React.Dispatch<React.SetStateAction<User | undefined>>,
+    jwt: string
+}
+
+export default function TaxProfile({ user, setUser, jwt }: Props) {
+    const handleSubmit = (event: any) => {
+
+        event.preventDefault();
+        const data = new FormData(event.target);
+
+        // Add a 0 to the month and day of DOB if they're below 10
+        let month = data.get("dobMonth") as string;
+        if (month !== null && month.length === 1) {
+            month = `0${month}`;
+        }
+        let day = data.get("dobDay") as string;
+        if (day !== null && month.length === 1) {
+            day = `0${day}`;
+        }
+
+        // Convert dob data into a Java and Postgresql compatible format
+        const dateOfBirth = `${data.get("dobYear")}-${month}-${day}` 
+
+        const updatedAccountInfo = {
+            firstName: data.get("first-name"),
+            lastName: data.get("last-name"),
+            dateOfBirth: dateOfBirth,
+            socialSecurity: data.get("ssn"),
+            streetAddress: data.get("mailing-address-1"),
+            city: data.get("city"),
+            state: data.get("state"),
+            zipCode: data.get("zip") as unknown as number
+        }
+
+        const updatedUser = Object.assign({}, user, updatedAccountInfo);
+        console.log(updatedUser);
+
+        fetch('http://localhost:8080/users', {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${jwt}`
+            },
+            body: JSON.stringify(updatedUser)
+        })
+        .then(data => data.json())
+        .then(userData => {
+            setUser(userData);
+            alert("Your account has been successfully updated");
+        })
+        .catch(() => alert("An error has occured. Try again"));
     };
+
+    useEffect (() => {
+        console.log(user);
+    }, [user]);
     return (
         <>
             <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
@@ -73,8 +128,8 @@ export default function TaxProfile() {
                                             <Label htmlFor="mailing-address-1">Street address</Label>
                                             <TextInput id="mailing-address-1" name="mailing-address-1" type="text" />
 
-                                            <Label htmlFor="mailing-address-2">Street address line 2</Label>
-                                            <TextInput id="mailing-address-2" name="mailing-address-2" type="text" />
+                                            {/* <Label htmlFor="mailing-address-2">Street address line 2</Label>
+                                            <TextInput id="mailing-address-2" name="mailing-address-2" type="text" /> */}
 
                                             <div className="grid-row grid-gap">
                                                 <div className="tablet:grid-col-6">

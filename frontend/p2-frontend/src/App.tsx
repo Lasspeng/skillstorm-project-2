@@ -50,7 +50,7 @@ export default function App() {
               <Route path='/profile' element={<Profile user={user} setUser={setUser} jwt={jwt} />} />
               <Route path='/tax-return' element={<TaxReturn />} />
               <Route path='/signin' element={<SignIn setUser={setUser} setJwt={setJwt} />} />
-              <Route path='/taxprofile' element={<TaxProfile />} />
+              <Route path='/taxprofile' element={<TaxProfile user={user} setUser={setUser} jwt={jwt} />} />
               <Route path='/w2form' element={<W2Form />} />
               <Route path='/form1099' element={<Form1099 user={user} setUser={setUser} jwt={jwt} />} />
               <Route path='/filingstatus' element={<FilingStatus />} />

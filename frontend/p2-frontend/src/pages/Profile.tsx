@@ -28,11 +28,6 @@ export default function Profile({ user, setUser, jwt }: Props) {
             day = `0${day}`;
         }
 
-        // Convert the Social Security Number data type
-        // let ssn: string | number = data.get("ssn") as string;
-        // ssn.replace(/\s/g, '');
-        // ssn = Number(ssn);
-
         // Convert dob data into a Java and Postgresql compatible format
         const dateOfBirth = `${data.get("dobYear")}-${month}-${day}` 
 
@@ -46,13 +41,6 @@ export default function Profile({ user, setUser, jwt }: Props) {
             state: data.get("state"),
             zipCode: data.get("zip") as unknown as number
         }
-
-        // setUser((prevState) => { 
-        //     return {updatedAccountInfo, ...prevState} as User;
-        // });
-
-        // const updatedUser = {...user, ...updatedAccountInfo} as User;
-        // console.log(updatedUser);
 
         const updatedUser = Object.assign({}, user, updatedAccountInfo);
         console.log(updatedUser);
@@ -68,9 +56,9 @@ export default function Profile({ user, setUser, jwt }: Props) {
         .then(data => data.json())
         .then(userData => {
             setUser(userData);
-            toast("Your account has been successfully updated");
+            alert("Your account has been successfully updated");
         })
-        .catch(() => toast("An error has occured. Try again"));
+        .catch(() => alert("An error has occured. Try again"));
     };
 
     useEffect (() => {
@@ -127,8 +115,8 @@ export default function Profile({ user, setUser, jwt }: Props) {
                                             <Label htmlFor="mailing-address-1">Street address</Label>
                                             <TextInput id="mailing-address-1" name="mailing-address-1" type="text" />
 
-                                            <Label htmlFor="mailing-address-2">Street address line 2</Label>
-                                            <TextInput id="mailing-address-2" name="mailing-address-2" type="text" />
+                                            {/* <Label htmlFor="mailing-address-2">Street address line 2</Label>
+                                            <TextInput id="mailing-address-2" name="mailing-address-2" type="text" /> */}
 
                                             <div className="grid-row grid-gap">
                                                 <div className="tablet:grid-col-6">
