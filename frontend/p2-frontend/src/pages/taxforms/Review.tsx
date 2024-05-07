@@ -84,8 +84,9 @@ export default function Review({ user, setUser, jwt }: Props) {
                     />
                 </StepIndicator>
                 <div style={{ width: '80%', maxWidth: '800px' }}>
-                    <Table bordered fullWidth>
+                    <Table fullWidth>
                         <caption className="usa-sr-only">Review Information</caption>
+                        
                         <tbody>
                         <tr>
                                 <th scope="row" style={{ fontWeight: 'bold', width: '30%' }}>Name</th>

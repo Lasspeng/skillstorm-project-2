@@ -16,10 +16,15 @@ import { BrowserRouter, Link, Route, Routes } from 'react-router-dom';
 import { useState } from 'react';
 import { User } from './Types';
 
+
 export default function App() {
   
   const [jwt, setJwt] = useState<string>('');
   const [user, setUser] = useState<User | undefined>();
+  // Function to handle logout
+  const handleLogout = () => {
+    setJwt('');
+  };
 
   return (
     <>
@@ -30,18 +35,26 @@ export default function App() {
             <li className="nav-item">
               <Link to="/" className="nav-link">Home</Link>
             </li>
-            <li className="nav-item">
-              <Link to="/taxprofile" className="nav-link">Start Taxes</Link>
-            </li>
-            <li className="nav-item">
-              <Link to="/tax-return" className="nav-link">View Taxes</Link>
-            </li>
-            <li className="nav-item">
-              <Link to="/profile" className="nav-link">Profile</Link>
-            </li>
-            <li className="nav-item">
-              <Link to="/signin" className="nav-link">Logout</Link>
-            </li>
+            {jwt ? (
+              <>
+                <li className="nav-item">
+                  <Link to="/taxprofile" className="nav-link">Start Taxes</Link>
+                </li>
+                <li className="nav-item">
+                  <Link to="/tax-return" className="nav-link">View Taxes</Link>
+                </li>
+                <li className="nav-item">
+                  <Link to="/profile" className="nav-link">Profile</Link>
+                </li>
+                <li className="nav-item">
+                  <Link to="/signin" className="nav-link" onClick={handleLogout}>Logout</Link>
+                </li>
+              </>
+            ) : (
+              <li className="nav-item">
+                <Link to="/signin" className="nav-link">Sign In</Link>
+              </li>
+            )}
           </ul>
         </nav>
           <div className='content'>

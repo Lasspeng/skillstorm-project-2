@@ -26,3 +26,9 @@
 .nav-link:hover {
   background-color: rgb(72, 72, 73);
 }
+
+.project-title {
+  color: white;
+  font-size: 20px; 
+}
+
