@@ -40,7 +40,7 @@ export default function W2Form({ user, setUser, jwt }: Props) {
         .then(response => response.json())
         .then(userData => {
             setUser(userData);
-            navigate('/review');
+            navigate('/form1099');
         })
         .catch((error) => console.error(error));
     };
@@ -81,16 +81,16 @@ export default function W2Form({ user, setUser, jwt }: Props) {
                                         <div className="grid-row grid-gap">
 
                                             <Label htmlFor="income">Income</Label>
-                                            <TextInput id="income" name="income" type="text" required/>
+                                            <TextInput id="income" name="income" type="text" defaultValue={user?.formW2.wages} required/>
                                             <Label htmlFor="withheld">Amount Withheld</Label>
-                                            <TextInput id="withheld" name="withheld" type="text" required/>
+                                            <TextInput id="withheld" name="withheld" type="text" defaultValue={user?.formW2.taxWithheld} required />
 
                                         </div>
                                     </Fieldset>
                                     <div style={{ marginTop: '10px', display: 'flex', justifyContent: 'center'}}>
                                         <ul className="usa-button-group">
                                             <li className="usa-button-group__item">
-                                                <a href="/filingstatus" className="usa-button usa-button--outline">Back</a>
+                                                <button onClick={() => navigate('/filingstatus')}className="usa-button usa-button--outline">Back</button>
                                             </li>
                                             <li className="usa-button-group__item">
                                                 <button type="submit" className="usa-button">Continue</button>

@@ -61,7 +61,7 @@ export default function App() {
           <Routes>
               <Route path='/' element={<Landing user={user} setUser={setUser} jwt={jwt} />} />
               <Route path='/profile' element={<Profile user={user} setUser={setUser} jwt={jwt} />} />
-              <Route path='/tax-return' element={<TaxReturn />} />
+              <Route path='/tax-return' element={<TaxReturn user={user} jwt={jwt} />} />
               <Route path='/signin' element={<SignIn setUser={setUser} setJwt={setJwt} />} />
               <Route path='/taxprofile' element={<TaxProfile user={user} setUser={setUser} jwt={jwt} />} />
               <Route path='/w2form' element={<W2Form user={user} setUser={setUser} jwt={jwt} />} />

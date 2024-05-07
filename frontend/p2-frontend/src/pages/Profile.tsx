@@ -80,15 +80,15 @@ export default function Profile({ user, setUser, jwt }: Props) {
                                         <Grid row gap={2}>
                                             <Grid tablet={{ col: 6 }}>
                                                 <Label htmlFor="first-name">First Name</Label>
-                                                <TextInput id="first-name" name="first-name" type="text" value={user?.firstName} />
+                                                <TextInput id="first-name" name="first-name" type="text" defaultValue={user?.firstName} />
                                             </Grid>
                                             <Grid tablet={{ col: 6 }}>
                                                 <Label htmlFor="last-name">Last Name</Label>
-                                                <TextInput id="last-name" name="last-name" type="text" value={user?.lastName} />
+                                                <TextInput id="last-name" name="last-name" type="text" defaultValue={user?.lastName} />
                                             </Grid>
                                             <Grid tablet={{ col: 8 }}>
                                                 <Label htmlFor="ssn" className="margin-top-2">Social Security Number</Label>
-                                                <TextInputMask id="ssn" name="ssn" type="text" mask="___ __ ____" pattern="^(?!(000|666|9))\d{3} (?!00)\d{2} (?!0000)\d{4}$" value={`${user?.socialSecurity.substring(0, 3)} ${user?.socialSecurity.substring(4, 6)} ${user?.socialSecurity.substring(7)}`}/>
+                                                <TextInputMask id="ssn" name="ssn" type="text" mask="___ __ ____" pattern="^(?!(000|666|9))\d{3} (?!00)\d{2} (?!0000)\d{4}$" defaultValue={`${user?.socialSecurity?.substring(0, 3)} ${user?.socialSecurity?.substring(4, 6)} ${user?.socialSecurity?.substring(7)}`}/>
                                             </Grid>
                                         </Grid>
 
@@ -98,7 +98,7 @@ export default function Profile({ user, setUser, jwt }: Props) {
                                                 <DateInputGroup>
                                                     <FormGroup className="usa-form-group--month usa-form-group--select">
                                                         <Label htmlFor="input-select">Month</Label>
-                                                        <Select id="testDateInput" name="dobMonth" value={user?.dateOfBirth.substring(5, 7)} >
+                                                        <Select id="testDateInput" name="dobMonth" defaultValue={user?.dateOfBirth?.substring(5, 7)} >
                                                             <option>- Select -</option>
                                                             <option value="1">01 - January</option>
                                                             <option value="2">02 - February</option>
@@ -114,8 +114,8 @@ export default function Profile({ user, setUser, jwt }: Props) {
                                                             <option value="12">12 - December</option>
                                                         </Select>
                                                     </FormGroup>
-                                                    <DateInput id="testDateInput" name="dobDay" label="Day" unit="day" maxLength={2} minLength={2} value={user?.dateOfBirth.substring(8)} />
-                                                    <DateInput id="testDateInput" name="dobYear" label="Year" unit="year" maxLength={4} minLength={4} value={user?.dateOfBirth.substring(0, 4)} />
+                                                    <DateInput id="testDateInput" name="dobDay" label="Day" unit="day" maxLength={2} minLength={1} defaultValue={user?.dateOfBirth?.substring(8)} />
+                                                    <DateInput id="testDateInput" name="dobYear" label="Year" unit="year" maxLength={4} minLength={4} defaultValue={user?.dateOfBirth?.substring(0, 4)} />
                                                 </DateInputGroup>
                                             </Grid>
                                         </Grid>
@@ -123,15 +123,15 @@ export default function Profile({ user, setUser, jwt }: Props) {
                                         <Grid row gap={2}>
                                             <Grid tablet={{ col: 8 }}>
                                                 <Label htmlFor="mailing-address-1">Street address</Label>
-                                                <TextInput id="mailing-address-1" name="mailing-address-1" type="text" value={user?.streetAddress} />
+                                                <TextInput id="mailing-address-1" name="mailing-address-1" type="text" defaultValue={user?.streetAddress} />
                                             </Grid>
                                             <Grid tablet={{ col: 4 }}>
                                                 <Label htmlFor="city">City</Label>
-                                                <TextInput id="city" name="city" type="text" required value={user?.city} />
+                                                <TextInput id="city" name="city" type="text" required defaultValue={user?.city} />
                                             </Grid>
                                             <Grid tablet={{ col: 6 }}>
                                                 <Label htmlFor="state">State</Label>
-                                                <Select id="state" name="state" value={user?.state} required>
+                                                <Select id="state" name="state" defaultValue={user?.state} required>
                                                     <option>- Select -</option>
                                                     <option value="AL">Alabama</option>
                                                     <option value="AK">Alaska</option>
@@ -188,7 +188,7 @@ export default function Profile({ user, setUser, jwt }: Props) {
                                        
                                         <Grid tablet={{ col: 6 }}>
                                             <Label htmlFor="zip">ZIP Code</Label>
-                                            <TextInput id="zip" name="zip" type="text" inputSize="medium" pattern="[\d]{5}(-[\d]{4})?" value={user?.zipCode} />
+                                            <TextInput id="zip" name="zip" type="text" inputSize="medium" pattern="[\d]{5}(-[\d]{4})?" defaultValue={user?.zipCode} />
                                         </Grid>
                                         </Grid>
 

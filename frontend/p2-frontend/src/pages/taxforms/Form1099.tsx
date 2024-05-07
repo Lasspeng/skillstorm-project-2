@@ -92,16 +92,16 @@ export default function Form1099({ user, setUser, jwt }: Props) {
                                         <div className="grid-row grid-gap">
 
                                             <Label htmlFor="income">Income</Label>
-                                            <TextInput id="income" name="income" type="text" required/>
+                                            <TextInput id="income" name="income" type="text" defaultValue={user?.form1099.wages} required/>
                                             <Label htmlFor="deductions">Deductions</Label>
-                                            <TextInput id="deductions" name="deductions" type="text" required/>
+                                            <TextInput id="deductions" name="deductions" type="text" defaultValue={user?.form1099.taxWriteOffs} required />
 
                                         </div>
                                     </Fieldset>
                                     <div style={{ marginTop: '20px', display: 'flex', justifyContent: 'center' }}>
                                         <ul className="usa-button-group">
                                             <li className="usa-button-group__item">
-                                                <a href="/w2form" className="usa-button usa-button--outline">Back</a>
+                                                <button onClick={() => navigate('/w2form') } className="usa-button usa-button--outline">Back</button>
                                             </li>
                                             <li className="usa-button-group__item">
                                             <button type="submit" className="usa-button">Continue</button>
