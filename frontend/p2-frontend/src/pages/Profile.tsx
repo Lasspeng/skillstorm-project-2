@@ -113,7 +113,7 @@ export default function Profile({ user, setUser, jwt }: Props) {
                                             </Grid>
                                             <Grid tablet={{ col: 4 }}>
                                                 <Label htmlFor="city">City</Label>
-                                                <TextInput id="city" name="city" type="text" required />
+                                                <TextInput id="city" name="city" type="text"/>
                                             </Grid>
                                             <Grid tablet={{ col: 6 }}>
                                                 <Label htmlFor="state">State</Label>

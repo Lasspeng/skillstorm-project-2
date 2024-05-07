@@ -47,9 +47,9 @@ export default function Form1099() {
                                         <div className="grid-row grid-gap">
 
                                             <Label htmlFor="income">Income</Label>
-                                            <TextInput id="income" name="income" type="text" />
+                                            <TextInput id="income" name="income" type="text" required/>
                                             <Label htmlFor="deductions">Deductions</Label>
-                                            <TextInput id="deductions" name="deductions" type="text" />
+                                            <TextInput id="deductions" name="deductions" type="text" required/>
 
                                         </div>
                                     </Fieldset>

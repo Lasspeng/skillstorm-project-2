@@ -44,9 +44,9 @@ export default function W2Form() {
                                         <div className="grid-row grid-gap">
 
                                             <Label htmlFor="income">Income</Label>
-                                            <TextInput id="income" name="income" type="text" />
+                                            <TextInput id="income" name="income" type="text" required/>
                                             <Label htmlFor="withheld">Amount Withheld</Label>
-                                            <TextInput id="withheld" name="withheld" type="text" />
+                                            <TextInput id="withheld" name="withheld" type="text" required/>
 
                                         </div>
                                     </Fieldset>
