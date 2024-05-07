@@ -20,16 +20,19 @@ export default function Form1099({ user, setUser, jwt }: Props) {
         const data = new FormData(event.target);
 
         // Create new object with updated data
-        const updatedAccountInfo = {
-            formW2: {    
+        const updatedFormInfo = {
+            form1099: {
+                id: user?.form1099.id,   
                 wages: data.get("income"),
                 taxWriteOffs: data.get("deductions")
             }
         }
 
-        setUser((prevState) => {
-            return {updatedAccountInfo, ...prevState } as User;
-        });
+        // setUser((prevState) => {
+        //     return {updatedAccountInfo, ...prevState } as User;
+        // });
+
+        const updatedUser = Object.assign({}, user, updatedFormInfo);
 
         fetch('http://localhost:8080/users', {
             method: 'PUT',
@@ -37,15 +40,14 @@ export default function Form1099({ user, setUser, jwt }: Props) {
                 'Content-Type': 'application/json',
                 'Authorization': `Bearer ${jwt}`
             },
-            body: JSON.stringify(updatedAccountInfo)
+            body: JSON.stringify(updatedUser)
         })
         .then(response => response.json())
         .then(userData => {
             setUser(userData);
             navigate('/review');
-            // alert("Your account has been successfully updated");
         })
-        .catch(() => alert("An error has occured. Try again"));
+        .catch((error) => console.error(error));
     }
 
         

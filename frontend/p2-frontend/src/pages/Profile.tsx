@@ -58,7 +58,7 @@ export default function Profile({ user, setUser, jwt }: Props) {
             setUser(userData);
             alert("Your account has been successfully updated");
         })
-        .catch(() => alert("An error has occured. Try again"));
+        .catch((error) => console.error(error));
     };
 
     useEffect (() => {

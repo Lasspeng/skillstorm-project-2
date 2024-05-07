@@ -28,6 +28,9 @@ export default function Landing({ user, setUser, jwt }: Props) {
         .catch((error) => console.error(error));
     }, []);
 
+    useEffect (() => {
+        console.log(user);
+    }, [user]);
     
     return (
         <>

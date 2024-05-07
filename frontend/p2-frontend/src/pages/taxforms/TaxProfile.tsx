@@ -37,7 +37,7 @@ export default function TaxProfile({ user, setUser, jwt }: Props) {
             streetAddress: data.get("mailing-address-1"),
             city: data.get("city"),
             state: data.get("state"),
-            zipCode: data.get("zip") as unknown as number
+            zipCode: data.get("zip")
         }
 
         const updatedUser = Object.assign({}, user, updatedAccountInfo);
@@ -56,12 +56,13 @@ export default function TaxProfile({ user, setUser, jwt }: Props) {
             setUser(userData);
             alert("Your account has been successfully updated");
         })
-        .catch(() => alert("An error has occured. Try again"));
+        .catch((error) => console.error(error));
     };
 
     useEffect (() => {
         console.log(user);
     }, [user]);
+    
     return (
         <>
             <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
@@ -92,9 +93,9 @@ export default function TaxProfile({ user, setUser, jwt }: Props) {
                                             <div className="grid-row grid-gap">
 
                                                 <Label htmlFor="first-name">First Name</Label>
-                                                <TextInput id="first-name" name="first-name" type="text" />
+                                                <TextInput id="first-name" name="first-name" type="text" value={user?.firstName}/>
                                                 <Label htmlFor="last-name">Last Name</Label>
-                                                <TextInput id="last-name" name="last-name" type="text" />
+                                                <TextInput id="last-name" name="last-name" type="text" value={user?.lastName} />
 
                                             </div>
 
@@ -102,7 +103,7 @@ export default function TaxProfile({ user, setUser, jwt }: Props) {
                                             <DateInputGroup>
                                                 <FormGroup className="usa-form-group--month usa-form-group--select">
                                                     <Label htmlFor="input-select">Month</Label>
-                                                    <Select id="testDateInput" name="testDateInput">
+                                                    <Select id="testDateInput" name="testDateInput" value={user?.dateOfBirth.substring(5, 7)}>
                                                         <option>- Select -</option>
                                                         <option value="1">01 - January</option>
                                                         <option value="2">02 - February</option>
@@ -118,15 +119,15 @@ export default function TaxProfile({ user, setUser, jwt }: Props) {
                                                         <option value="12">12 - December</option>
                                                     </Select>
                                                 </FormGroup>
-                                                <DateInput id="testDateInput" name="testName" label="Day" unit="day" maxLength={2} minLength={2} />
-                                                <DateInput id="testDateInput" name="testName" label="Year" unit="year" maxLength={4} minLength={4} />
+                                                <DateInput id="testDateInput" name="testName" label="Day" unit="day" maxLength={2} minLength={2} value={user?.dateOfBirth.substring(8)} />
+                                                <DateInput id="testDateInput" name="testName" label="Year" unit="year" maxLength={4} minLength={4} value={user?.dateOfBirth.substring(0, 4)}/>
                                             </DateInputGroup>
 
                                             <Label htmlFor="ssn" className="margin-top-2">Social Security Number</Label>
-                                            <TextInputMask id="ssn" name="ssn" type="text" mask="___ __ ____" pattern="^(?!(000|666|9))\d{3} (?!00)\d{2} (?!0000)\d{4}$" />
+                                            <TextInputMask id="ssn" name="ssn" type="text" mask="___ __ ____" pattern="^(?!(000|666|9))\d{3} (?!00)\d{2} (?!0000)\d{4}$" value={`${user?.socialSecurity.substring(0, 3)} ${user?.socialSecurity.substring(4, 6)} ${user?.socialSecurity.substring(7)}`} />
 
                                             <Label htmlFor="mailing-address-1">Street address</Label>
-                                            <TextInput id="mailing-address-1" name="mailing-address-1" type="text" />
+                                            <TextInput id="mailing-address-1" name="mailing-address-1" type="text" value={user?.streetAddress} />
 
                                             {/* <Label htmlFor="mailing-address-2">Street address line 2</Label>
                                             <TextInput id="mailing-address-2" name="mailing-address-2" type="text" /> */}
@@ -136,13 +137,13 @@ export default function TaxProfile({ user, setUser, jwt }: Props) {
                                                     <Label htmlFor="city">
                                                         City
                                                     </Label>
-                                                    <TextInput id="city" name="city" type="text" required />
+                                                    <TextInput id="city" name="city" type="text" required value={user?.city} />
                                                 </div>
                                                 <div className="tablet:grid-col-6">
                                                     <Label htmlFor="state">
                                                         State
                                                     </Label>
-                                                    <Select id="state" name="state" required>
+                                                    <Select id="state" name="state" value={user?.state} required>
                                                         <option>- Select -</option>
                                                         <option value="AL">Alabama</option>
                                                         <option value="AK">Alaska</option>
@@ -198,7 +199,7 @@ export default function TaxProfile({ user, setUser, jwt }: Props) {
                                                 </div>
                                             </div>
                                             <Label htmlFor="zip">ZIP Code</Label>
-                                            <TextInput id="zip" name="zip" type="text" inputSize="medium" pattern="[\d]{5}(-[\d]{4})?" />
+                                            <TextInput id="zip" name="zip" type="text" inputSize="medium" pattern="[\d]{5}(-[\d]{4})?" value={user?.zipCode} />
                                         </Fieldset>
                                     </Form>
                                 </div>
