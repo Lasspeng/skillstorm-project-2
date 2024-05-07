@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { Fieldset, GridContainer, Grid, Label, TextInput } from '@trussworks/react-uswds';
 import '@trussworks/react-uswds/lib/uswds.css';
 import '@trussworks/react-uswds/lib/index.css';
-import './TaxReturn.css'; // Assuming you have a separate CSS file for styling
+import './styling/TaxReturn.css'; // Assuming you have a separate CSS file for styling
 
 export default function TaxReturn() {
     const [totalIncome, setTotalIncome] = useState(0);

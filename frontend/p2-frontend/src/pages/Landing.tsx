@@ -1,7 +1,7 @@
 import { Grid, GridContainer } from '@trussworks/react-uswds';
 import '@trussworks/react-uswds/lib/uswds.css'
 import '@trussworks/react-uswds/lib/index.css'
-import './Landing.css';
+import './styling/Landing.css';
 
 export default function Landing() {
     return (
@@ -40,6 +40,7 @@ export default function Landing() {
                     </Grid>
                 </section>
             </main>
+            
         </>
     );
 }

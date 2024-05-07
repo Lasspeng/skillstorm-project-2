@@ -3,7 +3,7 @@ import React from 'react';
 import { useState } from 'react';
 import '@trussworks/react-uswds/lib/uswds.css'
 import '@trussworks/react-uswds/lib/index.css'
-import './SignIn.css';
+import './styling/SignIn.css';
 import { useNavigate } from 'react-router-dom';
 
 interface Props {

@@ -151,7 +151,7 @@ export default function TaxProfile() {
                         </Grid>
                     </GridContainer>
                 </Fieldset>
-
+                <div style={{ marginBottom: '20px'}}>
                 <ul className="usa-button-group">
                     <li className="usa-button-group__item">
                         <a href="/" className="usa-button usa-button--outline">Back</a>
@@ -160,6 +160,7 @@ export default function TaxProfile() {
                         <a href="/filingstatus" className="usa-button">Continue</a>
                     </li>
                 </ul>
+                </div>
             </div>
         </>
     )
