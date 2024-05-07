@@ -83,7 +83,7 @@ export default function FilingStatus({ user, setUser, jwt }: Props) {
                         <div style={{ marginTop: '20px' }}>
                             <ul className="usa-button-group">
                                 <li className="usa-button-group__item">
-                                    <a href="/taxprofile" className="usa-button usa-button--outline">Back</a>
+                                    <button onClick={() => navigate('/taxprofile')} className="usa-button usa-button--outline">Back </button>
                                 </li>
                                 <li className="usa-button-group__item">
                                     <a href="/w2form" className="usa-button" onClick={handleSubmit} >Continue</a>

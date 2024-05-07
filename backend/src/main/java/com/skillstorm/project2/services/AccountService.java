@@ -88,7 +88,7 @@ public class AccountService {
 
         acct.setId(null);
         acct.setRole(Role.ROLE_USER);
-        acct.setDateOfBirth(LocalDate.parse("0001-01-01"));
+        acct.setDateOfBirth(LocalDate.parse("2000-09-01"));
 
         return mapper.toDto(acctRepo.save(acct));
     }
