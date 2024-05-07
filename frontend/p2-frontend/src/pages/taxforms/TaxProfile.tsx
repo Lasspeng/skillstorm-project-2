@@ -37,15 +37,15 @@ export default function TaxProfile() {
                                             <Grid row gap={2}>
                                                 <Grid tablet={{ col: 6 }}>
                                                     <Label htmlFor="first-name">First Name</Label>
-                                                    <TextInput id="first-name" name="first-name" type="text" />
+                                                    <TextInput id="first-name" name="first-name" type="text" required />
                                                 </Grid>
                                                 <Grid tablet={{ col: 6 }}>
                                                     <Label htmlFor="last-name">Last Name</Label>
-                                                    <TextInput id="last-name" name="last-name" type="text" />
+                                                    <TextInput id="last-name" name="last-name" type="text" required />
                                                 </Grid>
                                                 <Grid tablet={{ col: 8 }}>
                                                     <Label htmlFor="ssn" className="margin-top-2">Social Security Number</Label>
-                                                    <TextInputMask id="ssn" name="ssn" type="text" mask="___ __ ____" pattern="^(?!(000|666|9))\d{3} (?!00)\d{2} (?!0000)\d{4}$" />
+                                                    <TextInputMask id="ssn" name="ssn" type="text" mask="___ __ ____" pattern="^(?!(000|666|9))\d{3} (?!00)\d{2} (?!0000)\d{4}$" required />
                                                 </Grid>
                                             </Grid>
 
@@ -80,7 +80,7 @@ export default function TaxProfile() {
                                             <Grid row gap={2}>
                                                 <Grid tablet={{ col: 8 }}>
                                                     <Label htmlFor="mailing-address-1">Street address</Label>
-                                                    <TextInput id="mailing-address-1" name="mailing-address-1" type="text" />
+                                                    <TextInput id="mailing-address-1" name="mailing-address-1" type="text" required />
                                                 </Grid>
                                                 <Grid tablet={{ col: 4 }}>
                                                     <Label htmlFor="city">City</Label>
@@ -142,29 +142,30 @@ export default function TaxProfile() {
                                                         <option value="WY">Wyoming</option>
                                                     </Select>
                                                 </Grid>
-                                                
+
                                                 <Grid tablet={{ col: 6 }}>
                                                     <Label htmlFor="zip">ZIP Code</Label>
-                                                    <TextInput id="zip" name="zip" type="text" inputSize="medium" pattern="[\d]{5}(-[\d]{4})?" />
+                                                    <TextInput id="zip" name="zip" type="text" inputSize="medium" pattern="[\d]{5}(-[\d]{4})?" required />
                                                 </Grid>
                                             </Grid>
                                         </Fieldset>
+                                        <div style={{ display: 'flex', justifyContent: 'center' }}>
+                                            <ul className="usa-button-group">
+                                                <li className="usa-button-group__item">
+                                                    <a href="/" className="usa-button usa-button--outline">Back</a>
+                                                </li>
+                                                <li className="usa-button-group__item">
+                                                    <button type="submit" className="usa-button">Continue</button>
+                                                </li>
+                                            </ul>
+                                        </div>
                                     </Form>
                                 </div>
                             </Grid>
                         </Grid>
                     </GridContainer>
                 </Fieldset>
-                <div style={{ marginBottom: '20px' }}>
-                    <ul className="usa-button-group">
-                        <li className="usa-button-group__item">
-                            <a href="/" className="usa-button usa-button--outline">Back</a>
-                        </li>
-                        <li className="usa-button-group__item">
-                            <a href="/filingstatus" className="usa-button">Continue</a>
-                        </li>
-                    </ul>
-                </div>
+
             </div>
         </>
     )
