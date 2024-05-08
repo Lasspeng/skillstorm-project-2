@@ -1,4 +1,6 @@
+// Importing trussworks elements
 import { Fieldset, Form, Grid, Label, StepIndicator, StepIndicatorStep, TextInput } from '@trussworks/react-uswds';
+// Importing styling
 import '@trussworks/react-uswds/lib/index.css';
 import '@trussworks/react-uswds/lib/uswds.css';
 import { User } from '../../Types';
@@ -12,14 +14,15 @@ interface Props {
 }
 
 export default function W2Form({ user, setUser, jwt }: Props) {
-    const { t } = useTranslation();
-    const navigate = useNavigate();
+    const { t } = useTranslation(); // Translations
+    const navigate = useNavigate(); // Navigation function
 
+    // Handle form submission
     const handleSubmit = (event: any) => {
-        
-        event.preventDefault(); 
-        const data = new FormData(event.target);
+        event.preventDefault(); // Prevent default form submission
+        const data = new FormData(event.target); // Get form data
 
+        // Updated form info
         const updatedFormInfo = {
             formW2: {
                 id: user?.formW2.id,
@@ -28,8 +31,10 @@ export default function W2Form({ user, setUser, jwt }: Props) {
             }
         }
 
+        // Merge updated form info with user data
         const updatedUser = Object.assign({}, user, updatedFormInfo);
 
+        // Update user data on the server
         fetch('http://localhost:8080/users', {
             method: 'PUT',
             headers: {
@@ -40,8 +45,8 @@ export default function W2Form({ user, setUser, jwt }: Props) {
         })
         .then(response => response.json())
         .then(userData => {
-            setUser(userData);
-            navigate('/form1099');
+            setUser(userData); // Update user state
+            navigate('/form1099'); // Navigate to the next step
         })
         .catch((error) => console.error(error));
     };

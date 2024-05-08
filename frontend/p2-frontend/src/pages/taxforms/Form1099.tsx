@@ -1,4 +1,6 @@
+// Importing trussworks elements
 import { Fieldset, StepIndicator, StepIndicatorStep, Grid, Form, Label, TextInput } from '@trussworks/react-uswds';
+// Importing styling
 import '@trussworks/react-uswds/lib/uswds.css'
 import '@trussworks/react-uswds/lib/index.css'
 import { User } from '../../Types';
@@ -6,36 +8,33 @@ import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 
 interface Props {
-    user: User | undefined,
-    setUser: React.Dispatch<React.SetStateAction<User | undefined>>,
-    jwt: string
+    user: User | undefined; // User data
+    setUser: React.Dispatch<React.SetStateAction<User | undefined>>; // Function to set user state
+    jwt: string; // JWT token
 }
 
+// Form1099 component
 export default function Form1099({ user, setUser, jwt }: Props) {
+    const navigate = useNavigate(); // Navigation function
+    const { t } = useTranslation(); // Translations
 
-    const navigate = useNavigate();
-    const { t } = useTranslation();
-
+    // Function to handle form submission
     const handleSubmit = (event: any) => {
-
-        event.preventDefault(); 
-        const data = new FormData(event.target);
+        event.preventDefault(); // Prevent default form submission behavior
+        const data = new FormData(event.target); // Get form data
 
         // Create new object with updated data
         const updatedFormInfo = {
             form1099: {
-                id: user?.form1099.id,   
+                id: user?.form1099.id,
                 wages: data.get("income"),
                 taxWriteOffs: data.get("deductions")
             }
         }
 
-        // setUser((prevState) => {
-        //     return {updatedAccountInfo, ...prevState } as User;
-        // });
+        const updatedUser = Object.assign({}, user, updatedFormInfo); // Merge updated data with user data
 
-        const updatedUser = Object.assign({}, user, updatedFormInfo);
-
+        // Send updated user data to the server
         fetch('http://localhost:8080/users', {
             method: 'PUT',
             headers: {
@@ -44,16 +43,13 @@ export default function Form1099({ user, setUser, jwt }: Props) {
             },
             body: JSON.stringify(updatedUser)
         })
-        .then(response => response.json())
+        .then(response => response.json()) // Parse response data
         .then(userData => {
-            setUser(userData);
-            navigate('/review');
+            setUser(userData); // Update user state
+            navigate('/review'); // Navigate to the review page
         })
-        .catch((error) => console.error(error));
-    }
-
-        
-    ;
+        .catch((error) => console.error(error)); // Log any errors
+    };
 
     return (
         <>

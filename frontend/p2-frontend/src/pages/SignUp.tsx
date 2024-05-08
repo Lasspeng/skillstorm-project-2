@@ -1,8 +1,11 @@
+// Importing trussworks and react elements
 import { Form, Fieldset, Grid, GridContainer, Label, TextInput, Button, Link, Alert } from '@trussworks/react-uswds';
 import React, { useState } from 'react';
+// Importing styling
 import '@trussworks/react-uswds/lib/uswds.css'
 import '@trussworks/react-uswds/lib/index.css'
 import './styling/SignIn.css';
+
 import { useNavigate } from 'react-router-dom';
 import { User } from '../Types';
 
@@ -22,30 +25,36 @@ export default function SignUp(): React.ReactElement {
 
   const handleSubmit = (event: any) => {
 
-    event.preventDefault();
+    event.preventDefault(); // Preventing default form submission behavior
+    // Getting data from form
     const data = new FormData(event.target);
     const email = data.get("email");
     const password = data.get("password");
     const confirmPassword = data.get("password-confirm");
 
+    // Checking if passwords match
     if (password !== confirmPassword) {
       setPasswordsMatch(false); // Update state to indicate passwords don't match
       return;
     }
+
+    // Creating account object
     const account = {
       email: email,
       password: password
     };
 
+    // Sending POST request to register user
     fetch('http://localhost:8080/users/register', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(account)
     })
-      .then(data => data.json())
-      .then((userData) => navigate("/signin"))
-      .catch(() => alert("A user with these credentials already exists"))
+      .then(data => data.json()) // Parsing response data to JSON
+      .then((userData) => navigate("/signin")) // Navigating to sign-in page after successful registration
+      .catch(() => alert("A user with these credentials already exists")); // Alerting if user already exists
   };
+
   return (
     <>
       <div className='centered-grid'>
@@ -63,6 +72,7 @@ export default function SignUp(): React.ReactElement {
 
                   <div className="bg-white padding-y-3 padding-x-5 border border-base-lighter">
                     <h1 className="margin-bottom-0">{t('signUp.title')}</h1>
+                    {/* Sign-up form */}
                     <Form onSubmit={handleSubmit}>
                       <Fieldset legend={t('signUp.getStartedLegend')}>
                         <p>
@@ -99,7 +109,7 @@ export default function SignUp(): React.ReactElement {
                           </abbr>
                         </Label>
                         <TextInput id="password-create-account-confirm" name="password-confirm" type={showPassword ? 'text' : 'password'} autoCapitalize="off" autoCorrect="off" required={true} />
-
+                        {/* Alert for passwords not matching */}
                         {!passwordsMatch && (
                           <Alert type="error" heading={t('signUp.errorHeading')} headingLevel="h4" slim role="alert">
                             {t('signUp.passwordsNotMatch')}

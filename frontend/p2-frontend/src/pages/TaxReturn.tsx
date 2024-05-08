@@ -1,31 +1,35 @@
 import { useEffect, useState } from "react";
 import { Fieldset, GridContainer, Grid, Label, TextInput } from '@trussworks/react-uswds';
+// Importing styling
 import '@trussworks/react-uswds/lib/uswds.css';
 import '@trussworks/react-uswds/lib/index.css';
-import './styling/TaxReturn.css'; // Assuming you have a separate CSS file for styling
+import './styling/TaxReturn.css'; 
+
 import { User } from "../Types";
 import { useTranslation } from "react-i18next";
 
 interface Props {
-    user: User | undefined,
-    jwt: string
+    user: User | undefined, // User data
+    jwt: string // JWT token
 }
 
 export default function TaxReturn({ user, jwt }: Props) {
-    const { t } = useTranslation();
+    const { t } = useTranslation(); // Translations
     
+    // State variables for taxable income, amount owed, and tax rate
     const [taxableIncome, setTaxableIncome] = useState(0);
     const [amountOwed, setAmountOwed] = useState(0);
     const [taxRate, setTaxRate] = useState(0);
 
+    // Formatting for USDollar
     let USDollar = new Intl.NumberFormat('en-US', {
         style: 'currency',
         currency: 'USD',
     });
 
+    // Fetching data on component mount
     useEffect(() => {
-        //fetch will default to a GET request
-        console.log(user);
+        // Fetching tax information
         fetch(`http://localhost:8080/calculate/${user?.id}`, {
             method: 'GET',
             headers: {
@@ -33,21 +37,22 @@ export default function TaxReturn({ user, jwt }: Props) {
                 'Authorization': `Bearer ${jwt}`
             }
         })
-            .then(data => data.json())
+            .then(data => data.json()) // Parsing response data to JSON
             .then(returnedData => {
-                console.log(returnedData);
+                // Setting state with returned data
                 setTaxableIncome(returnedData.taxableIncome);
                 setAmountOwed(returnedData.taxRefund);
                 setTaxRate(returnedData.taxRate);
             })
-            .catch(error => console.error(error));
-    }, []);
+            .catch(error => console.error(error)); // Handling errors
+    }, []); // Running effect only once on component mount
 
     return (
         <div className="tax-return-container">
             <GridContainer>
                 <Grid row>
                     <Grid col={12}>
+                        {/* Heading for taxable income */}
                         <h1 className="tax-return-heading">{t('taxableIncome')}</h1>
                     </Grid>
                 </Grid>
@@ -59,6 +64,7 @@ export default function TaxReturn({ user, jwt }: Props) {
                         <Fieldset>
 
                             <div className="tax-input-box">
+                                {/* Input fields for taxable income, tax rate, and amount owed */}
                                 <div className="tax-input">
                                     <Label htmlFor="total-income" className="bold-label">{t('taxableIncome')}</Label>
                                     <TextInput id="total-income" name="taxable-income" type="text" value={`${USDollar.format(taxableIncome)}`} readOnly />
@@ -68,6 +74,7 @@ export default function TaxReturn({ user, jwt }: Props) {
                                     <TextInput id="tax-rate" name="tax-rate" type="text" value={`${taxRate * 100}%`} readOnly />
                                 </div>
                                 <div className="tax-input">
+                                    {/* Conditional rendering based on amount owed */}
                                     {amountOwed < 0 ? (
                                         <>
                                             <Label htmlFor="amount-owed" className="bold-label">{t('taxOwed')}</Label>

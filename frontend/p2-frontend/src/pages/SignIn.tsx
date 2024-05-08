@@ -1,55 +1,60 @@
+// Importing trussworks and react elements
 import { Alert, Form, Fieldset, Grid, GridContainer, Label, TextInput, Button, Link} from '@trussworks/react-uswds';
 import React from 'react';
 import { useState } from 'react';
+// Importing styling
 import '@trussworks/react-uswds/lib/uswds.css'
 import '@trussworks/react-uswds/lib/index.css'
 import './styling/SignIn.css';
+
 import { useNavigate } from 'react-router-dom';
 import { User } from '../Types';
 
 import { useTranslation } from 'react-i18next';
 
 interface Props {
-  setUser: React.Dispatch<React.SetStateAction<User | undefined>>
-  setJwt: React.Dispatch<React.SetStateAction<string>>;
+  setUser: React.Dispatch<React.SetStateAction<User | undefined>> // Function to set user state
+  setJwt: React.Dispatch<React.SetStateAction<string>>; // Function to set JWT token state
 }
 
 export default function SignIn({ setUser, setJwt }: Props): React.ReactElement {
-  const { t } = useTranslation();
+  const { t } = useTranslation(); // Translations
 
-  const [showPassword, setShowPassword] = useState(false);
-  const [errorMessage, setErrorMessage] = useState('');
-  const navigate = useNavigate();
+  const [showPassword, setShowPassword] = useState(false); // State for showing password
+  const [errorMessage, setErrorMessage] = useState(''); // State for error message
+  const navigate = useNavigate(); // Navigation hook
   
+  // Function to handle form submission
   const handleSubmit = (event: any) => {
-    event.preventDefault();
+    event.preventDefault(); // Preventing default form submission behavior
 
-    const data = new FormData(event.target);
+    const data = new FormData(event.target); // Getting form data
     const authInfo = {
-      email : data.get("email"),
-      password : data.get("password")
+      email : data.get("email"), // Extracting email
+      password : data.get("password") // Extracting password
     };
 
+    // Sending POST request to authenticate user
     fetch('http://localhost:8080/authenticate' , {
       method: 'POST',
       headers: {'Content-Type' : 'application/json'} ,
       body: JSON.stringify(authInfo)  
     })
-    .then(response => response.json())
+    .then(response => response.json()) // Parsing response data to JSON
     .then(jwtData => {
-      setJwt(jwtData.jwt);
+      setJwt(jwtData.jwt); // Setting JWT token
       setUser(() => {
         return {
-          email: authInfo.email,
-          password: authInfo.password
+          email: authInfo.email as string,
+          password: authInfo.password as string
         } as User
       }
-      );
-      navigate("/");
+      ); // Setting user state
+      navigate("/"); // Navigating to home page
     })
     .catch(() => {
-      setErrorMessage('Incorrect email or password. Try again.');
-    })
+      setErrorMessage('Incorrect email or password. Try again.'); // Setting error message
+    });
   };
 
 

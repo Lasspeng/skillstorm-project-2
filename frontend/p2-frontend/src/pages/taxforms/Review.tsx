@@ -1,27 +1,24 @@
 import { StepIndicator, StepIndicatorStep, Table } from '@trussworks/react-uswds';
-import '@trussworks/react-uswds/lib/uswds.css'
-import '@trussworks/react-uswds/lib/index.css'
-import { useEffect, useState } from 'react';
+import '@trussworks/react-uswds/lib/uswds.css';
+import '@trussworks/react-uswds/lib/index.css';
 import { User } from '../../Types';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 
 interface Props {
-    user: User | undefined,
-    setUser: React.Dispatch<React.SetStateAction<User | undefined>>,
-    jwt: string
+    user: User | undefined; // User data
+    setUser: React.Dispatch<React.SetStateAction<User | undefined>>; // Function to set user state
+    jwt: string; // JWT token
 }
 
 export default function Review({ user, setUser, jwt }: Props) {
-    const { t } = useTranslation();
-    const navigate = useNavigate();
+    const { t } = useTranslation(); // Translations
+    const navigate = useNavigate(); // Navigation function
 
     let USDollar = new Intl.NumberFormat('en-US', {
         style: 'currency',
         currency: 'USD',
     });
-
-    console.log(user);
 
     return (
         <>
@@ -30,26 +27,26 @@ export default function Review({ user, setUser, jwt }: Props) {
                     counters="default"
                     headingLevel="h4"
                     ofText={t('ofText')} // Translate text
-                    stepText={t('stepText')} // Translate text
+                    stepText={t('stepText')} 
                 >
                     <StepIndicatorStep
-                        label={t('personalInformation')} // Translate text
+                        label={t('personalInformation')} 
                         status="complete"
                     />
                     <StepIndicatorStep
-                        label={t('filingStatus')} // Translate text
+                        label={t('filingStatus')} 
                         status="complete"
                     />
                     <StepIndicatorStep
-                        label={t('w2Form')} // Translate text
+                        label={t('w2Form')}
                         status="complete"
                     />
                     <StepIndicatorStep
-                        label={t('form1099')} // Translate text
+                        label={t('form1099')} 
                         status="complete"
                     />
                     <StepIndicatorStep
-                        label={t('reviewAndSubmit')} // Translate text
+                        label={t('reviewAndSubmit')} 
                         status="current"
                     />
                 </StepIndicator>

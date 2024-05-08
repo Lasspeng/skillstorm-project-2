@@ -1,6 +1,9 @@
+// Importing trussworks elements
 import { Fieldset, StepIndicator, StepIndicatorStep, Grid, Form, Label, TextInput, Select, GridContainer, TextInputMask, FormGroup, DateInput, DateInputGroup } from '@trussworks/react-uswds';
+// Importing styling
 import '@trussworks/react-uswds/lib/uswds.css'
 import '@trussworks/react-uswds/lib/index.css'
+
 import { User } from '../../Types';
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
@@ -13,27 +16,28 @@ interface Props {
 }
 
 export default function TaxProfile({ user, setUser, jwt }: Props) {
-    const { t } = useTranslation();
-    const navigate = useNavigate();
+    const { t } = useTranslation(); // Translations
+    const navigate = useNavigate(); // Navigation function
 
-    const handleSubmit = (event: any) => {
+    // Handle form submission
+    const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+        event.preventDefault(); // Prevent default form submission
+        const data = new FormData(event.currentTarget); // Get form data
 
-        event.preventDefault();
-        const data = new FormData(event.target);
-
-        // Add a 0 to the month and day of DOB if they're below 10
+        // Add leading zero to month and day of birth if needed
         let month = data.get("dobMonth") as string;
         if (month !== null && month.length === 1) {
             month = `0${month}`;
         }
         let day = data.get("dobDay") as string;
-        if (day !== null && month.length === 1) {
+        if (day !== null && day.length === 1) {
             day = `0${day}`;
         }
 
-        // Convert dob data into a Java and Postgresql compatible format
-        const dateOfBirth = `${data.get("dobYear")}-${month}-${day}`
+        // Construct date of birth in the required format
+        const dateOfBirth = `${data.get("dobYear")}-${month}-${day}`;
 
+        // Updated account info
         const updatedAccountInfo = {
             firstName: data.get("first-name"),
             lastName: data.get("last-name"),
@@ -43,10 +47,9 @@ export default function TaxProfile({ user, setUser, jwt }: Props) {
             city: data.get("city"),
             state: data.get("state"),
             zipCode: data.get("zip")
-        }
+        };
 
-        const updatedUser = Object.assign({}, user, updatedAccountInfo);
-        console.log(updatedUser);
+        const updatedUser = Object.assign({}, user, updatedAccountInfo); // Merge updated info with user data
 
         fetch('http://localhost:8080/users', {
             method: 'PUT',
@@ -56,12 +59,12 @@ export default function TaxProfile({ user, setUser, jwt }: Props) {
             },
             body: JSON.stringify(updatedUser)
         })
-            .then(data => data.json())
-            .then(userData => {
-                setUser(userData);
-                navigate('/filingstatus')
-            })
-            .catch((error) => console.error(error));
+        .then(data => data.json())
+        .then(userData => {
+            setUser(userData); // Update user state
+            navigate('/filingstatus'); // Navigate to the next step
+        })
+        .catch((error) => console.error(error));
     };
 
     useEffect(() => {

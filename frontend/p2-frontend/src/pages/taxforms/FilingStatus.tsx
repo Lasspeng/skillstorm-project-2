@@ -1,4 +1,6 @@
+// Importing trussworks elements
 import { StepIndicator, StepIndicatorStep, Radio, Fieldset } from '@trussworks/react-uswds';
+// Importing styling 
 import '@trussworks/react-uswds/lib/uswds.css'
 import '@trussworks/react-uswds/lib/index.css'
 import { useNavigate } from 'react-router-dom';
@@ -8,37 +10,40 @@ import { FilingStatusEnum } from '../../Types';
 import { useTranslation } from 'react-i18next';
 
 interface Props {
-    user: User | undefined,
-    setUser: React.Dispatch<React.SetStateAction<User | undefined>>,
-    jwt: string
+    user: User | undefined; // User data
+    setUser: React.Dispatch<React.SetStateAction<User | undefined>>; // Function to set user state
+    jwt: string; // JWT token
 }
 
+// FilingStatus component
 export default function FilingStatus({ user, setUser, jwt }: Props) {
+    const [filingStatus, setFilingStatus] = useState('Single'); // State for filing status
+    const navigate = useNavigate(); // Navigation function
+    const { t } = useTranslation(); // Translations
 
-    const [filingStatus, setFilingStatus] = useState('Single');
-    const navigate = useNavigate();
-    const { t } = useTranslation();
-
-
+    // Function to handle filing status change
     const handleFilingStatusChange = (event: { target: { value: SetStateAction<string>; }; }) => {
-        setFilingStatus(event.target.value);
+        setFilingStatus(event.target.value); // Set filing status based on user selection
     };
 
+    // Function to handle form submission
     const handleSubmit = (event: any) => {
-        event.preventDefault();
+        event.preventDefault(); // Prevent default form submission behavior
 
         let fStatus = {
             filingStatus: ''
         };
 
+        // Determine filing status based on user selection
         if (filingStatus === 'Single') {
-            fStatus.filingStatus = FilingStatusEnum.SINGLE;
+            fStatus.filingStatus = FilingStatusEnum.SINGLE; // Set filing status to single
         } else {
-            fStatus.filingStatus = FilingStatusEnum.MARRIED;
+            fStatus.filingStatus = FilingStatusEnum.MARRIED; // Set filing status to married
         }
 
-        const updatedUser = Object.assign({}, user, fStatus);
+        const updatedUser = Object.assign({}, user, fStatus); // Merge updated data with user data
 
+        // Send updated user data to the server
         fetch('http://localhost:8080/users', {
             method: 'PUT',
             headers: {
@@ -47,12 +52,12 @@ export default function FilingStatus({ user, setUser, jwt }: Props) {
             },
             body: JSON.stringify(updatedUser)
         })
-        .then(response => response.json())
+        .then(response => response.json()) // Parse response data
         .then(userData => {
-            setUser(userData);
-            navigate('/w2form');
+            setUser(userData); // Update user state
+            navigate('/w2form'); // Navigate to the W2 form page
         })
-        .catch((error) => console.error(error));
+        .catch((error) => console.error(error)); // Log any errors
     }
 
 

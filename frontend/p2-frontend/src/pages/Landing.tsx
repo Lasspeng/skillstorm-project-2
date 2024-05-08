@@ -1,4 +1,6 @@
+// Importing trussworks elements
 import { Grid, GridContainer } from '@trussworks/react-uswds';
+// Importing styling
 import '@trussworks/react-uswds/lib/uswds.css'
 import '@trussworks/react-uswds/lib/index.css'
 import { User } from '../Types';
@@ -14,10 +16,10 @@ interface Props {
 }
 
 export default function Landing({ user, setUser, jwt }: Props) {
-    const { t } = useTranslation();
+    const { t } = useTranslation(); // Translations
 
+    // Effect to fetch user data when component mounts
     useEffect(() => {
-
         fetch('http://localhost:8080/users/email', {
             method: 'POST',
             headers: {
@@ -26,11 +28,12 @@ export default function Landing({ user, setUser, jwt }: Props) {
             },
             body: JSON.stringify(user)
         })
-            .then(response => response.json())
-            .then(userData => setUser(userData))
-            .catch((error) => console.error(error));
+        .then(response => response.json())
+        .then(userData => setUser(userData))
+        .catch((error) => console.error(error));
     }, []);
 
+    // Effect to log user data when it changes
     useEffect(() => {
         console.log(user);
     }, [user]);

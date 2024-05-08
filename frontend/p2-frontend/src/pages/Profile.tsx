@@ -1,6 +1,9 @@
+// Importing trussworks and react elements
 import { Grid, Form, Fieldset, Label, TextInput, Select, GridContainer, TextInputMask, FormGroup, DateInput, DateInputGroup, Button } from '@trussworks/react-uswds';
+// Importing styling
 import '@trussworks/react-uswds/lib/uswds.css'
 import '@trussworks/react-uswds/lib/index.css'
+
 import { useEffect } from 'react';
 import { User } from '../Types';
 import { useTranslation } from 'react-i18next';
@@ -12,12 +15,12 @@ interface Props {
 }
 
 export default function Profile({ user, setUser, jwt }: Props) {
-    const { t } = useTranslation();
+    const { t } = useTranslation(); // Translations
     
+    // Function to handle form submission
     const handleSubmit = (event: any) => {
-
-        event.preventDefault();
-        const data = new FormData(event.target);
+        event.preventDefault(); // Preventing default form submission behavior
+        const data = new FormData(event.target); // Getting form data
 
         // Add a 0 to the month and day of DOB if they're below 10
         let month = data.get("dobMonth") as string;
@@ -25,14 +28,14 @@ export default function Profile({ user, setUser, jwt }: Props) {
             month = `0${month}`;
         }
         let day = data.get("dobDay") as string;
-        if (day !== null && month.length === 1) {
+        if (day !== null && day.length === 1) {
             day = `0${day}`;
         }
 
         // Convert dob data into a Java and Postgresql compatible format
-        const dateOfBirth = `${data.get("dobYear")}-${month}-${day}` 
+        const dateOfBirth = `${data.get("dobYear")}-${month}-${day}`;
 
-
+        // Prepare updated account info
         const updatedAccountInfo = {
             firstName: data.get("first-name"),
             lastName: data.get("last-name"),
@@ -41,13 +44,14 @@ export default function Profile({ user, setUser, jwt }: Props) {
             streetAddress: data.get("mailing-address-1"),
             city: data.get("city"),
             state: data.get("state"),
-            zipCode: data.get("zip") as unknown as number
-        }
+            zipCode: data.get("zip") as unknown as number // Casting zip code to number
+        };
 
+        // Merge updated account info with existing user data
         const updatedUser = Object.assign({}, user, updatedAccountInfo);
         console.log(updatedUser);
 
-
+        // Update user data on the server
         fetch('http://localhost:8080/users', {
             method: 'PUT',
             headers: {
@@ -58,12 +62,13 @@ export default function Profile({ user, setUser, jwt }: Props) {
         })
         .then(data => data.json())
         .then(userData => {
-            setUser(userData);
-            alert("Your account has been successfully updated");
+            setUser(userData); // Update user state
+            alert("Your account has been successfully updated"); // Show success message
         })
-        .catch((error) => console.error(error));
+        .catch((error) => console.error(error)); // Log any errors
     };
 
+    // Effect to log user data when it changes
     useEffect (() => {
         console.log(user);
     }, [user]);
