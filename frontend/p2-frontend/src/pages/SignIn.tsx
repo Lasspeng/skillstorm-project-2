@@ -7,12 +7,15 @@ import './styling/SignIn.css';
 import { useNavigate } from 'react-router-dom';
 import { User } from '../Types';
 
+import { useTranslation } from 'react-i18next';
+
 interface Props {
   setUser: React.Dispatch<React.SetStateAction<User | undefined>>
   setJwt: React.Dispatch<React.SetStateAction<string>>;
 }
 
 export default function SignIn({ setUser, setJwt }: Props): React.ReactElement {
+  const { t } = useTranslation();
 
   const [showPassword, setShowPassword] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
@@ -61,25 +64,25 @@ export default function SignIn({ setUser, setJwt }: Props): React.ReactElement {
               col: 6
             }} className="centered-grid">
               <div className="bg-white padding-y-3 padding-x-5 border border-base-lighter">
-                <h1 className="margin-bottom-0">Sign in to Tax Pro!</h1>
+                <h1 className="margin-bottom-0">{t('signIn.title')}</h1>
                 <Form onSubmit={handleSubmit}>
                   <Fieldset>
-                    <Label htmlFor="email">Email address</Label>
+                    <Label htmlFor="email">{t('signIn.emailLabel')}</Label>
                     <TextInput id="email" name="email" type="email" autoCorrect="off" autoCapitalize="off" required={true} />
 
-                    <Label htmlFor="password-sign-in">Password</Label>
+                    <Label htmlFor="password-sign-in">{t('signIn.passwordLabel')}</Label>
                     <TextInput id="password-sign-in" name="password" type={showPassword ? 'text' : 'password'} autoCorrect="off" autoCapitalize="off" required={true} />
 
-                    <button title="Show password" type="button" className="usa-show-password" aria-controls="password-sign-in" onClick={(): void => setShowPassword(showPassword => !showPassword)}>
-                      {showPassword ? 'Hide password' : 'Show password'}
+                    <button title={showPassword ? t('signIn.hidePassword') : t('signIn.showPassword')} type="button" className="usa-show-password" aria-controls="password-sign-in" onClick={(): void => setShowPassword(showPassword => !showPassword)}>
+                      {showPassword ? t('signIn.hidePassword') : t('signIn.showPassword')}
                     </button>
 
-                    {errorMessage && <Alert type="error" heading="Error status" headingLevel="h4">{errorMessage}</Alert>}
+                    {errorMessage && <Alert type="error" heading={t('signIn.errorHeading')} headingLevel="h4">{errorMessage}</Alert>}
 
-                    <Button type="submit">Sign in</Button>
+                    <Button type="submit">{t('signIn.signInButton')}</Button>
                     <p className="text-center">
-                      {"Don't have an account? "}
-                      <Link href="/signup">Create your account now</Link>
+                      {t('signIn.noAccount')}
+                      <Link href="/signup">{t('signIn.signUpLink')}</Link>
                       .
                     </p>
 

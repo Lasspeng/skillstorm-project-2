@@ -1,9 +1,9 @@
 import { Grid, Form, Fieldset, Label, TextInput, Select, GridContainer, TextInputMask, FormGroup, DateInput, DateInputGroup, Button } from '@trussworks/react-uswds';
 import '@trussworks/react-uswds/lib/uswds.css'
 import '@trussworks/react-uswds/lib/index.css'
-import { FormEvent, useEffect } from 'react';
+import { useEffect } from 'react';
 import { User } from '../Types';
-import { toast } from 'react-toastify';
+import { useTranslation } from 'react-i18next';
 
 interface Props {
     user: User | undefined,
@@ -12,7 +12,8 @@ interface Props {
 }
 
 export default function Profile({ user, setUser, jwt }: Props) {
-
+    const { t } = useTranslation();
+    
     const handleSubmit = (event: any) => {
 
         event.preventDefault();
@@ -74,30 +75,30 @@ export default function Profile({ user, setUser, jwt }: Props) {
                     <Grid row={true} className="flex-justify-center">
                         <Grid col={12} tablet={{ col: 12 }} desktop={{ col: 10 }} className="centered-grid">
                             <div className="bg-white padding-y-3 padding-x-5 border border-base-lighter rounded">
-                                <h1 className="margin-bottom-2 text-center">User Profile</h1>
+                                <h1 className="margin-bottom-2 text-center">{t('profile.title')}</h1> {/* Translate title */}
                                 <Form onSubmit={handleSubmit}>
                                     <Fieldset>
                                         <Grid row gap={2}>
                                             <Grid tablet={{ col: 6 }}>
-                                                <Label htmlFor="first-name">First Name</Label>
+                                                <Label htmlFor="first-name">{t('profile.firstNameLabel')}</Label> {/* Translate label */}
                                                 <TextInput id="first-name" name="first-name" type="text" defaultValue={user?.firstName} />
                                             </Grid>
                                             <Grid tablet={{ col: 6 }}>
-                                                <Label htmlFor="last-name">Last Name</Label>
+                                                <Label htmlFor="last-name">{t('profile.lastNameLabel')}</Label> {/* Translate label */}
                                                 <TextInput id="last-name" name="last-name" type="text" defaultValue={user?.lastName} />
                                             </Grid>
                                             <Grid tablet={{ col: 8 }}>
-                                                <Label htmlFor="ssn" className="margin-top-2">Social Security Number</Label>
+                                                <Label htmlFor="ssn" className="margin-top-2">{t('profile.socialSecurityLabel')}</Label> {/* Translate label */}
                                                 <TextInputMask id="ssn" name="ssn" type="text" mask="___ __ ____" pattern="^(?!(000|666|9))\d{3} (?!00)\d{2} (?!0000)\d{4}$" defaultValue={`${user?.socialSecurity?.substring(0, 3)} ${user?.socialSecurity?.substring(4, 6)} ${user?.socialSecurity?.substring(7)}`}/>
                                             </Grid>
                                         </Grid>
 
                                         <Grid row >
                                             <Grid tablet={{ col: 6 }}>
-                                                <Label htmlFor="dob" className="margin-top-1 bold-label">Date of Birth</Label>
+                                                <Label htmlFor="dob" className="margin-top-1 bold-label">{t('profile.dateOfBirthLabel')}</Label> {/* Translate label */}
                                                 <DateInputGroup>
                                                     <FormGroup className="usa-form-group--month usa-form-group--select">
-                                                        <Label htmlFor="input-select">Month</Label>
+                                                        <Label htmlFor="input-select">{t('profile.monthLabel')}</Label> {/* Translate label */}
                                                         <Select id="testDateInput" name="dobMonth" defaultValue={user?.dateOfBirth?.substring(5, 7)} >
                                                             <option>- Select -</option>
                                                             <option value="01">01 - January</option>
@@ -114,25 +115,26 @@ export default function Profile({ user, setUser, jwt }: Props) {
                                                             <option value="12">12 - December</option>
                                                         </Select>
                                                     </FormGroup>
-                                                    <DateInput id="testDateInput" name="dobDay" label="Day" unit="day" maxLength={2} minLength={1} defaultValue={user?.dateOfBirth?.substring(8)} />
-                                                    <DateInput id="testDateInput" name="dobYear" label="Year" unit="year" maxLength={4} minLength={4} defaultValue={user?.dateOfBirth?.substring(0, 4)} />
+                                                    <DateInput id="testDateInput" name="dobDay" label={t('profile.dayLabel')} unit="day" maxLength={2} minLength={1} defaultValue={user?.dateOfBirth?.substring(8)} />
+                                                    <DateInput id="testDateInput" name="dobYear" label={t('profile.yearLabel')} unit="year" maxLength={4} minLength={4} defaultValue={user?.dateOfBirth?.substring(0, 4)} />
                                                 </DateInputGroup>
                                             </Grid>
                                         </Grid>
 
                                         <Grid row gap={2}>
                                             <Grid tablet={{ col: 8 }}>
-                                                <Label htmlFor="mailing-address-1">Street address</Label>
+                                                <Label htmlFor="mailing-address-1">{t('profile.streetAddressLabel')}</Label> {/* Translate label */}
                                                 <TextInput id="mailing-address-1" name="mailing-address-1" type="text" defaultValue={user?.streetAddress} />
                                             </Grid>
                                             <Grid tablet={{ col: 4 }}>
-                                                <Label htmlFor="city">City</Label>
+                                                <Label htmlFor="city">{t('profile.cityLabel')}</Label> {/* Translate label */}
                                                 <TextInput id="city" name="city" type="text" required defaultValue={user?.city} />
                                             </Grid>
                                             <Grid tablet={{ col: 6 }}>
-                                                <Label htmlFor="state">State</Label>
+                                                <Label htmlFor="state">{t('profile.stateLabel')}</Label> {/* Translate label */}
                                                 <Select id="state" name="state" defaultValue={user?.state} required>
                                                     <option>- Select -</option>
+                                                    {/* Translate options */}
                                                     <option value="AL">Alabama</option>
                                                     <option value="AK">Alaska</option>
                                                     <option value="AZ">Arizona</option>
@@ -185,15 +187,15 @@ export default function Profile({ user, setUser, jwt }: Props) {
                                                     <option value="WY">Wyoming</option>
                                                 </Select>
                                             </Grid>
-                                       
-                                        <Grid tablet={{ col: 6 }}>
-                                            <Label htmlFor="zip">ZIP Code</Label>
-                                            <TextInput id="zip" name="zip" type="text" inputSize="medium" pattern="[\d]{5}(-[\d]{4})?" defaultValue={user?.zipCode} />
-                                        </Grid>
+
+                                            <Grid tablet={{ col: 6 }}>
+                                                <Label htmlFor="zip">{t('profile.zipCodeLabel')}</Label> {/* Translate label */}
+                                                <TextInput id="zip" name="zip" type="text" inputSize="medium" pattern="[\d]{5}(-[\d]{4})?" defaultValue={user?.zipCode} />
+                                            </Grid>
                                         </Grid>
 
                                         <div style={{ textAlign: 'center' }} className="margin-top-2">
-                                            <Button type="submit" className="margin-top-2">Save</Button>
+                                            <Button type="submit" className="margin-top-2">{t('profile.saveButton')}</Button> {/* Translate button */}
                                         </div>
 
                                     </Fieldset>

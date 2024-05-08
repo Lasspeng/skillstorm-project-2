@@ -5,6 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import { User } from '../../Types';
 import { SetStateAction, useState } from 'react';
 import { FilingStatusEnum } from '../../Types';
+import { useTranslation } from 'react-i18next';
 
 interface Props {
     user: User | undefined,
@@ -16,6 +17,7 @@ export default function FilingStatus({ user, setUser, jwt }: Props) {
 
     const [filingStatus, setFilingStatus] = useState('Single');
     const navigate = useNavigate();
+    const { t } = useTranslation();
 
 
     const handleFilingStatusChange = (event: { target: { value: SetStateAction<string>; }; }) => {
@@ -57,36 +59,36 @@ export default function FilingStatus({ user, setUser, jwt }: Props) {
     return (
         <>
             <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', marginBottom: '200px' }}>
-                <StepIndicator
+            <StepIndicator
                     counters="default"
                     headingLevel="h4"
-                    ofText="of"
-                    stepText="Step"
+                    ofText={t('of')} // Translate text
+                    stepText={t('step')} // Translate text
                 >
                     <StepIndicatorStep
-                        label="Personal information"
+                        label={t('personalInfo')} // Translate text
                         status="complete"
                     />
                     <StepIndicatorStep
-                        label="Filing status"
+                        label={t('filingStatus')} // Translate text
                         status="current"
                     />
-                    <StepIndicatorStep label="W2 Form" />
-                    <StepIndicatorStep label="1099 Form" />
-                    <StepIndicatorStep label="Review and submit" />
+                    <StepIndicatorStep label={t('w2Form')} />
+                    <StepIndicatorStep label={t('form1099')} /> 
+                    <StepIndicatorStep label={t('reviewSubmit')} /> 
                 </StepIndicator>
                 <div className="bg-white padding-y-3 padding-x-5 border border-base-lighter rounded">
-                    <Fieldset legend="Filing Status" legendStyle="large" >
-                        <Radio id="single" name="filing-status" defaultChecked label="Single" value="Single" onChange={handleFilingStatusChange} />
-                        <Radio id="jointly" name="filing-status" label="Jointly" value="Jointly" onChange={handleFilingStatusChange} />
+                    <Fieldset legend={t('filingStatus')} legendStyle="large" >
+                        <Radio id="single" name="filing-status" defaultChecked label={t('single')} value="Single" onChange={handleFilingStatusChange} />
+                        <Radio id="jointly" name="filing-status" label={t('jointly')} value="Jointly" onChange={handleFilingStatusChange} />
 
                         <div style={{ marginTop: '20px' }}>
                             <ul className="usa-button-group">
                                 <li className="usa-button-group__item">
-                                    <button onClick={() => navigate('/taxprofile')} className="usa-button usa-button--outline">Back </button>
+                                    <button onClick={() => navigate('/taxprofile')} className="usa-button usa-button--outline">{t('back')}</button>
                                 </li>
                                 <li className="usa-button-group__item">
-                                    <a href="/w2form" className="usa-button" onClick={handleSubmit} >Continue</a>
+                                    <a href="/w2form" className="usa-button" onClick={handleSubmit} >{t('continue')}</a>
                                 </li>
                             </ul>
                         </div>

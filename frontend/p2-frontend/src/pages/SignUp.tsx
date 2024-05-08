@@ -6,6 +6,8 @@ import './styling/SignIn.css';
 import { useNavigate } from 'react-router-dom';
 import { User } from '../Types';
 
+import { useTranslation } from 'react-i18next';
+
 
 interface Props {
   user: User | undefined,
@@ -16,7 +18,7 @@ export default function SignUp(): React.ReactElement {
   const [showPassword, setShowPassword] = React.useState(false);
   const [passwordsMatch, setPasswordsMatch] = useState(true);
   const navigate = useNavigate();
-
+  const { t } = useTranslation();
 
   const handleSubmit = (event: any) => {
 
@@ -60,18 +62,18 @@ export default function SignUp(): React.ReactElement {
                 }} className="padding-x-205 margin-bottom-4">
 
                   <div className="bg-white padding-y-3 padding-x-5 border border-base-lighter">
-                    <h1 className="margin-bottom-0">Create an account for Tax Pro!</h1>
+                    <h1 className="margin-bottom-0">{t('signUp.title')}</h1>
                     <Form onSubmit={handleSubmit}>
-                      <Fieldset legend="Get started with an account.">
+                      <Fieldset legend={t('signUp.getStartedLegend')}>
                         <p>
                           <abbr title="required" className="usa-hint usa-hint--required">
                             *
                           </abbr>{' '}
-                          indicates a required field.
+                          {t('signUp.requiredField')}
                         </p>
 
                         <Label htmlFor="email">
-                          Email address{' '}
+                          {t('signUp.emailLabel')}{' '}
                           <abbr title="required" className="usa-label--required">
                             *
                           </abbr>
@@ -79,7 +81,7 @@ export default function SignUp(): React.ReactElement {
                         <TextInput id="email" name="email" type="email" autoCapitalize="off" autoCorrect="off" required={true} />
 
                         <Label htmlFor="password-create-account">
-                          Create password{' '}
+                          {t('signUp.createPasswordLabel')}{' '}
                           <abbr title="required" className="usa-label--required">
                             *
                           </abbr>
@@ -87,11 +89,11 @@ export default function SignUp(): React.ReactElement {
                         <TextInput id="password-create-account" name="password" type={showPassword ? 'text' : 'password'} autoCapitalize="off" autoCorrect="off" required={true} />
 
                         <button title="Show password" type="button" className="usa-show-password" aria-controls="password-create-account password-create-account-confirm" onClick={(): void => setShowPassword(showPassword => !showPassword)}>
-                          {showPassword ? 'Hide password' : 'Show password'}
+                          {showPassword ? t('signUp.hidePassword') : t('signUp.showPassword')}
                         </button>
 
                         <Label htmlFor="password-create-account-confirm">
-                          Re-type password{' '}
+                          {t('signUp.retypePasswordLabel')}{' '}
                           <abbr title="required" className="usa-label--required">
                             *
                           </abbr>
@@ -99,8 +101,8 @@ export default function SignUp(): React.ReactElement {
                         <TextInput id="password-create-account-confirm" name="password-confirm" type={showPassword ? 'text' : 'password'} autoCapitalize="off" autoCorrect="off" required={true} />
 
                         {!passwordsMatch && (
-                          <Alert type="error" heading="Error status" headingLevel="h4" slim role="alert">
-                            Passwords do not match.
+                          <Alert type="error" heading={t('signUp.errorHeading')} headingLevel="h4" slim role="alert">
+                            {t('signUp.passwordsNotMatch')}
                           </Alert>
                         )}
 
@@ -110,8 +112,8 @@ export default function SignUp(): React.ReactElement {
                   </div>
 
                   <p className="text-center">
-                    Already have an account?{' '}
-                    <Link href="/signin">Sign in</Link>.
+                    {t('signUp.alreadyHaveAccount')}{' '}
+                    <Link href="/signin">{t('signUp.signInLink')}</Link>.
                   </p>
                 </Grid>
 
@@ -124,12 +126,12 @@ export default function SignUp(): React.ReactElement {
                 }} className="padding-x-205">
                   <div className="border-top border-base-lighter padding-top-4 desktop:border-0 desktop:padding-top-0">
                     <h2 className="display-none desktop:display-block">
-                      Simplify Tax Estimation with an Account
+                      {t('signUp.simplifyTaxEstimation')}
                     </h2>
 
                     <div className="usa-prose">
                       <p>
-                        Welcome to our Federal Tax Calculator! Easily estimate your taxes by creating an account. Simply provide your email and create a password, and you're ready to go. Already have an account? Sign in now. Let us help you navigate your tax obligations effortlessly. Get started today
+                        {t('signUp.welcomeText')}
                       </p>
                     </div>
 

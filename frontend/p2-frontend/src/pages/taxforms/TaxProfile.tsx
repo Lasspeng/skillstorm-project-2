@@ -4,6 +4,7 @@ import '@trussworks/react-uswds/lib/index.css'
 import { User } from '../../Types';
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 
 interface Props {
     user: User | undefined,
@@ -12,7 +13,7 @@ interface Props {
 }
 
 export default function TaxProfile({ user, setUser, jwt }: Props) {
-
+    const { t } = useTranslation();
     const navigate = useNavigate();
 
     const handleSubmit = (event: any) => {
@@ -77,13 +78,13 @@ export default function TaxProfile({ user, setUser, jwt }: Props) {
                     stepText="Step"
                 >
                     <StepIndicatorStep
-                        label="Personal information"
+                        label={t('personalInformation')}
                         status="current"
                     />
-                    <StepIndicatorStep label="Filing status" />
-                    <StepIndicatorStep label="W2 Form" />
-                    <StepIndicatorStep label="1099 Form" />
-                    <StepIndicatorStep label="Review and submit" />
+                    <StepIndicatorStep label={t('filingStatus')} />
+                    <StepIndicatorStep label={t('w2Form')} />
+                    <StepIndicatorStep label={t('form1099')} />
+                    <StepIndicatorStep label={t('reviewAndSubmit')} />
                 </StepIndicator>
 
                 <Fieldset>
@@ -91,63 +92,63 @@ export default function TaxProfile({ user, setUser, jwt }: Props) {
                         <Grid row={true} className="flex-justify-center">
                             <Grid col={12} tablet={{ col: 12 }} desktop={{ col: 10 }} className="centered-grid">
                                 <div className="bg-white padding-y-3 padding-x-5 border border-base-lighter rounded">
-                                    <h1 className="margin-bottom-2 text-center">Update User Profile</h1>
+                                    <h1 className="margin-bottom-2 text-center">{t('updateUserProfile')}</h1>
                                     <Form onSubmit={handleSubmit}>
                                         <Fieldset>
                                             <Grid row gap={2}>
                                                 <Grid tablet={{ col: 6 }}>
-                                                    <Label htmlFor="first-name">First Name</Label>
+                                                    <Label htmlFor="first-name">{t('firstName')}</Label>
                                                     <TextInput id="first-name" name="first-name" type="text" defaultValue={user?.firstName} required />
                                                 </Grid>
                                                 <Grid tablet={{ col: 6 }}>
-                                                    <Label htmlFor="last-name">Last Name</Label>
+                                                    <Label htmlFor="last-name">{t('lastName')}</Label>
                                                     <TextInput id="last-name" name="last-name" type="text" defaultValue={user?.lastName} required />
                                                 </Grid>
                                                 <Grid tablet={{ col: 8 }}>
-                                                    <Label htmlFor="ssn" className="margin-top-2">Social Security Number</Label>
+                                                    <Label htmlFor="ssn" className="margin-top-2">{t('socialSecurityNumber')}</Label>
                                                     <TextInputMask id="ssn" name="ssn" type="text" mask="___ __ ____" pattern="^(?!(000|666|9))\d{3} (?!00)\d{2} (?!0000)\d{4}$" defaultValue={`${user?.socialSecurity.substring(0, 3)} ${user?.socialSecurity?.substring(4, 6)} ${user?.socialSecurity?.substring(7)}`} required />
                                                 </Grid>
                                             </Grid>
 
                                             <Grid row >
                                                 <Grid tablet={{ col: 6 }}>
-                                                    <Label htmlFor="dob" className="margin-top-1 bold-label">Date of Birth</Label>
+                                                    <Label htmlFor="dob" className="margin-top-1 bold-label">{t('dateOfBirth')}</Label>
                                                     <DateInputGroup>
                                                         <FormGroup className="usa-form-group--month usa-form-group--select">
-                                                            <Label htmlFor="input-select">Month</Label>
+                                                            <Label htmlFor="input-select">{t('month')}</Label>
                                                             <Select id="testDateInput" name="dobMonth" defaultValue={user?.dateOfBirth.substring(5, 7)} >
-                                                                <option>- Select -</option>
-                                                                <option value="01">01 - January</option>
-                                                                <option value="02">02 - February</option>
-                                                                <option value="03">03 - March</option>
-                                                                <option value="04">04 - April</option>
-                                                                <option value="05">05 - May</option>
-                                                                <option value="06">06 - June</option>
-                                                                <option value="07">07 - July</option>
-                                                                <option value="08">08 - August</option>
-                                                                <option value="09">09 - September</option>
-                                                                <option value="10">10 - October</option>
-                                                                <option value="11">11 - November</option>
-                                                                <option value="12">12 - December</option>
+                                                                <option>- {t('select')} -</option>
+                                                                <option value="01">01 - {t('january')}</option>
+                                                                <option value="02">02 - {t('february')}</option>
+                                                                <option value="03">03 - {t('march')}</option>
+                                                                <option value="04">04 - {t('april')}</option>
+                                                                <option value="05">05 - {t('may')}</option>
+                                                                <option value="06">06 - {t('june')}</option>
+                                                                <option value="07">07 - {t('july')}</option>
+                                                                <option value="08">08 - {t('august')}</option>
+                                                                <option value="09">09 - {t('september')}</option>
+                                                                <option value="10">10 - {t('october')}</option>
+                                                                <option value="11">11 - {t('november')}</option>
+                                                                <option value="12">12 - {t('december')}</option>
                                                             </Select>
                                                         </FormGroup>
-                                                        <DateInput id="testDateInput" name="dobDay" label="Day" unit="day" maxLength={2} minLength={2} defaultValue={user?.dateOfBirth.substring(8)} />
-                                                        <DateInput id="testDateInput" name="dobYear" label="Year" unit="year" maxLength={4} minLength={4} defaultValue={user?.dateOfBirth.substring(0, 4)} />
+                                                        <DateInput id="testDateInput" name="dobDay" label={t('day')} unit="day" maxLength={2} minLength={2} defaultValue={user?.dateOfBirth.substring(8)} />
+                                                        <DateInput id="testDateInput" name="dobYear" label={t('year')} unit="year" maxLength={4} minLength={4} defaultValue={user?.dateOfBirth.substring(0, 4)} />
                                                     </DateInputGroup>
                                                 </Grid>
                                             </Grid>
 
                                             <Grid row gap={2}>
                                                 <Grid tablet={{ col: 8 }}>
-                                                    <Label htmlFor="mailing-address-1">Street address</Label>
+                                                    <Label htmlFor="mailing-address-1">{t('streetAddress')}</Label>
                                                     <TextInput id="mailing-address-1" name="mailing-address-1" type="text" defaultValue={user?.streetAddress} required />
                                                 </Grid>
                                                 <Grid tablet={{ col: 4 }}>
-                                                    <Label htmlFor="city">City</Label>
+                                                    <Label htmlFor="city">{t('city')}</Label>
                                                     <TextInput id="city" name="city" type="text" defaultValue={user?.city} required />
                                                 </Grid>
                                                 <Grid tablet={{ col: 6 }}>
-                                                    <Label htmlFor="state">State</Label>
+                                                    <Label htmlFor="state">{t('state')}</Label>
                                                     <Select id="state" name="state" defaultValue={user?.state} required>
                                                         <option>- Select -</option>
                                                         <option value="AL">Alabama</option>
@@ -204,7 +205,7 @@ export default function TaxProfile({ user, setUser, jwt }: Props) {
                                                 </Grid>
 
                                                 <Grid tablet={{ col: 6 }}>
-                                                    <Label htmlFor="zip">ZIP Code</Label>
+                                                <Label htmlFor="zip">{t('zipCode')}</Label>
                                                     <TextInput id="zip" name="zip" type="text" inputSize="medium" pattern="[\d]{5}(-[\d]{4})?" defaultValue={user?.zipCode} required />
                                                 </Grid>
                                             </Grid>
@@ -212,10 +213,10 @@ export default function TaxProfile({ user, setUser, jwt }: Props) {
                                         <div style={{ display: 'flex', justifyContent: 'center' }}>
                                             <ul className="usa-button-group">
                                                 <li className="usa-button-group__item">
-                                                    <button onClick={() => navigate('/')} className="usa-button usa-button--outline">Back</button>
+                                                    <button onClick={() => navigate('/')} className="usa-button usa-button--outline">{t('back')}</button>
                                                 </li>
                                                 <li className="usa-button-group__item">
-                                                    <button type="submit" className="usa-button">Continue</button>
+                                                    <button type="submit" className="usa-button">{t('continue')}</button>
                                                 </li>
                                             </ul>
                                         </div>

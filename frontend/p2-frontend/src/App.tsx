@@ -16,6 +16,9 @@ import { BrowserRouter, Link, Route, Routes } from 'react-router-dom';
 import { useState } from 'react';
 import { User } from './Types';
 
+import { useTranslation } from 'react-i18next';
+
+
 
 export default function App() {
   
@@ -26,6 +29,15 @@ export default function App() {
     setJwt('');
   };
 
+  const { t, i18n } = useTranslation();
+  const [currentLanguage, setCurrentLanguage] = useState(i18n.language);
+
+  const toggleLanguage = () => {
+    const newLanguage = currentLanguage === 'en' ? 'es' : 'en';
+    i18n.changeLanguage(newLanguage);
+    setCurrentLanguage(newLanguage);
+  };
+
   return (
     <>
 
@@ -33,28 +45,33 @@ export default function App() {
         <nav className="navbar">
           <ul className="navbar-nav">
             <li className="nav-item">
-              <Link to="/" className="nav-link">Home</Link>
+              <Link to="/" className="nav-link">{t('navbar.home')}</Link>
             </li>
             {jwt ? (
               <>
                 <li className="nav-item">
-                  <Link to="/taxprofile" className="nav-link">Start Taxes</Link>
+                  <Link to="/taxprofile" className="nav-link">{t('navbar.startTaxes')}</Link>
                 </li>
                 <li className="nav-item">
-                  <Link to="/tax-return" className="nav-link">View Taxes</Link>
+                  <Link to="/tax-return" className="nav-link">{t('navbar.viewTaxes')}</Link>
                 </li>
                 <li className="nav-item">
-                  <Link to="/profile" className="nav-link">Profile</Link>
+                  <Link to="/profile" className="nav-link">{t('navbar.profile')}</Link>
                 </li>
                 <li className="nav-item">
-                  <Link to="/signin" className="nav-link" onClick={handleLogout}>Logout</Link>
+                  <Link to="/signin" className="nav-link" onClick={handleLogout}>{t('navbar.logout')}</Link>
                 </li>
               </>
             ) : (
               <li className="nav-item">
-                <Link to="/signin" className="nav-link">Sign In</Link>
+                <Link to="/signin" className="nav-link">{t('navbar.signin')}</Link>
               </li>
             )}
+             <li className="nav-item">
+              <button className="lang-button" onClick={toggleLanguage}>
+                {currentLanguage === 'en' ? 'Español' : 'English'}
+              </button>
+            </li>
           </ul>
         </nav>
           <div className='content'>
@@ -73,7 +90,7 @@ export default function App() {
           </div>
       </BrowserRouter>
       <footer className="footer">
-        <p>© 2024 Tax Pro. All rights reserved.</p>
+        <p>{t('footer.text')}</p>
       </footer>
     </>
   )
