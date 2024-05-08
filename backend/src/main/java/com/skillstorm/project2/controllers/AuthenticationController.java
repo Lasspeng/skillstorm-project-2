@@ -17,8 +17,12 @@ import com.skillstorm.project2.models.Account;
 import com.skillstorm.project2.models.AuthenticationResponse;
 import com.skillstorm.project2.services.JwtService;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
+
 @RestController
 @CrossOrigin("*")
+@Tag(name = "Authentication Controller Endpoints")
 public class AuthenticationController {
     // This class is solely used to create the api endpoint that generates a JWT on request and sends it back as a response
 
@@ -34,6 +38,7 @@ public class AuthenticationController {
 
     // Create token at this endpoint. Request requires Email and Password and Reponse sends back a token
     @PostMapping("/authenticate")
+    @Operation(summary = "Authenticate a user using a given email and password and return a Json Web Token if user is successfully authenticated")
     public ResponseEntity<?> createToken(@RequestBody Account acct) throws Exception {
         
         try {

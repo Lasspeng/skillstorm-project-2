@@ -35,6 +35,9 @@ public class SecurityConfiguration {
                     
                 authorizeHttpRequests
 
+                // Open API
+                .requestMatchers(HttpMethod.GET, "/swagger-ui.html").permitAll()
+
                 // Auth and Calc Controller filters
                 .requestMatchers(HttpMethod.POST, "/authenticate").permitAll()
                 .requestMatchers(HttpMethod.GET, "calculate/**").hasAnyAuthority("ROLE_ADMIN", "ROLE_USER")

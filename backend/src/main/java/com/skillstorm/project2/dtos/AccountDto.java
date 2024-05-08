@@ -30,6 +30,12 @@ public class AccountDto {
     public AccountDto() {
     }
 
+    public AccountDto(Integer id, String firstName, String lastName) {
+        this.id = id;
+        this.firstName = firstName;
+        this.lastName = lastName;
+    }
+
     public AccountDto(Integer id, Role role, String email, String password, String firstName, String lastName, FilingStatus filingStatus, String socialSecurity, String streetAddress, String city, String state, String zipCode, LocalDate dateOfBirth, FormW2 formW2, Form1099 form1099) {
         this.id = id;
         this.role = role;

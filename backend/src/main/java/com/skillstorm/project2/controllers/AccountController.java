@@ -21,9 +21,13 @@ import com.skillstorm.project2.models.Account;
 import com.skillstorm.project2.repositories.AccountRepository;
 import com.skillstorm.project2.services.AccountService;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
+
 @RestController
 @RequestMapping("/users")
 @CrossOrigin("*")
+@Tag(name = "Account Controller Endpoints")
 public class AccountController {
     
     @Autowired
@@ -33,12 +37,14 @@ public class AccountController {
     AccountRepository acctRepo;
 
     @GetMapping
+    @Operation(summary = "Retrieve all accounts")
     public ResponseEntity<List<AccountDto>> findAllAccounts() {
         List<AccountDto> dtos = acctService.findAllAccounts();
         return new ResponseEntity<>(dtos, HttpStatus.OK);
     }
 
     @GetMapping("/{id}")
+    @Operation(summary = "Retrieve an account with a given id")
     public ResponseEntity<AccountDto> findAccountById(@PathVariable int id) {
 
         AccountDto acct = acctService.findAccountById(id);
@@ -46,6 +52,7 @@ public class AccountController {
     }
 
     @PostMapping("/email")
+    @Operation(summary = "Retrieve an account with a given email")
     public ResponseEntity<AccountDto> findAccountByEmail(@RequestBody Account acct) {
 
         AccountDto foundAcct = acctService.findByCredentials(acct);
@@ -53,6 +60,7 @@ public class AccountController {
     }
 
     @PostMapping("/register")
+    @Operation(summary = "Create a new account with a user role")
     public ResponseEntity<AccountDto> createAccount(@RequestBody Account acct) {
 
         AccountDto newAcct = acctService.saveAccount(acct);
@@ -61,6 +69,7 @@ public class AccountController {
 
     // Have to add an endpoint to create a new admin account because of BCrypt. This endpoint will not be accessible by the front end
     @PostMapping("/register/admin")
+    @Operation(summary = "Create a new account with an admin role")
     public ResponseEntity<AccountDto> createAdminAccount(@RequestBody Account acct) {
 
         AccountDto newAcct = acctService.saveAdminAccount(acct);
@@ -68,6 +77,7 @@ public class AccountController {
     }
 
     @PutMapping
+    @Operation(summary = "Update a given account")
     public ResponseEntity<AccountDto> updateAccount(@RequestBody Account acct) throws ResourceNotFoundException {
 
         AccountDto updatedAcct = acctService.updateAccount(acct);
@@ -75,6 +85,7 @@ public class AccountController {
     }
 
     @DeleteMapping("/{id}")
+    @Operation(summary = "Delete a given account")
     public ResponseEntity<Void> deleteAccount(@PathVariable int id) {
 
         acctService.deleteAccount(id);
