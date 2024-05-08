@@ -40,7 +40,8 @@
     "alreadyHaveAccount": "¿Ya tienes una cuenta?",
     "signInLink": "Iniciar sesión",
     "simplifyTaxEstimation": "Simplificar la estimación de impuestos con una cuenta",
-    "welcomeText": "¡Bienvenido a nuestra Calculadora de impuestos federales! Estime fácilmente sus impuestos creando una cuenta. Simplemente proporcione su correo electrónico y cree una contraseña, y estará listo para comenzar. ¿Ya tienes una cuenta? Inicia sesión ahora. Permítanos ayudarlo a navegar por sus obligaciones fiscales sin esfuerzo. ¡Empiece hoy mismo!"
+    "welcomeText": "¡Bienvenido a nuestra Calculadora de impuestos federales! Estime fácilmente sus impuestos creando una cuenta. Simplemente proporcione su correo electrónico y cree una contraseña, y estará listo para comenzar. ¿Ya tienes una cuenta? Inicia sesión ahora. Permítanos ayudarlo a navegar por sus obligaciones fiscales sin esfuerzo. ¡Empiece hoy mismo!",
+    "userAlreadyExists": "Ya existe un usuario con estas credenciales"
   },
   "profile": {
     "title": "Perfil de Usuario",

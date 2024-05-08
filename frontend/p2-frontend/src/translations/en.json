@@ -40,7 +40,8 @@
         "alreadyHaveAccount": "Already have an account?",
         "signInLink": "Sign in",
         "simplifyTaxEstimation": "Simplify Tax Estimation with an Account",
-        "welcomeText": "Welcome to our Federal Tax Calculator! Easily estimate your taxes by creating an account. Simply provide your email and create a password, and you're ready to go. Already have an account? Sign in now. Let us help you navigate your tax obligations effortlessly. Get started today"
+        "welcomeText": "Welcome to our Federal Tax Calculator! Easily estimate your taxes by creating an account. Simply provide your email and create a password, and you're ready to go. Already have an account? Sign in now. Let us help you navigate your tax obligations effortlessly. Get started today",
+        "userAlreadyExists": "A user with these credentials already exists"
     },
     "profile": {
         "title": "User Profile",

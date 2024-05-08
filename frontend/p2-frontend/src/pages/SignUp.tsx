@@ -20,6 +20,7 @@ interface Props {
 export default function SignUp(): React.ReactElement {
   const [showPassword, setShowPassword] = React.useState(false);
   const [passwordsMatch, setPasswordsMatch] = useState(true);
+  const [userExistsAlert, setUserExistsAlert] = useState(false);
   const navigate = useNavigate();
   const { t } = useTranslation();
 
@@ -52,7 +53,10 @@ export default function SignUp(): React.ReactElement {
     })
       .then(data => data.json()) // Parsing response data to JSON
       .then((userData) => navigate("/signin")) // Navigating to sign-in page after successful registration
-      .catch(() => alert("A user with these credentials already exists")); // Alerting if user already exists
+      .catch(() => {
+        // Show Trussworks alert for existing user
+        setUserExistsAlert(true);
+      });
   };
 
   return (
@@ -113,6 +117,12 @@ export default function SignUp(): React.ReactElement {
                         {!passwordsMatch && (
                           <Alert type="error" heading={t('signUp.errorHeading')} headingLevel="h4" slim role="alert">
                             {t('signUp.passwordsNotMatch')}
+                          </Alert>
+                        )}
+                        {/* Trussworks Alert for existing user */}
+                        {userExistsAlert && (
+                          <Alert type="error" heading={t('signUp.errorHeading')} headingLevel="h4">
+                            {t('signUp.userAlreadyExists')}
                           </Alert>
                         )}
 
