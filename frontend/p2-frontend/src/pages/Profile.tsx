@@ -1,10 +1,10 @@
 // Importing trussworks and react elements
-import { Grid, Form, Fieldset, Label, TextInput, Select, GridContainer, TextInputMask, FormGroup, DateInput, DateInputGroup, Button } from '@trussworks/react-uswds';
+import { Grid, Form, Fieldset, Label, TextInput, Select, GridContainer, TextInputMask, FormGroup, DateInput, DateInputGroup, Button, Alert } from '@trussworks/react-uswds';
 // Importing styling
 import '@trussworks/react-uswds/lib/uswds.css'
 import '@trussworks/react-uswds/lib/index.css'
 
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { User } from '../Types';
 import { useTranslation } from 'react-i18next';
 
@@ -16,6 +16,7 @@ interface Props {
 
 export default function Profile({ user, setUser, jwt }: Props) {
     const { t } = useTranslation(); // Translations
+    const [alertMessage, setAlertMessage] = useState(''); // State for alert message
     
     // Function to handle form submission
     const handleSubmit = (event: any) => {
@@ -63,7 +64,7 @@ export default function Profile({ user, setUser, jwt }: Props) {
         .then(data => data.json())
         .then(userData => {
             setUser(userData); // Update user state
-            alert("Your account has been successfully updated"); // Show success message
+            setAlertMessage("Your account has been successfully updated"); // Set success message for the alert
         })
         .catch((error) => console.error(error)); // Log any errors
     };
@@ -202,6 +203,10 @@ export default function Profile({ user, setUser, jwt }: Props) {
                                         <div style={{ textAlign: 'center' }} className="margin-top-2">
                                             <Button type="submit" className="margin-top-2">{t('profile.saveButton')}</Button> {/* Translate button */}
                                         </div>
+                                        {/* Trussworks Alert */}
+                                        {alertMessage && (
+                                            <Alert heading={t('alerts.success')} headingLevel="h4" type="success">{alertMessage}</Alert> // Display success message
+                                        )}
 
                                     </Fieldset>
                                 </Form>

@@ -119,5 +119,8 @@
   "personalInfo": "Información personal",
   "reviewSubmit": "Revisar y enviar",
   "single": "Soltero",
-  "jointly": "Conjuntamente"
+  "jointly": "Conjuntamente",
+  "alerts": {
+    "success": "Éxito"
+}
 }
