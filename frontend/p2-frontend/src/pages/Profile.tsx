@@ -53,7 +53,7 @@ export default function Profile({ user, setUser, jwt }: Props) {
         console.log(updatedUser);
 
         // Update user data on the server
-        fetch('http://localhost:8080/users', {
+        fetch('http://54.147.130.81:8080/users', {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json',

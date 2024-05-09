@@ -123,5 +123,6 @@
     "jointly": "Jointly",
     "alerts": {
         "success": "Success"
-    }
+    },
+    "taxResult": "Tax Results"
 }

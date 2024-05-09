@@ -35,7 +35,7 @@ export default function SignIn({ setUser, setJwt }: Props): React.ReactElement {
     };
 
     // Sending POST request to authenticate user
-    fetch('http://localhost:8080/authenticate' , {
+    fetch('http://54.147.130.81:8080/authenticate' , {
       method: 'POST',
       headers: {'Content-Type' : 'application/json'} ,
       body: JSON.stringify(authInfo)  

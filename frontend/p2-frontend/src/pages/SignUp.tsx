@@ -7,15 +7,10 @@ import '@trussworks/react-uswds/lib/index.css'
 import './styling/SignIn.css';
 
 import { useNavigate } from 'react-router-dom';
-import { User } from '../Types';
 
 import { useTranslation } from 'react-i18next';
 
 
-interface Props {
-  user: User | undefined,
-  setUser: React.Dispatch<React.SetStateAction<User | undefined>>
-}
 
 export default function SignUp(): React.ReactElement {
   const [showPassword, setShowPassword] = React.useState(false);
@@ -46,13 +41,13 @@ export default function SignUp(): React.ReactElement {
     };
 
     // Sending POST request to register user
-    fetch('http://localhost:8080/users/register', {
+    fetch('http://54.147.130.81:8080/users/register', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(account)
     })
       .then(data => data.json()) // Parsing response data to JSON
-      .then((userData) => navigate("/signin")) // Navigating to sign-in page after successful registration
+      .then(() => navigate("/signin")) // Navigating to sign-in page after successful registration
       .catch(() => {
         // Show Trussworks alert for existing user
         setUserExistsAlert(true);

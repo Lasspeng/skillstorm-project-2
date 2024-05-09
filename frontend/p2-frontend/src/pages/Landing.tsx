@@ -20,7 +20,7 @@ export default function Landing({ user, setUser, jwt }: Props) {
 
     // Effect to fetch user data when component mounts
     useEffect(() => {
-        fetch('http://localhost:8080/users/email', {
+        fetch('http://54.147.130.81:8080/users/email', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',

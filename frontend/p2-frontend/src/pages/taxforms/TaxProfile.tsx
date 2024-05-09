@@ -51,7 +51,7 @@ export default function TaxProfile({ user, setUser, jwt }: Props) {
 
         const updatedUser = Object.assign({}, user, updatedAccountInfo); // Merge updated info with user data
 
-        fetch('http://localhost:8080/users', {
+        fetch('http://54.147.130.81:8080/users', {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json',

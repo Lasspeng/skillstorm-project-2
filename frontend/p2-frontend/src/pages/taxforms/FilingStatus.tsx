@@ -44,7 +44,7 @@ export default function FilingStatus({ user, setUser, jwt }: Props) {
         const updatedUser = Object.assign({}, user, fStatus); // Merge updated data with user data
 
         // Send updated user data to the server
-        fetch('http://localhost:8080/users', {
+        fetch('http://54.147.130.81:8080/users', {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json',

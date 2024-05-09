@@ -11,7 +11,7 @@ interface Props {
     jwt: string; // JWT token
 }
 
-export default function Review({ user, setUser, jwt }: Props) {
+export default function Review({ user }: Props) {
     const { t } = useTranslation(); // Translations
     const navigate = useNavigate(); // Navigation function
 

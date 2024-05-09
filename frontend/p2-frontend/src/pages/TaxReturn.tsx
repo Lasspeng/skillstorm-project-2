@@ -30,7 +30,7 @@ export default function TaxReturn({ user, jwt }: Props) {
     // Fetching data on component mount
     useEffect(() => {
         // Fetching tax information
-        fetch(`http://localhost:8080/calculate/${user?.id}`, {
+        fetch(`http://54.147.130.81:8080/calculate/${user?.id}`, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
@@ -53,7 +53,7 @@ export default function TaxReturn({ user, jwt }: Props) {
                 <Grid row>
                     <Grid col={12}>
                         {/* Heading for taxable income */}
-                        <h1 className="tax-return-heading">{t('taxableIncome')}</h1>
+                        <h1 className="tax-return-heading">{t('taxResult')}</h1>
                     </Grid>
                 </Grid>
 
