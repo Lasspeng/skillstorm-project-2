@@ -1,109 +1,98 @@
 import { StepIndicator, StepIndicatorStep, Table } from '@trussworks/react-uswds';
-import '@trussworks/react-uswds/lib/uswds.css'
-import '@trussworks/react-uswds/lib/index.css'
-import { useEffect, useState } from 'react';
+import '@trussworks/react-uswds/lib/uswds.css';
+import '@trussworks/react-uswds/lib/index.css';
 import { User } from '../../Types';
 import { useNavigate } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 
 interface Props {
-    user: User | undefined,
-    setUser: React.Dispatch<React.SetStateAction<User | undefined>>,
-    jwt: string
+    user: User | undefined; // User data
+    setUser: React.Dispatch<React.SetStateAction<User | undefined>>; // Function to set user state
+    jwt: string; // JWT token
 }
 
-export default function Review({ user, setUser, jwt }: Props) {
+export default function Review({ user }: Props) {
+    const { t } = useTranslation(); // Translations
+    const navigate = useNavigate(); // Navigation function
 
-    const navigate = useNavigate();
-
-    const [userData, setUserData] = useState({
-        name: '',
-        email: '',
-        dateOfBirth: '',
-        ssn: '',
-        address: '',
-        filingStatus: '',
-        w2Income: '',
-        w2Withheld: '',
-        income1099: '',
-        deductions1099: ''
+    let USDollar = new Intl.NumberFormat('en-US', {
+        style: 'currency',
+        currency: 'USD',
     });
-
-    console.log(user);
 
     return (
         <>
             <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-                <StepIndicator
+            <StepIndicator
                     counters="default"
                     headingLevel="h4"
-                    ofText="of"
-                    stepText="Step"
+                    ofText={t('ofText')} // Translate text
+                    stepText={t('stepText')} 
                 >
                     <StepIndicatorStep
-                        label="Personal information"
+                        label={t('personalInformation')} 
                         status="complete"
                     />
                     <StepIndicatorStep
-                        label="Filing status"
+                        label={t('filingStatus')} 
                         status="complete"
                     />
                     <StepIndicatorStep
-                        label="W2 Form"
+                        label={t('w2Form')}
                         status="complete"
                     />
                     <StepIndicatorStep
-                        label="1099 Form"
+                        label={t('form1099')} 
                         status="complete"
                     />
                     <StepIndicatorStep
-                        label="Review and submit"
+                        label={t('reviewAndSubmit')} 
                         status="current"
                     />
                 </StepIndicator>
                 <div style={{ width: '80%', maxWidth: '800px' }}>
                     <Table fullWidth>
-                        <caption className="usa-sr-only">Review Information</caption>
-                        
+                    <caption className="usa-sr-only">{t('reviewInformation')}</caption>
                         <tbody>
-                        <tr>
-                                <th scope="row" style={{ fontWeight: 'bold', width: '30%' }}>Name</th>
+                            <tr>
+                                <th scope="row" style={{ fontWeight: 'bold', width: '30%' }}>{t('name')}</th>
                                 <td style={{ width: '70%' }}>{`${user?.firstName} ${user?.lastName}`}</td>
                             </tr>
                             <tr>
-                                <th scope="row" style={{ fontWeight: 'bold', width: '30%' }}>Email</th>
+                                <th scope="row" style={{ fontWeight: 'bold', width: '30%' }}>{t('email')}</th>
                                 <td style={{ width: '70%' }}>{user?.email}</td>
                             </tr>
                             <tr>
-                                <th scope="row" style={{ fontWeight: 'bold', width: '30%' }}>Date of Birth</th>
+                                <th scope="row" style={{ fontWeight: 'bold', width: '30%' }}>{t('dateOfBirth')}</th>
                                 <td style={{ width: '70%' }}>{user?.dateOfBirth}</td>
                             </tr>
                             <tr>
-                                <th scope="row" style={{ fontWeight: 'bold', width: '30%' }}>SSN</th>
+                                <th scope="row" style={{ fontWeight: 'bold', width: '30%' }}>{t('socialSecurity')}</th>
                                 <td style={{ width: '70%' }}>{user?.socialSecurity}</td>
                             </tr>
                             <tr>
-                                <th scope="row" style={{ fontWeight: 'bold', width: '30%' }}>Address</th>
+                                <th scope="row" style={{ fontWeight: 'bold', width: '30%' }}>{t('address')}</th>
                                 <td style={{ width: '70%' }}>{user?.streetAddress}</td>
                             </tr>
                             <tr>
-                                <th scope="row" style={{ fontWeight: 'bold', width: '30%' }}>Filing Status</th>
+                                <th scope="row" style={{ fontWeight: 'bold', width: '30%' }}>{t('filingStatus')}</th>
                                 <td style={{ width: '70%' }}>{user?.filingStatus}</td>
                             </tr>
                             <tr>
-                                <th scope="row" style={{ fontWeight: 'bold', width: '30%' }}>W2 Income</th>
-                                <td style={{ width: '70%' }}>{user?.formW2.wages}</td>
+                                <th scope="row" style={{ fontWeight: 'bold', width: '30%' }}>{t('w2Income')}</th>
+                                <td style={{ width: '70%' }}>{USDollar.format(user?.formW2.wages as number)}</td>
                             </tr>
                             <tr>
-                                <th scope="row" style={{ fontWeight: 'bold', width: '30%' }}>W2 Withheld</th>
-                                <td style={{ width: '70%' }}>{user?.formW2.taxWithheld}</td>
+                                <th scope="row" style={{ fontWeight: 'bold', width: '30%' }}>{t('w2Withheld')}</th>
+                                <td style={{ width: '70%' }}>{USDollar.format(user?.formW2.taxWithheld as number)}</td>
                             </tr>
                             <tr>
-                                <th scope="row" style={{ fontWeight: 'bold', width: '30%' }}>1099 Income</th>
-                                <td style={{ width: '70%' }}>{user?.form1099.wages}</td>
+                                <th scope="row" style={{ fontWeight: 'bold', width: '30%' }}>{t('form1099Income')}</th>
+                                <td style={{ width: '70%' }}>{USDollar.format(user?.form1099.wages as number)}</td>
                             </tr>
                             <tr>
-                                <th scope="row" style={{ fontWeight: 'bold', width: '30%' }}>1099 Deductions</th>
-                                <td style={{ width: '70%' }}>{user?.form1099.taxWriteOffs}</td>
+                                <th scope="row" style={{ fontWeight: 'bold', width: '30%' }}>{t('form1099Deductions')}</th>
+                                <td style={{ width: '70%' }}>{USDollar.format(user?.form1099.taxWriteOffs as number)}</td>
                             </tr>
                         </tbody>
                     </Table>
@@ -113,10 +102,10 @@ export default function Review({ user, setUser, jwt }: Props) {
                 <div style={{ marginTop: '20px' }}>
                     <ul className="usa-button-group">
                         <li className="usa-button-group__item">
-                            <button onClick={() => navigate('/form1099')} className="usa-button usa-button--outline">Back</button>
+                        <button onClick={() => navigate('/form1099')} className="usa-button usa-button--outline">{t('back')}</button>
                         </li>
                         <li className="usa-button-group__item">
-                            <button onClick={() => navigate('/tax-return')} className="usa-button">Submit</button>
+                            <button onClick={() => navigate('/tax-return')} className="usa-button">{t('submit')}</button>
                         </li>
                     </ul>
                 </div>

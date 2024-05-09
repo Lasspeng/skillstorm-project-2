@@ -1,9 +1,13 @@
+// Importing trussworks elements
 import { Grid, GridContainer } from '@trussworks/react-uswds';
+// Importing styling
 import '@trussworks/react-uswds/lib/uswds.css'
 import '@trussworks/react-uswds/lib/index.css'
 import { User } from '../Types';
 import { useEffect } from 'react';
 import './styling/Landing.css';
+
+import { useTranslation } from 'react-i18next';
 
 interface Props {
     user: User | undefined,
@@ -12,10 +16,11 @@ interface Props {
 }
 
 export default function Landing({ user, setUser, jwt }: Props) {
+    const { t } = useTranslation(); // Translations
 
+    // Effect to fetch user data when component mounts
     useEffect(() => {
-
-        fetch('http://localhost:8080/users/email', {
+        fetch('http://54.147.130.81:8080/users/email', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -28,10 +33,11 @@ export default function Landing({ user, setUser, jwt }: Props) {
         .catch((error) => console.error(error));
     }, []);
 
-    useEffect (() => {
+    // Effect to log user data when it changes
+    useEffect(() => {
         console.log(user);
     }, [user]);
-    
+
     return (
         <>
             <main id="main-content">
@@ -39,10 +45,10 @@ export default function Landing({ user, setUser, jwt }: Props) {
                     <GridContainer>
                         <div className="usa-hero__callout">
                             <h1 className="usa-hero__heading">
-                                <span className="usa-hero__heading--alt">Welcome to Tax Pro!</span>
+                                <span className="usa-hero__heading--alt">{t('landing.welcome')}</span>
                             </h1>
                             <p>
-                                Tax Pro is your trusted tax return calculator service. We simplify tax filing for you.
+                                {t('landing.description')}
                             </p>
                         </div>
                     </GridContainer>
@@ -52,23 +58,21 @@ export default function Landing({ user, setUser, jwt }: Props) {
                     <Grid row gap>
                         <Grid tablet={{ col: 4 }}>
                             <h2 className="font-heading-xl margin-top-0 tablet:margin-bottom-0">
-                                Calculate Your Taxes Effortlessly
+                                {t('landing.calculateTaxes')}
                             </h2>
                         </Grid>
                         <Grid tablet={{ col: 8 }} className="usa-prose">
                             <p>
-                                Tax Pro makes tax calculation easy and convenient. Simply input your financial information,
-                                and we'll handle the rest. Our intuitive interface ensures accurate results every time.
+                                {t('landing.taxCalculation')}
                             </p>
                             <p>
-                                Whether you're an individual or a business owner, Tax Pro caters to all your tax filing needs.
-                                Say goodbye to complex calculations and hello to hassle-free tax returns with Tax Pro.
+                                {t('landing.hassleFree')}
                             </p>
                         </Grid>
                     </Grid>
                 </section>
             </main>
-            
+
         </>
     );
 }

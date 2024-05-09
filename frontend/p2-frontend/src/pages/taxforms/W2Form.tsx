@@ -1,8 +1,11 @@
+// Importing trussworks elements
 import { Fieldset, Form, Grid, Label, StepIndicator, StepIndicatorStep, TextInput } from '@trussworks/react-uswds';
+// Importing styling
 import '@trussworks/react-uswds/lib/index.css';
 import '@trussworks/react-uswds/lib/uswds.css';
 import { User } from '../../Types';
 import { useNavigate } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 
 interface Props {
     user: User | undefined,
@@ -11,14 +14,15 @@ interface Props {
 }
 
 export default function W2Form({ user, setUser, jwt }: Props) {
+    const { t } = useTranslation(); // Translations
+    const navigate = useNavigate(); // Navigation function
 
-    const navigate = useNavigate();
-
+    // Handle form submission
     const handleSubmit = (event: any) => {
-        
-        event.preventDefault(); 
-        const data = new FormData(event.target);
+        event.preventDefault(); // Prevent default form submission
+        const data = new FormData(event.target); // Get form data
 
+        // Updated form info
         const updatedFormInfo = {
             formW2: {
                 id: user?.formW2.id,
@@ -27,9 +31,11 @@ export default function W2Form({ user, setUser, jwt }: Props) {
             }
         }
 
+        // Merge updated form info with user data
         const updatedUser = Object.assign({}, user, updatedFormInfo);
 
-        fetch('http://localhost:8080/users', {
+        // Update user data on the server
+        fetch('http://54.147.130.81:8080/users', {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json',
@@ -39,8 +45,8 @@ export default function W2Form({ user, setUser, jwt }: Props) {
         })
         .then(response => response.json())
         .then(userData => {
-            setUser(userData);
-            navigate('/form1099');
+            setUser(userData); // Update user state
+            navigate('/form1099'); // Navigate to the next step
         })
         .catch((error) => console.error(error));
     };
@@ -55,19 +61,19 @@ export default function W2Form({ user, setUser, jwt }: Props) {
                     stepText="Step"
                 >
                     <StepIndicatorStep
-                        label="Personal information"
+                        label={t('personalInformation')}
                         status="complete"
                     />
                     <StepIndicatorStep
-                        label="Filing status"
+                        label={t('filingStatus')}
                         status="complete"
                     />
                     <StepIndicatorStep
-                        label="W2 Form"
+                        label={t('w2Form')}
                         status="current"
                     />
-                    <StepIndicatorStep label="1099 Form" />
-                    <StepIndicatorStep label="Review and submit" />
+                    <StepIndicatorStep label={t('form1099')} />
+                    <StepIndicatorStep label={t('reviewAndSubmit')} />
                 </StepIndicator>
 
                 <Fieldset>
@@ -75,14 +81,14 @@ export default function W2Form({ user, setUser, jwt }: Props) {
                     <Grid row={true} className="flex-justify-center">
                         <Grid col={12} tablet={{ col: 10 }} desktop={{ col: 10 }} className="centered-grid">
                             <div className="bg-white padding-y-3 padding-x-5 border border-base-lighter rounded">
-                                <h1 className="margin-bottom-2 text-center">W2 Form Info</h1>
+                                <h1 className="margin-bottom-2 text-center">{t('w2Form')} Info</h1>
                                 <Form onSubmit={handleSubmit}>
                                     <Fieldset>
                                         <div className="grid-row grid-gap">
 
-                                            <Label htmlFor="income">Income</Label>
+                                            <Label htmlFor="income">{t('income')}</Label>
                                             <TextInput id="income" name="income" type="text" defaultValue={user?.formW2.wages} required/>
-                                            <Label htmlFor="withheld">Amount Withheld</Label>
+                                            <Label htmlFor="withheld">{t('amountWithheld')}</Label>
                                             <TextInput id="withheld" name="withheld" type="text" defaultValue={user?.formW2.taxWithheld} required />
 
                                         </div>
@@ -90,10 +96,10 @@ export default function W2Form({ user, setUser, jwt }: Props) {
                                     <div style={{ marginTop: '10px', display: 'flex', justifyContent: 'center'}}>
                                         <ul className="usa-button-group">
                                             <li className="usa-button-group__item">
-                                                <button onClick={() => navigate('/filingstatus')}className="usa-button usa-button--outline">Back</button>
+                                                <button onClick={() => navigate('/filingstatus')}className="usa-button usa-button--outline">{t('back')}</button>
                                             </li>
                                             <li className="usa-button-group__item">
-                                                <button type="submit" className="usa-button">Continue</button>
+                                                <button type="submit" className="usa-button">{t('continue')}</button>
                                             </li>
                                         </ul>
                                     </div>

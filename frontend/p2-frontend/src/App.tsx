@@ -1,4 +1,4 @@
-
+// Importing Components
 import Profile from './pages/Profile';
 import Landing from './pages/Landing'
 import TaxProfile from './pages/taxforms/TaxProfile';
@@ -10,20 +10,35 @@ import TaxReturn from './pages/TaxReturn';
 import SignIn from './pages/SignIn';
 import SignUp from './pages/SignUp';
 
-import './App.css';
+import './App.css'; // Importing styling
 
 import { BrowserRouter, Link, Route, Routes } from 'react-router-dom';
 import { useState } from 'react';
 import { User } from './Types';
 
+import { useTranslation } from 'react-i18next';
+
+
 
 export default function App() {
   
-  const [jwt, setJwt] = useState<string>('');
-  const [user, setUser] = useState<User | undefined>();
+  const [jwt, setJwt] = useState<string>(''); // State for JWT token
+  const [user, setUser] = useState<User | undefined>(); // State for user data
+
   // Function to handle logout
   const handleLogout = () => {
     setJwt('');
+  };
+
+  // Translations
+  const { t, i18n } = useTranslation();
+  const [currentLanguage, setCurrentLanguage] = useState(i18n.language);
+
+  // Function to toggle language
+  const toggleLanguage = () => {
+    const newLanguage = currentLanguage === 'en' ? 'es' : 'en';
+    i18n.changeLanguage(newLanguage);
+    setCurrentLanguage(newLanguage);
   };
 
   return (
@@ -33,32 +48,42 @@ export default function App() {
         <nav className="navbar">
           <ul className="navbar-nav">
             <li className="nav-item">
-              <Link to="/" className="nav-link">Home</Link>
+              <Link to="/" className="nav-link">{t('navbar.home')}</Link>
             </li>
+            {/* Conditional rendering based on JWT */}
             {jwt ? (
               <>
+              {/* Links for authenticated users */}
                 <li className="nav-item">
-                  <Link to="/taxprofile" className="nav-link">Start Taxes</Link>
+                  <Link to="/taxprofile" className="nav-link">{t('navbar.startTaxes')}</Link>
                 </li>
                 <li className="nav-item">
-                  <Link to="/tax-return" className="nav-link">View Taxes</Link>
+                  <Link to="/tax-return" className="nav-link">{t('navbar.viewTaxes')}</Link>
                 </li>
                 <li className="nav-item">
-                  <Link to="/profile" className="nav-link">Profile</Link>
+                  <Link to="/profile" className="nav-link">{t('navbar.profile')}</Link>
                 </li>
                 <li className="nav-item">
-                  <Link to="/signin" className="nav-link" onClick={handleLogout}>Logout</Link>
+                  <Link to="/signin" className="nav-link" onClick={handleLogout}>{t('navbar.logout')}</Link>
                 </li>
               </>
             ) : (
+              /* Link for non-authenticated users */
               <li className="nav-item">
-                <Link to="/signin" className="nav-link">Sign In</Link>
+                <Link to="/signin" className="nav-link">{t('navbar.signin')}</Link>
               </li>
             )}
+            {/* Language toggle button */}
+             <li className="nav-item">
+              <button className="lang-button" onClick={toggleLanguage}>
+                {currentLanguage === 'en' ? 'Español' : 'English'}
+              </button>
+            </li>
           </ul>
         </nav>
           <div className='content'>
           <Routes>
+            {/* Routes for different pages */}
               <Route path='/' element={<Landing user={user} setUser={setUser} jwt={jwt} />} />
               <Route path='/profile' element={<Profile user={user} setUser={setUser} jwt={jwt} />} />
               <Route path='/tax-return' element={<TaxReturn user={user} jwt={jwt} />} />
@@ -72,8 +97,9 @@ export default function App() {
           </Routes>
           </div>
       </BrowserRouter>
+      {/* Footer */}
       <footer className="footer">
-        <p>© 2024 Tax Pro. All rights reserved.</p>
+        <p>{t('footer.text')}</p>
       </footer>
     </>
   )
