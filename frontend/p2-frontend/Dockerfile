@@ -1,8 +1,10 @@
 FROM node:18-alpine
+
 WORKDIR /p2-frontend
-COPY . .
 
 RUN npm install
+
+COPY . .
 
 CMD ["npm", "run", "dev"]
 
