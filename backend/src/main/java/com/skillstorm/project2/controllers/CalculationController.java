@@ -12,8 +12,12 @@ import com.skillstorm.project2.dtos.AccountDto;
 import com.skillstorm.project2.models.TaxResults;
 import com.skillstorm.project2.services.AccountService;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
+
 @RestController
 @CrossOrigin("*")
+@Tag(name = "Calculation Controller Endpoints")
 public class CalculationController {
     // This controller class is solely for creating the api endpoint that calculates how much the user owes in tax
 
@@ -22,6 +26,7 @@ public class CalculationController {
 
     // Calculate how much tax is owed by the user
     @GetMapping("/calculate/{id}")
+    @Operation(summary = "Calculate how much a user owes or is owed in taxes")
     public ResponseEntity<?> calculateTaxes(@PathVariable int id) {
 
         TaxResults taxResults = new TaxResults();

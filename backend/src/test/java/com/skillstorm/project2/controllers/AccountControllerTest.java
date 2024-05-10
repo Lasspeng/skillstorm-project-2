@@ -1,149 +1,151 @@
-// import static org.junit.jupiter.api.Assertions.assertEquals;
-// import static org.junit.jupiter.api.Assertions.assertNotNull;
-// import static org.junit.jupiter.api.Assertions.assertThrows;
-// import static org.mockito.Mockito.mock;
-// import static org.mockito.Mockito.when;
+package com.skillstorm.project2.controllers;
 
-// import java.util.ArrayList;
-// import java.util.List;
-// import java.util.Optional;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.mock;
 
-// import org.junit.jupiter.api.Test;
-// import org.mockito.InjectMocks;
-// import org.mockito.Mock;
-// import org.mockito.Mockito;
-// import org.springframework.beans.factory.annotation.Autowired;
-// import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-// import org.springframework.boot.test.context.SpringBootTest;
-// import org.springframework.http.HttpStatus;
-// import org.springframework.http.ResponseEntity;
-// import org.springframework.security.test.context.support.WithMockUser;
-// import org.springframework.test.web.servlet.MockMvc;
+import java.time.LocalDate;
+import java.util.List;
 
-// import com.cognixia.jump.furniture_app.exception.ResourceNotFoundException;
-// import com.cognixia.jump.furniture_app.model.User;
-// import com.cognixia.jump.furniture_app.model.User.Role;
-// import com.cognixia.jump.furniture_app.repository.UserRepository;
-// import com.fasterxml.jackson.databind.ObjectMapper;
-// import com.skillstorm.project2.repositories.AccountRepository;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.Mockito;
+import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 
-// import io.github.classgraph.Resource;
+import com.skillstorm.project2.dtos.AccountDto;
+import com.skillstorm.project2.exceptions.ExistingAccountException;
+import com.skillstorm.project2.exceptions.ResourceNotFoundException;
+import com.skillstorm.project2.mappers.AccountMapper;
+import com.skillstorm.project2.models.Account;
+import com.skillstorm.project2.models.Account.FilingStatus;
+import com.skillstorm.project2.models.Account.Role;
+import com.skillstorm.project2.models.Form1099;
+import com.skillstorm.project2.models.FormW2;
+import com.skillstorm.project2.services.AccountService;
 
-// @SpringBootTest
-// @AutoConfigureMockMvc
-// @WithMockUser(username = "user1", password = "pw123", roles = "ADMIN")
-// public class AccountControllerTest {
+@ExtendWith(MockitoExtension.class)
+public class AccountControllerTest {
 
-//     @Autowired
-//     private MockMvc mockMvc;
+    @Mock
+    private AccountService acctService;
 
-//     @InjectMocks
-//     private AccountController acctController;
+    @InjectMocks
+    private AccountController acctController;
 
-//     @Autowired
-//     private ObjectMapper objectMapper;
+    AccountMapper mapper = new AccountMapper();
 
-//     @Mock
-//     private AccountRepository acctRepo;
+    private AccountDto mockAcct = new AccountDto(1, "John", "Doe");
+    private AccountDto mockAcct2 = new AccountDto(2, "Jane", "Doe");
+    private Account mockAcct3 = new Account(null, Role.ROLE_USER, "J@gmail.com", "pw123", "John", "Doe", FilingStatus.SINGLE, "111111111", "60 Rose Circuit", "Atlanta", "GA", "30126", LocalDate.parse("1999-01-01"), new FormW2(), new Form1099());
+
+    @Test
+    public void testFindAllAccounts() {
+
+        given(acctService.findAllAccounts()).willReturn(List.of(mockAcct, mockAcct2));
+
+        ResponseEntity<List<AccountDto>> response = acctController.findAllAccounts();
+
+        assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
+        assertThat(response.getBody().size()).isEqualTo(2);
+    }
+
+    @Test
+    public void testFindAccountById() {
+
+        given(acctService.findAccountById(1)).willReturn(mockAcct);
+
+        ResponseEntity<AccountDto> response = acctController.findAccountById(1);
+
+        assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
+        assertThat(response.getBody()).isEqualTo(mockAcct);
 
 
-//     @Test
-//     public void testGetAllUsers() throws Exception {
+        Mockito.when(acctService.findAccountById(4)).thenThrow(ResourceNotFoundException.class);
 
-//         List<User> userList = new ArrayList<>();
-//         userList.add(new Account(1, "Hello", "World", Role.ROLE_USER, true));
-//         userList.add(new Account(2, "Goodbye", "World", Role.ROLE_USER, true));
-
-//         when(userRepo.findAll()).thenReturn(userList);
-
-//         List<User> users = userController.getAllUsers();
-//         assertEquals(userList.size(), users.size());
-//     }
+        assertThrows(ResourceNotFoundException.class, () -> acctController.findAccountById(4));
+    }
     
-//     @Test
-//     void testGetUserById() throws Exception {
-//         int id = 1;
-//         User foundUser = new User(1, "Hello", "World", Role.ROLE_USER, true);
+    @Test
+    public void testFindAccountByEmail() {
 
-//         when(userRepo.findById(id)).thenReturn(Optional.of(foundUser));
+        given(acctService.findByCredentials(mapper.toAccount(mockAcct))).willReturn(mockAcct);
 
-//         ResponseEntity<User> result = userController.getUserById(id);
-//         assertEquals(HttpStatus.OK, result.getStatusCode());
-//         assertNotNull(result.getBody());
-//         assertEquals(foundUser, result.getBody());
-//     }
+        ResponseEntity<AccountDto> response = acctController.findAccountByEmail(mapper.toAccount(mockAcct));
 
-//     @Test
-//     void testGetUserByIdNotFound() throws ResourceNotFoundException {
-//         UserController ucMock = mock(UserController.class);
-//         int id = 1;
+        assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
+        assertThat(response.getBody()).isEqualTo(mockAcct);
 
-//         when(userRepo.findById(id)).thenReturn(Optional.empty());
-//         when(ucMock.getUserById(id)).thenThrow(ResourceNotFoundException.class);
 
-//         // ResponseEntity<User> result = userController.getUserById(id);
-//         assertThrows(ResourceNotFoundException.class, () ->  ucMock.getUserById(id));
-//     }
+        Mockito.when(acctService.findByCredentials(mockAcct3)).thenThrow(ResourceNotFoundException.class);
 
+        assertThrows(ResourceNotFoundException.class, () -> acctController.findAccountByEmail(mockAcct3));
+    }
+
+    @Test
+    public void testCreateAccount() {
+
+        given(acctService.saveAccount(mockAcct3)).willReturn(mapper.toDto(mockAcct3));
+
+        ResponseEntity<AccountDto> response = acctController.createAccount(mockAcct3);
+
+        assertThat(response.getStatusCode()).isEqualTo(HttpStatus.CREATED);
+        assertThat(response.getBody()).isEqualTo(mapper.toDto(mockAcct3));
+
+
+        Mockito.when(acctService.saveAccount(mockAcct3)).thenThrow(ExistingAccountException.class);
+
+        assertThrows(ExistingAccountException.class, () -> acctController.createAccount(mockAcct3));
+    }
     
-//     @Test 
-//     void testUpdateUser() throws Exception {
-//         User user = new User(1, "Hello", "World", Role.ROLE_USER, true);
-//         User updatedUser = new User(1, "Below", "World", Role.ROLE_USER, true);
-        
-//         when(userRepo.findById(Mockito.anyInt())).thenReturn(Optional.of(user));
-//         when(userRepo.save(Mockito.any(User.class))).thenReturn(updatedUser);
-        
-//         ResponseEntity<User> result = userController.updateUser(user.getId(), updatedUser);
-        
-//         assertNotNull(result);
-//         assertEquals(HttpStatus.OK, result.getStatusCode());
-//     }
-    
-//     @Test
-//     void testUpdateUserNotFound() throws Exception {
-//         UserController ucMock = mock(UserController.class);
-//         int id = 1;
-//         User user = new User(1, "Hello", "World", Role.ROLE_USER, true); 
-        
-//         when(userRepo.findById(Mockito.anyInt())).thenReturn(Optional.empty());
-//         when(ucMock.updateUser(id, user)).thenThrow(ResourceNotFoundException.class);
-        
-//         assertThrows(ResourceNotFoundException.class, () ->  ucMock.updateUser(id, user));
-//     }
-    
-//     @Test
-//     void testDeleteUser() throws Exception {
-//         int id = 1;
-//         User user = new User(1, "Hello", "World", Role.ROLE_USER, true); 
-        
-//         when(userRepo.findById(Mockito.anyInt())).thenReturn(Optional.of(user));
-        
-//         ResponseEntity<?> result = userController.deleteUserById(id);
-        
-//         assertNotNull(result);
-//         assertEquals(HttpStatus.NO_CONTENT, result.getStatusCode());
-//     }
-    
-//     @Test
-//     void testDeleteUserNotFound() throws Exception {
-//         UserController ucMock = mock(UserController.class);
-//         int id = 1;
-        
-//         when(userRepo.findById(Mockito.anyInt())).thenReturn(Optional.empty());
-//         when(ucMock.deleteUserById(id)).thenThrow(ResourceNotFoundException.class);
-        
-//         assertThrows(ResourceNotFoundException.class, () ->  ucMock.deleteUserById(id));
-//     }
-//     @Test
-//     void testCreateUser() throws Exception {
-//         // User createdUser = new User(1, "Hello", "World", Role.ROLE_USER, true);
-        
-//         // when(userRepo.save(Mockito.any(User.class))).thenReturn(createdUser);
-        
-//         // ResponseEntity<User> response = userController.createUser(createdUser);
-        
-//         // assertNotNull(response);
-//         // assertEquals(HttpStatus.CREATED, response.getStatusCode());
-//     }
-// }
+    @Test
+    public void testCreateAdminAccount() {
+
+        given(acctService.saveAdminAccount(mockAcct3)).willReturn(mapper.toDto(mockAcct3));
+
+        ResponseEntity<AccountDto> response = acctController.createAdminAccount(mockAcct3);
+
+        assertThat(response.getStatusCode()).isEqualTo(HttpStatus.CREATED);
+        assertThat(response.getBody()).isEqualTo(mapper.toDto(mockAcct3));
+
+
+        Mockito.when(acctService.saveAdminAccount(mockAcct3)).thenThrow(ExistingAccountException.class);
+
+        assertThrows(ExistingAccountException.class, () -> acctController.createAdminAccount(mockAcct3));
+    }
+
+    @Test
+    public void testUpdateAccount() {
+
+        given(acctService.updateAccount(mockAcct3)).willReturn(mapper.toDto(mockAcct3));
+
+        ResponseEntity<AccountDto> response = acctController.updateAccount(mockAcct3);
+
+        assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
+        assertThat(response.getBody()).isEqualTo(mapper.toDto(mockAcct3));
+
+
+        Mockito.when(acctService.updateAccount(mockAcct3)).thenThrow(ResourceNotFoundException.class);
+
+        assertThrows(ResourceNotFoundException.class, () -> acctController.updateAccount(mockAcct3));
+    }
+
+    @Test
+    public void testDeleteAccount() {
+
+        Mockito.doNothing().when(acctService).deleteAccount(3);
+
+        ResponseEntity<Void> response = acctController.deleteAccount(3);
+
+        assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
+
+
+        Mockito.doThrow(ResourceNotFoundException.class).when(acctService).deleteAccount(3);
+
+        assertThrows(ResourceNotFoundException.class, () -> acctController.deleteAccount(3));
+    }
+}

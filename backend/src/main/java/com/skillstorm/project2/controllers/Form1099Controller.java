@@ -18,9 +18,13 @@ import com.skillstorm.project2.models.Form1099;
 import com.skillstorm.project2.repositories.Form1099Repository;
 import com.skillstorm.project2.services.Form1099Service;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
+
 @RestController
 @RequestMapping("/1099")
 @CrossOrigin("*")
+@Tag(name = "1099 Form Controller Endpoints")
 public class Form1099Controller {
 
     // This class will not need a post method because a new Form1099 entry will be created whenever a new Account is created
@@ -31,11 +35,13 @@ public class Form1099Controller {
     Form1099Service form1099Service;
     
     @GetMapping
+    @Operation(summary = "Retrieve all 1099 Forms")
     public ResponseEntity<List<Form1099>> findAllForm1099s() {
         return new ResponseEntity<>(form1099Repo.findAll(), HttpStatus.OK);
     }
 
     @GetMapping("/{id}")
+    @Operation(summary = "Retrieve a 1099 Form with a given id")
     public ResponseEntity<Form1099> findForm1099ById(@PathVariable int id) {
 
         Form1099 form = form1099Service.findFormById(id);
@@ -43,6 +49,7 @@ public class Form1099Controller {
     }
 
     @PutMapping
+    @Operation(summary = "Update a 1099 Form")
     public ResponseEntity<Form1099> updateForm1099(@RequestBody Form1099 form) {
 
         Form1099 updatedForm = form1099Service.updateForm(form);
@@ -50,6 +57,7 @@ public class Form1099Controller {
     }
 
     @DeleteMapping
+    @Operation(summary = "Delete a 1099 Form")
     public ResponseEntity<Form1099> deleteForm1099(@PathVariable int id) {
 
         form1099Service.deleteForm(id);

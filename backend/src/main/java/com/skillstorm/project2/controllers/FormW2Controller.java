@@ -18,9 +18,13 @@ import com.skillstorm.project2.models.FormW2;
 import com.skillstorm.project2.repositories.FormW2Repository;
 import com.skillstorm.project2.services.FormW2Service;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
+
 @RestController
 @RequestMapping("/w2")
 @CrossOrigin("*")
+@Tag(name = "W2 Form Controller Endpoints")
 public class FormW2Controller {
 
     // This controller will not need a post method because a new FormW2 entry is created whenever a new Account is made
@@ -32,11 +36,13 @@ public class FormW2Controller {
     FormW2Service formW2Service;
     
     @GetMapping
+    @Operation(summary = "Retrieve all W2 Forms")
     public ResponseEntity<List<FormW2>> findAllFormW2s() {
         return new ResponseEntity<>(formW2Repo.findAll(), HttpStatus.OK);
     }
 
     @GetMapping("/{id}")
+    @Operation(summary = "Retrieve a W2 Form with a given id")
     public ResponseEntity<FormW2> findFormW2ById(@PathVariable int id) {
 
         FormW2 foundForm = formW2Service.findFormById(id);
@@ -44,6 +50,7 @@ public class FormW2Controller {
     }
 
     @PutMapping
+    @Operation(summary = "Update a W2 Form")
     public ResponseEntity<FormW2> updateFormW2(@RequestBody FormW2 form) {
 
         FormW2 updatedForm = formW2Service.updateForm(form);
